@@ -1,0 +1,188 @@
+<%- include('partials/head', { title }) %>
+    <%- include('partials/header', { activePage }) %>
+
+        <main>
+
+            <!-- Hero Banner Section -->
+            <section class="relative w-full overflow-hidden bg-surface-container-high">
+                <div
+                    class="max-w-container-max mx-auto px-margin-desktop py-20 flex flex-col md:flex-row items-center gap-16">
+                    <div class="flex-1 space-y-8 z-10">
+                        <h1 class="font-display-lg text-display-lg text-primary max-w-lg">Sách nổi bật trong tháng
+                        </h1>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">Khám phá bộ sưu tập sách
+                            do biên tập viên tuyển chọn, bao gồm những tác phẩm kinh điển vượt thời gian và tiểu thuyết
+                            đương đại đột phá, được chọn lọc nhờ sức mạnh tiềm ẩn và cái nhìn sâu sắc.</p>
+                        <div class="flex gap-4">
+                            <button
+                                class="h-12 px-8 bg-primary text-white rounded-lg font-label-md hover:opacity-90 transition-all active:scale-95">Khám
+                                phá sản phẩm</button>
+                        </div>
+                    </div>
+                    <div class="flex-1 relative">
+                        <div
+                            class="aspect-[4/5] w-full max-w-md mx-auto overflow-hidden rounded-xl shadow-2xl rotate-3 bg-surface-container-highest">
+                            <img alt="Featured Book" class="w-full h-full object-cover"
+                                data-alt="A premium close-up of several vintage and modern hardcover books artistically stacked on a rustic dark oak table. Warm, golden sunlight filters through a nearby window, casting long, soft shadows and highlighting the rich textures of the linen book covers. The scene is set in a cozy, sun-drenched library with a blurred background of filled bookshelves, creating a serene and intellectual atmosphere in a refined light-mode aesthetic."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC9mMpci0hGq_6jEJiZ5bibLNhhH-qQb-FPV6kcN1tgVYWdOj04ZNIQVMTdFE6HFVYaGXnMrf9kVuwjEoT4cnjKWlX6LHzEEv509Zm3nkBCabsiYfngx080-ZMHqN5yQ0ThoV13nvKctelx4tUTK-4p2rBzinAZepDQe61X-jemZElCsPPR6zx3z0J627u8ouXLEJponi8YRQweD3yVvZmwGBDvDKPzfiQ_gUeCD31yVdjBd8hWmaVA0C0PdFiLuEqnG5k1Tadpvw">
+                        </div>
+                        <div
+                            class="absolute -bottom-8 -left-8 aspect-[3/4] w-48 overflow-hidden rounded-lg shadow-xl -rotate-6 bg-surface-container-highest hidden lg:block">
+                            <img alt="Secondary Feature" class="w-full h-full object-cover"
+                                data-alt="An elegant arrangement of open books and a pair of reading glasses on a clean, ivory-toned linen tablecloth. A single dried wildflower is tucked between the pages of an antique journal. The lighting is bright and high-key, emphasizing the warm cream and tan color palette of a modern, minimalist bookstore. The image evokes a sense of calm curiosity and thoughtful reading."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXOrHXZLoDC_7zwJPIpxInb76Xb4ivtlVKVLlGTc_lbL0VBl0jX90UpiZ9c6c5OOKLkGR0m_z184vxgrFBwYqr_zi16T5lZ4kw43TceAEFyqBOaHWd-Ozg0qsWqj13Fgkwx6kqiB__7WDM4wGv3gQyMlT3WQDYfO6_h3E3pz4fcoYfYxsn9aYvU9L1ftSEIBaR75RwGH8F7nmJVIq8A6A6EjS6nJwcKIFGw-pCESGVAXTylNenOAAAeic2pX73OZo0yn9ECHZrrKA">
+                        </div>
+                    </div>
+                </div>
+                <!-- Decorative Background Element -->
+                <div class="absolute top-0 right-0 -z-0 opacity-10">
+                    <span class="material-symbols-outlined text-[400px] text-primary rotate-12">menu_book</span>
+                </div>
+            </section>
+            <!-- Categories Section (Bento Inspired) -->
+            <section class="max-w-container-max mx-auto px-margin-desktop py-24">
+                <div class="flex justify-between items-end mb-12">
+                    <div class="space-y-2">
+                        <h2 class="font-display-lg text-headline-lg text-primary">Khám phá theo thể loại</h2>
+                        <p class="font-body-md text-on-surface-variant">Tìm câu chuyện yêu thích tiếp theo của bạn qua
+                            những đầu sách được chúng tôi chọn lọc.</p>
+                    </div>
+                    <button class="flex items-center text-primary font-label-md gap-2 hover:underline">Xem tất cả
+                        thể loại
+                        <span class="material-symbols-outlined text-[16px]">arrow_forward</span></button>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-gutter-desktop">
+                    <!-- Category 1 -->
+                    <a class="group bg-white p-8 rounded-xl book-card-shadow text-center transition-all duration-300 hover:-translate-y-2 border border-outline-variant/30"
+                        href="/products?genre=<%= encodeURIComponent('Tiểu thuyết') %>">
+                        <div
+                            class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-4 text-on-secondary-container">
+                            <span class="material-symbols-outlined text-headline-md">auto_stories</span>
+                        </div>
+                        <h3 class="font-headline-md text-headline-md text-primary">Tiểu thuyết</h3>
+                        <p class="font-caption text-caption text-on-surface-variant mt-2">1,240 đầu sách</p>
+                    </a>
+                    <!-- Category 2 -->
+                    <a class="group bg-white p-8 rounded-xl book-card-shadow text-center transition-all duration-300 hover:-translate-y-2 border border-outline-variant/30"
+                        href="/products?genre=<%= encodeURIComponent('Lịch sử') %>">
+                        <div
+                            class="w-16 h-16 bg-tertiary-fixed rounded-full flex items-center justify-center mx-auto mb-4 text-on-tertiary-fixed-variant">
+                            <span class="material-symbols-outlined text-headline-md">history_edu</span>
+                        </div>
+                        <h3 class="font-headline-md text-headline-md text-primary">Lịch sử</h3>
+                        <p class="font-caption text-caption text-on-surface-variant mt-2">840 đầu sách</p>
+                    </a>
+                    <!-- Category 3 -->
+                    <a class="group bg-white p-8 rounded-xl book-card-shadow text-center transition-all duration-300 hover:-translate-y-2 border border-outline-variant/30"
+                        href="/products?genre=<%= encodeURIComponent('Nghệ thuật') %>">
+                        <div
+                            class="w-16 h-16 bg-surface-container-highest rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
+                            <span class="material-symbols-outlined text-headline-md">palette</span>
+                        </div>
+                        <h3 class="font-headline-md text-headline-md text-primary">Nghệ thuật</h3>
+                        <p class="font-caption text-caption text-on-surface-variant mt-2">420 đầu sách</p>
+                    </a>
+                    <!-- Category 4 -->
+                    <a class="group bg-white p-8 rounded-xl book-card-shadow text-center transition-all duration-300 hover:-translate-y-2 border border-outline-variant/30"
+                        href="/products?genre=<%= encodeURIComponent('Khoa học') %>">
+                        <div
+                            class="w-16 h-16 bg-secondary-fixed rounded-full flex items-center justify-center mx-auto mb-4 text-on-secondary-fixed-variant">
+                            <span class="material-symbols-outlined text-headline-md">psychology</span>
+                        </div>
+                        <h3 class="font-headline-md text-headline-md text-primary">Khoa học</h3>
+                        <p class="font-caption text-caption text-on-surface-variant mt-2">610 đầu sách</p>
+                    </a>
+                    <!-- Category 5 -->
+                    <a class="group bg-white p-8 rounded-xl book-card-shadow text-center transition-all duration-300 hover:-translate-y-2 border border-outline-variant/30"
+                        href="/products?genre=<%= encodeURIComponent('Phi hư cấu') %>">
+                        <div
+                            class="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mx-auto mb-4 text-on-primary-fixed-variant">
+                            <span class="material-symbols-outlined text-headline-md">Graph</span>
+                        </div>
+                        <h3 class="font-headline-md text-headline-md text-primary">Phi hư cấu</h3>
+                        <p class="font-caption text-caption text-on-surface-variant mt-2">950 đầu sách</p>
+                    </a>
+                </div>
+            </section>
+            <!-- New Arrivals Grid -->
+            <section class="bg-surface-container-low py-24">
+                <div class="max-w-container-max mx-auto px-margin-desktop">
+                    <div class="flex justify-between items-center mb-16">
+                        <h2 class="font-display-lg text-headline-lg text-primary">Sách mới về</h2>
+                        <div class="flex gap-2">
+                            <button
+                                class="w-10 h-10 flex items-center justify-center rounded-full border border-outline hover:bg-surface-container transition-colors"><span
+                                    class="material-symbols-outlined">chevron_left</span></button>
+                            <button
+                                class="w-10 h-10 flex items-center justify-center rounded-full border border-outline hover:bg-surface-container transition-colors"><span
+                                    class="material-symbols-outlined">chevron_right</span></button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter-desktop">
+                        <% if (typeof books !=='undefined' && books.length> 0) { %>
+                            <% books.forEach(book=> { %>
+                                <!-- Book Card -->
+                                <div class="flex flex-col group">
+                                    <a href="/products/<%= book.id %>"
+                                        class="aspect-[2/3] w-full overflow-hidden rounded-lg bg-white book-card-shadow mb-6 relative block">
+                                        <img alt="<%= book.title %>"
+                                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                            data-alt="<%= book.imageAlt %>" src="<%= book.coverImage %>">
+                                        <button
+                                            class="absolute bottom-4 right-4 bg-primary text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:scale-110 active:scale-95"
+                                            data-book="<%= JSON.stringify(book) %>"
+                                            onclick="event.preventDefault(); if(typeof addToCart === 'function') addToCart(JSON.parse(this.getAttribute('data-book')))">
+                                            <span class="material-symbols-outlined">add_shopping_cart</span>
+                                        </button>
+                                    </a>
+                                    <div class="space-y-1">
+                                        <a href="/products/<%= book.id %>"
+                                            class="font-headline-md text-headline-md text-primary leading-tight hover:underline">
+                                            <%= book.title %>
+                                        </a>
+                                        <p class="font-body-md text-on-surface-variant">
+                                            <%= book.author %>
+                                        </p>
+                                        <p class="font-label-md text-label-md text-primary pt-2"><%=
+                                                formatPrice(book.price) %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <% }); %>
+                                    <% } else { %>
+                                        <p class="text-on-surface-variant">No new arrivals at the moment.</p>
+                                        <% } %>
+                    </div>
+                </div>
+            </section>
+            <!-- Newsletter / Community Section -->
+            <section class="max-w-container-max mx-auto px-margin-desktop py-24">
+                <div
+                    class="bg-surface-container-highest rounded-2xl p-12 md:p-24 flex flex-col md:flex-row items-center gap-12 relative overflow-hidden">
+                    <div class="flex-1 space-y-6 relative z-10">
+                        <h2 class="font-display-lg text-display-lg text-primary">Join the Collective</h2>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">Đăng ký để nhận
+                            thư hàng tháng về các ấn phẩm mới, phỏng vấn tác giả và các bài luận văn học được tuyển
+                            chọn cho độc giả hiện đại.</p>
+                        <form class="flex flex-col sm:flex-row gap-4 max-w-lg">
+                            <input
+                                class="flex-1 h-12 bg-white border border-outline-variant rounded-lg px-6 focus:ring-1 focus:ring-primary focus:border-primary font-body-md"
+                                placeholder="Enter your email address" type="email">
+                            <button
+                                class="h-12 px-8 bg-primary text-white rounded-lg font-label-md hover:opacity-90 transition-all"
+                                type="submit">Subscribe</button>
+                        </form>
+                    </div>
+                    <div class="flex-1 hidden md:block">
+                        <img alt="Community" class="rounded-xl shadow-lg rotate-2"
+                            data-alt="A warm, candid photograph of a small group of people engaged in a book club discussion in a beautifully designed, light-filled modern home library. The room features floor-to-ceiling wooden bookshelves, comfortable linen-covered armchairs, and a large window looking out onto a garden. The mood is intimate and intellectual, with a soft, warm lighting palette."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC7Mk4E8ZD4UisfdpWdbxIpueUOsEjkzR9hIRVajKrkIddKE6SEwDoIn_qzuL7OYxuvVbn-uBuFTzbrGsrj4kVsZnLM1m2mIc4xV5m0i8CtT9V2v0aEhTZWnBKfoVJnka6wTvFl_PV9z_je6WdCqW--zbv_scoj3lQIlrLxvvOnvcH1dVaz_m-6uxXOpVWIXeIsp7Ko_DyR3RKw_11UfQNv9ZzD4CEQKHgYtdI4FyE5P819l9_D3sKAnphdBFtLd8Hl8Uxp4wMfx8">
+                    </div>
+                    <!-- Abstract Design Overlay -->
+                    <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-primary-fixed rounded-full opacity-20"></div>
+                </div>
+            </section>
+
+        </main>
+
+        <%- include('partials/footer') %>

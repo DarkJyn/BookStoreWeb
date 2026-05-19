@@ -1,0 +1,58 @@
+/* ============================================
+   Literary Hearth — Custom Styles
+   Design System: "Cozy Intellectualism"
+   ============================================ */
+
+/* === Base === */
+body {
+  background-color: #fff8f4;
+  color: #1f1b18;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+/* === Material Symbols === */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+/* === Elevation: Book Card Shadows === */
+.book-card-shadow {
+  box-shadow: 0px 4px 20px rgba(74, 69, 65, 0.06);
+  transition: box-shadow 0.3s ease;
+}
+
+.book-card-shadow:hover {
+  box-shadow: 0px 8px 30px rgba(74, 69, 65, 0.12);
+}
+
+/* === Elevation: Checkout/Cart Panels === */
+.panel-shadow {
+  box-shadow: 0px 4px 20px rgba(74, 69, 65, 0.06);
+}
+
+/* === Custom Scrollbar === */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d3c4ba;
+  border-radius: 10px;
+}
+
+/* === Order Table Row Hover === */
+.order-row:hover {
+  background-color: rgba(245, 236, 230, 0.5);
+}

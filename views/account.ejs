@@ -1,0 +1,168 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/header', { activePage }) %>
+
+<main class="flex-grow max-w-container-max mx-auto w-full px-4 md:px-margin-desktop py-12">
+
+<div class="flex flex-col md:flex-row gap-gutter-desktop">
+<!-- SideNavBar -->
+<aside class="w-full md:w-64 flex flex-col space-y-2">
+<div class="mb-8 hidden md:block">
+<h2 class="font-display-lg text-headline-md text-primary mb-1">My Account</h2>
+<p class="font-body-md text-on-surface-variant text-caption">Manage your reading life</p>
+</div>
+<nav class="flex flex-col space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-secondary-container bg-secondary-container rounded-lg transition-all active:scale-98" href="/products">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all active:scale-98" href="/products">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all active:scale-98" href="/products">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+<span class="font-label-md text-label-md">Password</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all active:scale-98" href="/products">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+<span class="font-label-md text-label-md">Addresses</span>
+</a>
+</nav>
+<div class="pt-8 mt-8 border-t border-outline-variant flex flex-col space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="/products">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-error hover:bg-error-container rounded-lg transition-all" href="/products">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Content Area -->
+<div class="flex-grow space-y-12">
+<!-- Profile Section -->
+<section class="bg-white rounded-xl p-8 shadow-[0px_4px_20px_rgba(74,69,65,0.06)]">
+<div class="flex flex-col md:flex-row md:items-start gap-8">
+<div class="relative group cursor-pointer">
+<img alt="Profile avatar" class="w-32 h-32 rounded-full object-cover border-4 border-surface-container-low" data-alt="A professional close-up portrait of a thoughtful man in his late 30s with short hair and a neatly trimmed beard, set against a warm, sun-drenched library background. The lighting is soft and golden, reflecting a cozy intellectual atmosphere. The style is modern and refined, emphasizing high-key tones and a minimalist aesthetic consistent with a luxury bookstore brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaLV0aBa-Bf7F8zVP6B9HGlbOh_Qu88CvQFXWGGvoNNWKxtwup3LssFnZI6Jv0vZ22yOezGvkE5qvVB2r-zaBrHlGFH-6C1-IGCh9BWRR9EYi0e2vL_GudQItsCKW-FX4r9hVjrZNhHL5FKgEh7lvbmmIuA93dISRxACbzKDLcDnrQqhGAUEI5nHCj24IgjSQ8xlzcLGTvZNELntuTY50OeLfqaJJWNl694Nh5D5kTBUg5k8TEcoyObO88d-OWgLnXqVeSnJlHpms">
+<div class="absolute inset-0 bg-black/20 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">photo_camera</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-primary">Personal Information</h3>
+<button class="px-6 h-12 rounded-lg border border-primary text-primary font-label-md hover:bg-surface-container-low transition-colors">Edit Profile</button>
+</div>
+<form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Full Name</label>
+<input class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none" type="text" value="Julian Thorne">
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Email Address</label>
+<input class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none" type="email" value="j.thorne@classicmail.com">
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Phone Number</label>
+<input class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none" type="text" value="+1 (555) 012-3456">
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Preferred Genre</label>
+<select class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none appearance-none">
+<option>Classic Literature</option>
+<option>Modern Philosophy</option>
+<option>Historical Non-fiction</option>
+</select>
+</div>
+<div class="md:col-span-2 space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Short Bio</label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary outline-none" rows="3">Avid collector of 19th-century first editions and lover of quiet Sunday afternoons with a warm cup of Earl Grey.</textarea>
+</div>
+</form>
+</div>
+</div>
+</section>
+<!-- Order History Section -->
+<section class="space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Order History</h3>
+<p class="text-on-surface-variant font-body-md">You have placed 12 orders in the last year</p>
+</div>
+<div class="flex gap-2">
+<span class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full font-label-md text-label-md">All Orders</span>
+<span class="px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-full font-label-md text-label-md cursor-pointer hover:bg-outline-variant transition-colors">In Progress</span>
+</div>
+</div>
+<div class="bg-white rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(74,69,65,0.06)] border border-outline-variant">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Order ID</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Date</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Total</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Status</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="order-row transition-colors">
+<td class="px-6 py-6 font-label-md text-primary">#OF-88219</td>
+<td class="px-6 py-6 text-on-surface-variant">Oct 24, 2024</td>
+<td class="px-6 py-6 font-medium">$124.50</td>
+<td class="px-6 py-6">
+<span class="flex items-center gap-1.5 text-secondary">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                            Delivered
+                                        </span>
+</td>
+<td class="px-6 py-6 text-right">
+<button class="text-primary font-label-md hover:underline">View Detail</button>
+</td>
+</tr>
+<tr class="order-row transition-colors">
+<td class="px-6 py-6 font-label-md text-primary">#OF-88104</td>
+<td class="px-6 py-6 text-on-surface-variant">Oct 12, 2024</td>
+<td class="px-6 py-6 font-medium">$42.00</td>
+<td class="px-6 py-6">
+<span class="flex items-center gap-1.5 text-tertiary">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                                            Pending
+                                        </span>
+</td>
+<td class="px-6 py-6 text-right">
+<button class="text-primary font-label-md hover:underline">View Detail</button>
+</td>
+</tr>
+<tr class="order-row transition-colors">
+<td class="px-6 py-6 font-label-md text-primary">#OF-87955</td>
+<td class="px-6 py-6 text-on-surface-variant">Sept 28, 2024</td>
+<td class="px-6 py-6 font-medium">$89.90</td>
+<td class="px-6 py-6">
+<span class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-on-surface-variant"></span>
+                                            Cancelled
+                                        </span>
+</td>
+<td class="px-6 py-6 text-right">
+<button class="text-primary font-label-md hover:underline">View Detail</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="px-6 py-4 bg-surface-container-low border-t border-outline-variant flex justify-center">
+<button class="text-primary font-label-md flex items-center gap-2 hover:gap-3 transition-all">
+                                See All Orders
+                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+
+</main>
+
+<%- include('partials/footer') %>

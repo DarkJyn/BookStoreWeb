@@ -1,0 +1,14 @@
+{
+  "name": "literary-hearth",
+  "version": "1.0.0",
+  "description": "The Open Folio - Online Bookstore (HQTCSDL Project)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "ejs": "^3.1.10"
+  }
+}

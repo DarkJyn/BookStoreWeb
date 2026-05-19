@@ -1,0 +1,193 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/header', { activePage }) %>
+
+<main class="pt-24 pb-16 px-margin-desktop max-w-container-max mx-auto min-h-screen">
+
+<div class="flex flex-col md:flex-row gap-gutter-desktop">
+<!-- Left Sidebar Filter -->
+<aside class="w-full md:w-72 flex-shrink-0">
+<form action="/products" method="GET" class="sticky top-24 space-y-8">
+<h2 class="font-headline-md text-headline-md text-primary border-b border-outline-variant pb-2">Bộ lọc tìm kiếm</h2>
+<!-- Genre Checkboxes -->
+<section>
+<h3 class="font-label-md text-label-md text-on-surface mb-4">Thể loại</h3>
+<div class="space-y-3">
+  <% 
+    const availableGenres = ['Tiểu thuyết', 'Lịch sử', 'Nghệ thuật', 'Khoa học', 'Phi hư cấu'];
+    availableGenres.forEach(genreName => {
+      const isChecked = typeof selectedGenres !== 'undefined' && selectedGenres.includes(genreName);
+  %>
+  <label class="flex items-center gap-3 cursor-pointer group">
+    <input 
+      name="genre" 
+      value="<%= genreName %>" 
+      <%= isChecked ? 'checked' : '' %> 
+      class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary cursor-pointer" 
+      type="checkbox"
+      onchange="this.form.submit()"
+    >
+    <span class="font-body-md text-on-surface-variant group-hover:text-primary transition-colors <%= isChecked ? 'text-primary font-bold' : '' %>">
+      <%= genreName %>
+    </span>
+  </label>
+  <% }); %>
+</div>
+</section>
+<!-- Author Search -->
+<section>
+<h3 class="font-label-md text-label-md text-on-surface mb-4">Tác giả</h3>
+<div class="relative">
+<input name="author" value="<%= typeof authorQuery !== 'undefined' ? authorQuery : '' %>" class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Tìm theo tên tác giả..." type="text">
+<button type="submit" class="absolute right-3 top-2.5 text-outline-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">person_search</span>
+</button>
+</div>
+</section>
+<!-- Price Range Slider -->
+<section>
+<h3 class="font-label-md text-label-md text-on-surface mb-4 flex justify-between items-center">
+  <span>Khoảng giá</span>
+  <span id="priceLabel" class="text-primary font-bold"><%= typeof maxPrice !== 'undefined' ? formatPrice(maxPrice) : '500.000 đ' %></span>
+</h3>
+<input 
+  id="maxPriceSlider" 
+  name="maxPrice" 
+  class="w-full h-1.5 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" 
+  max="500000" 
+  min="0" 
+  step="10000" 
+  value="<%= typeof maxPrice !== 'undefined' ? maxPrice : 500000 %>" 
+  type="range"
+  oninput="updatePriceLabel(this.value)"
+  onchange="this.form.submit()"
+>
+<div class="flex justify-between mt-2 font-caption text-caption text-on-surface-variant">
+  <span>0 đ</span>
+  <span>500.000 đ+</span>
+</div>
+<script>
+  function updatePriceLabel(val) {
+    const formatted = new Intl.NumberFormat('vi-VN').format(val) + ' đ';
+    document.getElementById('priceLabel').innerText = formatted;
+  }
+</script>
+</section>
+<!-- Publisher Dropdown -->
+<section>
+<h3 class="font-label-md text-label-md text-on-surface mb-4">Nhà xuất bản</h3>
+<select class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none">
+<option>Tất cả nhà xuất bản</option>
+<option>Penguin Classics</option>
+<option>Vintage Books</option>
+<option>Oxford Press</option>
+<option>Faber &amp; Faber</option>
+</select>
+</section>
+</form>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 space-y-gutter-desktop">
+<!-- Sorting & View Controls -->
+<div class="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-xl border border-outline-variant shadow-sm gap-4">
+<div class="flex items-center gap-2">
+<span class="font-caption text-caption text-on-surface-variant">
+    <% if (totalBooks === 0) { %>
+        Không tìm thấy kết quả nào phù hợp
+    <% } else { %>
+        Đang hiển thị <%= startIndex + 1 %>-<%= Math.min(endIndex, totalBooks) %> trong số <%= totalBooks %> kết quả
+    <% } %>
+</span>
+</div>
+<div class="flex items-center gap-4 w-full sm:w-auto">
+<div class="flex-1 sm:flex-none">
+<select class="w-full sm:w-48 bg-surface-container-low border-none rounded-lg px-3 py-2 text-label-md font-label-md focus:ring-1 focus:ring-primary cursor-pointer">
+<option>Newest Arrivals</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Bestselling</option>
+<option>Customer Rating</option>
+</select>
+</div>
+<div class="flex gap-2">
+<button class="p-2 bg-primary text-on-primary rounded-lg material-symbols-outlined">grid_view</button>
+<button class="p-2 bg-surface-container-low text-on-surface-variant rounded-lg material-symbols-outlined hover:bg-surface-container-high">view_list</button>
+</div>
+</div>
+</div>
+<!-- Book Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter-desktop">
+<% if (typeof books !== 'undefined' && books.length > 0) { %>
+    <% books.forEach(book => { %>
+        <div class="book-card-shadow bg-white p-4 rounded-xl flex flex-col group h-full">
+            <a href="/products/<%= book.id %>" class="relative overflow-hidden rounded-lg mb-4 aspect-[2/3] bg-surface-container block">
+                <img alt="<%= book.title %>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="<%= book.imageAlt %>" src="<%= book.coverImage %>">
+                <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:text-primary" onclick="event.preventDefault();"><span class="material-symbols-outlined text-[20px]">favorite</span></button>
+                </div>
+            </a>
+            <div class="flex-1 flex flex-col">
+                <div class="flex justify-between items-start mb-1">
+                    <span class="font-caption text-caption text-secondary bg-secondary-fixed px-2 py-0.5 rounded-full uppercase tracking-wider"><%= book.genre %></span>
+                    <div class="flex items-center text-tertiary">
+                        <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="font-label-md text-label-md ml-1"><%= book.rating.toFixed(1) %></span>
+                    </div>
+                </div>
+                <a href="/products/<%= book.id %>" class="font-headline-md text-on-surface mb-1 group-hover:text-primary transition-colors line-clamp-1 hover:underline"><%= book.title %></a>
+                <p class="font-body-md text-on-surface-variant mb-4"><%= book.author %></p>
+                <div class="mt-auto flex items-center justify-between">
+                    <span class="font-headline-md text-primary"><%= formatPrice(book.price) %></span>
+                    <button class="flex items-center justify-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all" 
+                            data-book="<%= JSON.stringify(book) %>" 
+                            onclick="if(typeof addToCart === 'function') addToCart(JSON.parse(this.getAttribute('data-book')))">
+                        <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                        Add
+                    </button>
+                </div>
+            </div>
+        </div>
+    <% }); %>
+<% } else { %>
+    <div class="col-span-full text-center py-20 bg-white rounded-xl border border-outline-variant shadow-sm flex flex-col items-center justify-center gap-4">
+        <span class="material-symbols-outlined text-[64px] text-outline-variant">search_off</span>
+        <p class="font-body-lg text-on-surface-variant">Không tìm thấy sách nào phù hợp với tác giả bạn tìm kiếm.</p>
+        <a href="/products" class="px-6 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Xóa bộ lọc</a>
+    </div>
+<% } %>
+</div>
+<!-- Pagination -->
+<nav class="flex justify-center items-center gap-2 pt-8">
+<% 
+  const authorParam = typeof authorQuery !== 'undefined' && authorQuery ? '&author=' + encodeURIComponent(authorQuery) : '';
+  const priceParam = typeof maxPrice !== 'undefined' ? '&maxPrice=' + maxPrice : '';
+  const genreParams = typeof selectedGenres !== 'undefined' && selectedGenres.length > 0
+    ? selectedGenres.map(g => '&genre=' + encodeURIComponent(g)).join('')
+    : '';
+  const queryParams = authorParam + priceParam + genreParams;
+%>
+<% if (currentPage > 1) { %>
+    <a href="/products?page=<%= currentPage - 1 %><%= queryParams %>" class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">chevron_left</span></a>
+<% } else { %>
+    <button disabled class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant opacity-50 cursor-not-allowed"><span class="material-symbols-outlined">chevron_left</span></button>
+<% } %>
+
+<% for(let i = 1; i <= totalPages; i++) { %>
+    <% if (i === currentPage) { %>
+        <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-label-md text-label-md"><%= i %></button>
+    <% } else { %>
+        <a href="/products?page=<%= i %><%= queryParams %>" class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md"><%= i %></a>
+    <% } %>
+<% } %>
+
+<% if (currentPage < totalPages) { %>
+    <a href="/products?page=<%= currentPage + 1 %><%= queryParams %>" class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">chevron_right</span></a>
+<% } else { %>
+    <button disabled class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant opacity-50 cursor-not-allowed"><span class="material-symbols-outlined">chevron_right</span></button>
+<% } %>
+</nav>
+</div>
+</div>
+
+</main>
+
+<%- include('partials/footer') %>

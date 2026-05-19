@@ -1,0 +1,762 @@
+[
+  {
+    "id": "book_1",
+    "title": "The Story of Book 1",
+    "author": "F. Scott Fitzgerald",
+    "price": 252500,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBpnTfBT_Ax2szDksEKjfUrlQyQKXqmRshNG-WoJHp6vuvGfkKjLYenp0lNNoGGxelRH0qwczdvxZQ3K3t68aXb5BcjFi7xPY89Elc2RFJa9t74FdnHrsIPdVLwk1QYzldmDjY8HvDqCu1JFgqq0YZusdx119zm31ht5j4HIJfy2ygNTXO8Ryt4IXnQyH5DIbCgEOXWj8gBeuV-TdvXrEg2_b3pq3IfV10eNDgLWIa1HDvvVbK_DEHgrlbBkaX_MZBV8Cwm3fPhznY",
+    "imageAlt": "A modern book cover for a philosophy text...",
+    "genre": "Phi hư cấu",
+    "rating": 4.1,
+    "stockStatus": "In stock",
+    "publisher": "Penguin Classics",
+    "year": 2015,
+    "format": "Hardcover, 243 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 1. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_2",
+    "title": "The Story of Book 2",
+    "author": "Marcus Aurelius",
+    "price": 298700,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuC-PDCpnBb9JRQuDBOVKv2zjmZTwG25iLqqqyHNnGb8AkQAmHl9PFar70u1lfwc0QPyR6tu8wFcWwzEb8EzNEWCCKcbX_7eUmr3RmTGOx4NEwemZttD5iWm_3eh6fCxdFb50KwfH1opr5RF6fwv7rmrQD_HCa9UGPqJKuP_fm4-JSnNGN__PKjhEMHuxIyiJTIuBswIZfSapZz7O4VlBCBYRyGlU7vC7DqUiu73ANHqrI2U9mr1hX6okK-hv6WmUCplCVKFbRr3R_E",
+    "imageAlt": "A collection of vintage leather-bound books...",
+    "genre": "Lịch sử",
+    "rating": 4.3,
+    "stockStatus": "In stock",
+    "publisher": "Vintage Books",
+    "year": 2005,
+    "format": "Hardcover, 229 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 2. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_3",
+    "title": "The Story of Book 3",
+    "author": "Edward Gibbon",
+    "price": 317800,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuCSHQFMyGZ7fad82BOe_lzgTo56wu55cnpBiCs0sBHvnquFQoboVEL_JvckJ2LBE5KSGlZ2vL2dXiVgp4ojvFJl-UvSOL79rashDCi6FokE4gt3lHtiVmrluDXyp-1qDQPt_oakYfTHfm8uBHzpt6-GYXQyrwfG0quclSc6l_fK9jE9yHy2Zz-bvTI4rZ9AM1Ov5X--5GL0A90OETpruYaosp7Vjr6LRQ1hZ7u_yY9prtzp9z8Zf0-QZTyLK_T6trQc2DvXuRjOXIQ",
+    "imageAlt": "A modern fictional book cover with an abstract, painterly background...",
+    "genre": "Tiểu thuyết",
+    "rating": 4.7,
+    "stockStatus": "In stock",
+    "publisher": "Oxford Press",
+    "year": 2011,
+    "format": "Hardcover, 275 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 3. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_4",
+    "title": "The Story of Book 4",
+    "author": "Elena Rossi",
+    "price": 153300,
+    "originalPrice": 290900,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDifn-V6ss3MXmeqKSenYTweqhItPB7mrQyN-Et9LSzk3NIqC3cyo9HUjoTQK2CCDPtk5Pde68ps7IT43Tx-EoCqh8EAN595YLDgkNT5ipiRoF1UOTX6NfTiNscoyDYrjvn6J7BzBoxdxRlBS_xWK1e1VJn_YNNPI_oYLu6g2GmTTFrNykMUWQhPl2-OIJQtMBxk9RSIu7ZbB82bXmoShPd9aegxIQJdYiKLAIPXK7iURVJo6XQq0UAHO9VkMBUc4E4vYFj1cFCmiA",
+    "imageAlt": "An exquisite, small-format poetry book...",
+    "genre": "Khoa học",
+    "rating": 4.1,
+    "stockStatus": "In stock",
+    "publisher": "Faber & Faber",
+    "year": 2023,
+    "format": "Hardcover, 415 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 4. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_5",
+    "title": "The Story of Book 5",
+    "author": "Julian Thorne",
+    "price": 232600,
+    "originalPrice": 283500,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDZhRi68MQJ8Hkbu8xIV_NH6awwKh0a-mQMp28ul_go5pVGksbGl0ciZusPtlRCVJhsTGdfbZhhLRKFnHIkiS4Ugw1B79ojhVD35wzaEFNc-0nn3E0rlPWc3av42ORAzVPOe_EWvUl09HjYonDOTMZ_KNn2QZz0mAVzDVwbqbN2MWwHijBSMjXY-5qt5FFDS5_VewWVBC3YKvG82pmGLcWgUz_8xzzdTLFgww7Y-V-TkvDa0sZv35e6R6ZfUjAaaa9s0vRXzFdA0o4",
+    "imageAlt": "A striking science book cover...",
+    "genre": "Phi hư cấu",
+    "rating": 4.5,
+    "stockStatus": "In stock",
+    "publisher": "Folio House Press",
+    "year": 2015,
+    "format": "Hardcover, 273 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 5. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_6",
+    "title": "The Story of Book 6",
+    "author": "Dr. Sarah Jenkins",
+    "price": 259100,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBUlGkJDzpY0rWDKd5Z6gnkMMibdWG3E0G_h13sxq5WmsEfzruTdWDbN6MZqBhNejqwcKA9c7IsdQMLaewjipwOaL_dsOxP0X236VJ8_LfNCm4faGsTfFPbSvgGa3y9HRgkCe5_5HDk2Okfza_R0el2QhqzXXgL4ja3eR1le4STGe1BCBv4-tVC7_FHbiQdAvFbkzutbJ_jGC9u_iVDU0qBR7W-pR-TiIXq_NW42k6LTzb7R7M1LreQb-vqbP__tztzB_Pmlnj1SxI",
+    "imageAlt": "A detailed close-up shot of a premium hardcover book...",
+    "genre": "Nghệ thuật",
+    "rating": 4.4,
+    "stockStatus": "In stock",
+    "publisher": "Penguin Classics",
+    "year": 2006,
+    "format": "Hardcover, 347 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 6. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_7",
+    "title": "The Story of Book 7",
+    "author": "Sato Nakamura",
+    "price": 221700,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuCUM366_SJ-oNkwzuLKaRjKeub-Hj-m1_EX4b-caz_6bslfIfU6X7fMh_docwRUGYexWtoqMDkiiQ3ZOaKhdprvRfgm3g8jolZJKPc-51T991aSKrH7qO1OUkkTem1M0N1dT4wBPZvGu-06JtLPF1zmUJJW1fyl8Iiq-L4QCCktY9v4jctjzV8GAjKHskUnLetu595Pp0TWQJa4A10EFLKIA3_dXJ2T6eL7PtuKiKsFX6Fq5GuorZ0BNKmVxz1vwvNzjTM69SExac0",
+    "imageAlt": "A premium close-up shot of a classic hardcover book...",
+    "genre": "Tiểu thuyết",
+    "rating": 4.3,
+    "stockStatus": "In stock",
+    "publisher": "Vintage Books",
+    "year": 2015,
+    "format": "Hardcover, 267 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 7. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_8",
+    "title": "The Story of Book 8",
+    "author": "S. J. Watson",
+    "price": 227100,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBpnTfBT_Ax2szDksEKjfUrlQyQKXqmRshNG-WoJHp6vuvGfkKjLYenp0lNNoGGxelRH0qwczdvxZQ3K3t68aXb5BcjFi7xPY89Elc2RFJa9t74FdnHrsIPdVLwk1QYzldmDjY8HvDqCu1JFgqq0YZusdx119zm31ht5j4HIJfy2ygNTXO8Ryt4IXnQyH5DIbCgEOXWj8gBeuV-TdvXrEg2_b3pq3IfV10eNDgLWIa1HDvvVbK_DEHgrlbBkaX_MZBV8Cwm3fPhznY",
+    "imageAlt": "A modern book cover for a philosophy text...",
+    "genre": "Phi hư cấu",
+    "rating": 4.9,
+    "stockStatus": "In stock",
+    "publisher": "Oxford Press",
+    "year": 2015,
+    "format": "Hardcover, 449 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 8. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_9",
+    "title": "The Story of Book 9",
+    "author": "Catherine Rossi",
+    "price": 177700,
+    "originalPrice": 234100,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuC-PDCpnBb9JRQuDBOVKv2zjmZTwG25iLqqqyHNnGb8AkQAmHl9PFar70u1lfwc0QPyR6tu8wFcWwzEb8EzNEWCCKcbX_7eUmr3RmTGOx4NEwemZttD5iWm_3eh6fCxdFb50KwfH1opr5RF6fwv7rmrQD_HCa9UGPqJKuP_fm4-JSnNGN__PKjhEMHuxIyiJTIuBswIZfSapZz7O4VlBCBYRyGlU7vC7DqUiu73ANHqrI2U9mr1hX6okK-hv6WmUCplCVKFbRr3R_E",
+    "imageAlt": "A collection of vintage leather-bound books...",
+    "genre": "Lịch sử",
+    "rating": 4.6,
+    "stockStatus": "In stock",
+    "publisher": "Faber & Faber",
+    "year": 2001,
+    "format": "Hardcover, 367 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 9. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_10",
+    "title": "The Story of Book 10",
+    "author": "Elena M. Thorne",
+    "price": 184700,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuCSHQFMyGZ7fad82BOe_lzgTo56wu55cnpBiCs0sBHvnquFQoboVEL_JvckJ2LBE5KSGlZ2vL2dXiVgp4ojvFJl-UvSOL79rashDCi6FokE4gt3lHtiVmrluDXyp-1qDQPt_oakYfTHfm8uBHzpt6-GYXQyrwfG0quclSc6l_fK9jE9yHy2Zz-bvTI4rZ9AM1Ov5X--5GL0A90OETpruYaosp7Vjr6LRQ1hZ7u_yY9prtzp9z8Zf0-QZTyLK_T6trQc2DvXuRjOXIQ",
+    "imageAlt": "A modern fictional book cover with an abstract, painterly background...",
+    "genre": "Tiểu thuyết",
+    "rating": 4.4,
+    "stockStatus": "In stock",
+    "publisher": "Folio House Press",
+    "year": 2004,
+    "format": "Hardcover, 267 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 10. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_11",
+    "title": "The Story of Book 11",
+    "author": "F. Scott Fitzgerald",
+    "price": 305300,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDifn-V6ss3MXmeqKSenYTweqhItPB7mrQyN-Et9LSzk3NIqC3cyo9HUjoTQK2CCDPtk5Pde68ps7IT43Tx-EoCqh8EAN595YLDgkNT5ipiRoF1UOTX6NfTiNscoyDYrjvn6J7BzBoxdxRlBS_xWK1e1VJn_YNNPI_oYLu6g2GmTTFrNykMUWQhPl2-OIJQtMBxk9RSIu7ZbB82bXmoShPd9aegxIQJdYiKLAIPXK7iURVJo6XQq0UAHO9VkMBUc4E4vYFj1cFCmiA",
+    "imageAlt": "An exquisite, small-format poetry book...",
+    "genre": "Khoa học",
+    "rating": 4.9,
+    "stockStatus": "In stock",
+    "publisher": "Penguin Classics",
+    "year": 2015,
+    "format": "Hardcover, 449 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 11. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_12",
+    "title": "The Story of Book 12",
+    "author": "Marcus Aurelius",
+    "price": 308200,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDZhRi68MQJ8Hkbu8xIV_NH6awwKh0a-mQMp28ul_go5pVGksbGl0ciZusPtlRCVJhsTGdfbZhhLRKFnHIkiS4Ugw1B79ojhVD35wzaEFNc-0nn3E0rlPWc3av42ORAzVPOe_EWvUl09HjYonDOTMZ_KNn2QZz0mAVzDVwbqbN2MWwHijBSMjXY-5qt5FFDS5_VewWVBC3YKvG82pmGLcWgUz_8xzzdTLFgww7Y-V-TkvDa0sZv35e6R6ZfUjAaaa9s0vRXzFdA0o4",
+    "imageAlt": "A striking science book cover...",
+    "genre": "Phi hư cấu",
+    "rating": 4.3,
+    "stockStatus": "In stock",
+    "publisher": "Vintage Books",
+    "year": 2020,
+    "format": "Hardcover, 220 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 12. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_13",
+    "title": "The Story of Book 13",
+    "author": "Edward Gibbon",
+    "price": 301800,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBUlGkJDzpY0rWDKd5Z6gnkMMibdWG3E0G_h13sxq5WmsEfzruTdWDbN6MZqBhNejqwcKA9c7IsdQMLaewjipwOaL_dsOxP0X236VJ8_LfNCm4faGsTfFPbSvgGa3y9HRgkCe5_5HDk2Okfza_R0el2QhqzXXgL4ja3eR1le4STGe1BCBv4-tVC7_FHbiQdAvFbkzutbJ_jGC9u_iVDU0qBR7W-pR-TiIXq_NW42k6LTzb7R7M1LreQb-vqbP__tztzB_Pmlnj1SxI",
+    "imageAlt": "A detailed close-up shot of a premium hardcover book...",
+    "genre": "Nghệ thuật",
+    "rating": 4.7,
+    "stockStatus": "In stock",
+    "publisher": "Oxford Press",
+    "year": 2007,
+    "format": "Hardcover, 435 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 13. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_14",
+    "title": "The Story of Book 14",
+    "author": "Elena Rossi",
+    "price": 307900,
+    "originalPrice": 447900,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuCUM366_SJ-oNkwzuLKaRjKeub-Hj-m1_EX4b-caz_6bslfIfU6X7fMh_docwRUGYexWtoqMDkiiQ3ZOaKhdprvRfgm3g8jolZJKPc-51T991aSKrH7qO1OUkkTem1M0N1dT4wBPZvGu-06JtLPF1zmUJJW1fyl8Iiq-L4QCCktY9v4jctjzV8GAjKHskUnLetu595Pp0TWQJa4A10EFLKIA3_dXJ2T6eL7PtuKiKsFX6Fq5GuorZ0BNKmVxz1vwvNzjTM69SExac0",
+    "imageAlt": "A premium close-up shot of a classic hardcover book...",
+    "genre": "Tiểu thuyết",
+    "rating": 4.3,
+    "stockStatus": "In stock",
+    "publisher": "Faber & Faber",
+    "year": 2004,
+    "format": "Hardcover, 458 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 14. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_15",
+    "title": "The Story of Book 15",
+    "author": "Julian Thorne",
+    "price": 346900,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBpnTfBT_Ax2szDksEKjfUrlQyQKXqmRshNG-WoJHp6vuvGfkKjLYenp0lNNoGGxelRH0qwczdvxZQ3K3t68aXb5BcjFi7xPY89Elc2RFJa9t74FdnHrsIPdVLwk1QYzldmDjY8HvDqCu1JFgqq0YZusdx119zm31ht5j4HIJfy2ygNTXO8Ryt4IXnQyH5DIbCgEOXWj8gBeuV-TdvXrEg2_b3pq3IfV10eNDgLWIa1HDvvVbK_DEHgrlbBkaX_MZBV8Cwm3fPhznY",
+    "imageAlt": "A modern book cover for a philosophy text...",
+    "genre": "Phi hư cấu",
+    "rating": 4.3,
+    "stockStatus": "In stock",
+    "publisher": "Folio House Press",
+    "year": 2000,
+    "format": "Hardcover, 319 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 15. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_16",
+    "title": "The Story of Book 16",
+    "author": "Dr. Sarah Jenkins",
+    "price": 395400,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuC-PDCpnBb9JRQuDBOVKv2zjmZTwG25iLqqqyHNnGb8AkQAmHl9PFar70u1lfwc0QPyR6tu8wFcWwzEb8EzNEWCCKcbX_7eUmr3RmTGOx4NEwemZttD5iWm_3eh6fCxdFb50KwfH1opr5RF6fwv7rmrQD_HCa9UGPqJKuP_fm4-JSnNGN__PKjhEMHuxIyiJTIuBswIZfSapZz7O4VlBCBYRyGlU7vC7DqUiu73ANHqrI2U9mr1hX6okK-hv6WmUCplCVKFbRr3R_E",
+    "imageAlt": "A collection of vintage leather-bound books...",
+    "genre": "Lịch sử",
+    "rating": 4.5,
+    "stockStatus": "In stock",
+    "publisher": "Penguin Classics",
+    "year": 2010,
+    "format": "Hardcover, 443 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 16. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_17",
+    "title": "The Story of Book 17",
+    "author": "Sato Nakamura",
+    "price": 207600,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuCSHQFMyGZ7fad82BOe_lzgTo56wu55cnpBiCs0sBHvnquFQoboVEL_JvckJ2LBE5KSGlZ2vL2dXiVgp4ojvFJl-UvSOL79rashDCi6FokE4gt3lHtiVmrluDXyp-1qDQPt_oakYfTHfm8uBHzpt6-GYXQyrwfG0quclSc6l_fK9jE9yHy2Zz-bvTI4rZ9AM1Ov5X--5GL0A90OETpruYaosp7Vjr6LRQ1hZ7u_yY9prtzp9z8Zf0-QZTyLK_T6trQc2DvXuRjOXIQ",
+    "imageAlt": "A modern fictional book cover with an abstract, painterly background...",
+    "genre": "Tiểu thuyết",
+    "rating": 4.4,
+    "stockStatus": "In stock",
+    "publisher": "Vintage Books",
+    "year": 2010,
+    "format": "Hardcover, 477 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 17. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_18",
+    "title": "The Story of Book 18",
+    "author": "S. J. Watson",
+    "price": 170300,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDifn-V6ss3MXmeqKSenYTweqhItPB7mrQyN-Et9LSzk3NIqC3cyo9HUjoTQK2CCDPtk5Pde68ps7IT43Tx-EoCqh8EAN595YLDgkNT5ipiRoF1UOTX6NfTiNscoyDYrjvn6J7BzBoxdxRlBS_xWK1e1VJn_YNNPI_oYLu6g2GmTTFrNykMUWQhPl2-OIJQtMBxk9RSIu7ZbB82bXmoShPd9aegxIQJdYiKLAIPXK7iURVJo6XQq0UAHO9VkMBUc4E4vYFj1cFCmiA",
+    "imageAlt": "An exquisite, small-format poetry book...",
+    "genre": "Khoa học",
+    "rating": 4.3,
+    "stockStatus": "In stock",
+    "publisher": "Oxford Press",
+    "year": 2010,
+    "format": "Hardcover, 473 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 18. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_19",
+    "title": "The Story of Book 19",
+    "author": "Catherine Rossi",
+    "price": 308500,
+    "originalPrice": 373800,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDZhRi68MQJ8Hkbu8xIV_NH6awwKh0a-mQMp28ul_go5pVGksbGl0ciZusPtlRCVJhsTGdfbZhhLRKFnHIkiS4Ugw1B79ojhVD35wzaEFNc-0nn3E0rlPWc3av42ORAzVPOe_EWvUl09HjYonDOTMZ_KNn2QZz0mAVzDVwbqbN2MWwHijBSMjXY-5qt5FFDS5_VewWVBC3YKvG82pmGLcWgUz_8xzzdTLFgww7Y-V-TkvDa0sZv35e6R6ZfUjAaaa9s0vRXzFdA0o4",
+    "imageAlt": "A striking science book cover...",
+    "genre": "Phi hư cấu",
+    "rating": 4.2,
+    "stockStatus": "In stock",
+    "publisher": "Faber & Faber",
+    "year": 2018,
+    "format": "Hardcover, 354 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 19. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_20",
+    "title": "The Story of Book 20",
+    "author": "Elena M. Thorne",
+    "price": 404100,
+    "originalPrice": 515500,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBUlGkJDzpY0rWDKd5Z6gnkMMibdWG3E0G_h13sxq5WmsEfzruTdWDbN6MZqBhNejqwcKA9c7IsdQMLaewjipwOaL_dsOxP0X236VJ8_LfNCm4faGsTfFPbSvgGa3y9HRgkCe5_5HDk2Okfza_R0el2QhqzXXgL4ja3eR1le4STGe1BCBv4-tVC7_FHbiQdAvFbkzutbJ_jGC9u_iVDU0qBR7W-pR-TiIXq_NW42k6LTzb7R7M1LreQb-vqbP__tztzB_Pmlnj1SxI",
+    "imageAlt": "A detailed close-up shot of a premium hardcover book...",
+    "genre": "Nghệ thuật",
+    "rating": 4.5,
+    "stockStatus": "In stock",
+    "publisher": "Folio House Press",
+    "year": 2001,
+    "format": "Hardcover, 497 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 20. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_21",
+    "title": "The Story of Book 21",
+    "author": "F. Scott Fitzgerald",
+    "price": 393700,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuCUM366_SJ-oNkwzuLKaRjKeub-Hj-m1_EX4b-caz_6bslfIfU6X7fMh_docwRUGYexWtoqMDkiiQ3ZOaKhdprvRfgm3g8jolZJKPc-51T991aSKrH7qO1OUkkTem1M0N1dT4wBPZvGu-06JtLPF1zmUJJW1fyl8Iiq-L4QCCktY9v4jctjzV8GAjKHskUnLetu595Pp0TWQJa4A10EFLKIA3_dXJ2T6eL7PtuKiKsFX6Fq5GuorZ0BNKmVxz1vwvNzjTM69SExac0",
+    "imageAlt": "A premium close-up shot of a classic hardcover book...",
+    "genre": "Tiểu thuyết",
+    "rating": 4.5,
+    "stockStatus": "In stock",
+    "publisher": "Penguin Classics",
+    "year": 2003,
+    "format": "Hardcover, 223 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 21. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_22",
+    "title": "The Story of Book 22",
+    "author": "Marcus Aurelius",
+    "price": 318500,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBpnTfBT_Ax2szDksEKjfUrlQyQKXqmRshNG-WoJHp6vuvGfkKjLYenp0lNNoGGxelRH0qwczdvxZQ3K3t68aXb5BcjFi7xPY89Elc2RFJa9t74FdnHrsIPdVLwk1QYzldmDjY8HvDqCu1JFgqq0YZusdx119zm31ht5j4HIJfy2ygNTXO8Ryt4IXnQyH5DIbCgEOXWj8gBeuV-TdvXrEg2_b3pq3IfV10eNDgLWIa1HDvvVbK_DEHgrlbBkaX_MZBV8Cwm3fPhznY",
+    "imageAlt": "A modern book cover for a philosophy text...",
+    "genre": "Phi hư cấu",
+    "rating": 4.5,
+    "stockStatus": "In stock",
+    "publisher": "Vintage Books",
+    "year": 2004,
+    "format": "Hardcover, 399 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 22. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_23",
+    "title": "The Story of Book 23",
+    "author": "Edward Gibbon",
+    "price": 347000,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuC-PDCpnBb9JRQuDBOVKv2zjmZTwG25iLqqqyHNnGb8AkQAmHl9PFar70u1lfwc0QPyR6tu8wFcWwzEb8EzNEWCCKcbX_7eUmr3RmTGOx4NEwemZttD5iWm_3eh6fCxdFb50KwfH1opr5RF6fwv7rmrQD_HCa9UGPqJKuP_fm4-JSnNGN__PKjhEMHuxIyiJTIuBswIZfSapZz7O4VlBCBYRyGlU7vC7DqUiu73ANHqrI2U9mr1hX6okK-hv6WmUCplCVKFbRr3R_E",
+    "imageAlt": "A collection of vintage leather-bound books...",
+    "genre": "Lịch sử",
+    "rating": 4.2,
+    "stockStatus": "In stock",
+    "publisher": "Oxford Press",
+    "year": 2015,
+    "format": "Hardcover, 458 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 23. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_24",
+    "title": "The Story of Book 24",
+    "author": "Elena Rossi",
+    "price": 264100,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuCSHQFMyGZ7fad82BOe_lzgTo56wu55cnpBiCs0sBHvnquFQoboVEL_JvckJ2LBE5KSGlZ2vL2dXiVgp4ojvFJl-UvSOL79rashDCi6FokE4gt3lHtiVmrluDXyp-1qDQPt_oakYfTHfm8uBHzpt6-GYXQyrwfG0quclSc6l_fK9jE9yHy2Zz-bvTI4rZ9AM1Ov5X--5GL0A90OETpruYaosp7Vjr6LRQ1hZ7u_yY9prtzp9z8Zf0-QZTyLK_T6trQc2DvXuRjOXIQ",
+    "imageAlt": "A modern fictional book cover with an abstract, painterly background...",
+    "genre": "Tiểu thuyết",
+    "rating": 4.3,
+    "stockStatus": "In stock",
+    "publisher": "Faber & Faber",
+    "year": 2004,
+    "format": "Hardcover, 325 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 24. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_25",
+    "title": "The Story of Book 25",
+    "author": "Julian Thorne",
+    "price": 159500,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDifn-V6ss3MXmeqKSenYTweqhItPB7mrQyN-Et9LSzk3NIqC3cyo9HUjoTQK2CCDPtk5Pde68ps7IT43Tx-EoCqh8EAN595YLDgkNT5ipiRoF1UOTX6NfTiNscoyDYrjvn6J7BzBoxdxRlBS_xWK1e1VJn_YNNPI_oYLu6g2GmTTFrNykMUWQhPl2-OIJQtMBxk9RSIu7ZbB82bXmoShPd9aegxIQJdYiKLAIPXK7iURVJo6XQq0UAHO9VkMBUc4E4vYFj1cFCmiA",
+    "imageAlt": "An exquisite, small-format poetry book...",
+    "genre": "Khoa học",
+    "rating": 4.5,
+    "stockStatus": "In stock",
+    "publisher": "Folio House Press",
+    "year": 2021,
+    "format": "Hardcover, 309 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 25. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_26",
+    "title": "The Story of Book 26",
+    "author": "Dr. Sarah Jenkins",
+    "price": 264200,
+    "originalPrice": 320500,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDZhRi68MQJ8Hkbu8xIV_NH6awwKh0a-mQMp28ul_go5pVGksbGl0ciZusPtlRCVJhsTGdfbZhhLRKFnHIkiS4Ugw1B79ojhVD35wzaEFNc-0nn3E0rlPWc3av42ORAzVPOe_EWvUl09HjYonDOTMZ_KNn2QZz0mAVzDVwbqbN2MWwHijBSMjXY-5qt5FFDS5_VewWVBC3YKvG82pmGLcWgUz_8xzzdTLFgww7Y-V-TkvDa0sZv35e6R6ZfUjAaaa9s0vRXzFdA0o4",
+    "imageAlt": "A striking science book cover...",
+    "genre": "Phi hư cấu",
+    "rating": 5,
+    "stockStatus": "In stock",
+    "publisher": "Penguin Classics",
+    "year": 2018,
+    "format": "Hardcover, 425 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 26. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_27",
+    "title": "The Story of Book 27",
+    "author": "Sato Nakamura",
+    "price": 332700,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBUlGkJDzpY0rWDKd5Z6gnkMMibdWG3E0G_h13sxq5WmsEfzruTdWDbN6MZqBhNejqwcKA9c7IsdQMLaewjipwOaL_dsOxP0X236VJ8_LfNCm4faGsTfFPbSvgGa3y9HRgkCe5_5HDk2Okfza_R0el2QhqzXXgL4ja3eR1le4STGe1BCBv4-tVC7_FHbiQdAvFbkzutbJ_jGC9u_iVDU0qBR7W-pR-TiIXq_NW42k6LTzb7R7M1LreQb-vqbP__tztzB_Pmlnj1SxI",
+    "imageAlt": "A detailed close-up shot of a premium hardcover book...",
+    "genre": "Nghệ thuật",
+    "rating": 4.3,
+    "stockStatus": "In stock",
+    "publisher": "Vintage Books",
+    "year": 2013,
+    "format": "Hardcover, 341 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 27. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_28",
+    "title": "The Story of Book 28",
+    "author": "S. J. Watson",
+    "price": 242600,
+    "originalPrice": 310600,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuCUM366_SJ-oNkwzuLKaRjKeub-Hj-m1_EX4b-caz_6bslfIfU6X7fMh_docwRUGYexWtoqMDkiiQ3ZOaKhdprvRfgm3g8jolZJKPc-51T991aSKrH7qO1OUkkTem1M0N1dT4wBPZvGu-06JtLPF1zmUJJW1fyl8Iiq-L4QCCktY9v4jctjzV8GAjKHskUnLetu595Pp0TWQJa4A10EFLKIA3_dXJ2T6eL7PtuKiKsFX6Fq5GuorZ0BNKmVxz1vwvNzjTM69SExac0",
+    "imageAlt": "A premium close-up shot of a classic hardcover book...",
+    "genre": "Tiểu thuyết",
+    "rating": 4.9,
+    "stockStatus": "Out of stock",
+    "publisher": "Oxford Press",
+    "year": 2011,
+    "format": "Hardcover, 388 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 28. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_29",
+    "title": "The Story of Book 29",
+    "author": "Catherine Rossi",
+    "price": 396600,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBpnTfBT_Ax2szDksEKjfUrlQyQKXqmRshNG-WoJHp6vuvGfkKjLYenp0lNNoGGxelRH0qwczdvxZQ3K3t68aXb5BcjFi7xPY89Elc2RFJa9t74FdnHrsIPdVLwk1QYzldmDjY8HvDqCu1JFgqq0YZusdx119zm31ht5j4HIJfy2ygNTXO8Ryt4IXnQyH5DIbCgEOXWj8gBeuV-TdvXrEg2_b3pq3IfV10eNDgLWIa1HDvvVbK_DEHgrlbBkaX_MZBV8Cwm3fPhznY",
+    "imageAlt": "A modern book cover for a philosophy text...",
+    "genre": "Phi hư cấu",
+    "rating": 4.8,
+    "stockStatus": "In stock",
+    "publisher": "Faber & Faber",
+    "year": 2000,
+    "format": "Hardcover, 368 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 29. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_30",
+    "title": "The Story of Book 30",
+    "author": "Elena M. Thorne",
+    "price": 410100,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuC-PDCpnBb9JRQuDBOVKv2zjmZTwG25iLqqqyHNnGb8AkQAmHl9PFar70u1lfwc0QPyR6tu8wFcWwzEb8EzNEWCCKcbX_7eUmr3RmTGOx4NEwemZttD5iWm_3eh6fCxdFb50KwfH1opr5RF6fwv7rmrQD_HCa9UGPqJKuP_fm4-JSnNGN__PKjhEMHuxIyiJTIuBswIZfSapZz7O4VlBCBYRyGlU7vC7DqUiu73ANHqrI2U9mr1hX6okK-hv6WmUCplCVKFbRr3R_E",
+    "imageAlt": "A collection of vintage leather-bound books...",
+    "genre": "Lịch sử",
+    "rating": 4.3,
+    "stockStatus": "In stock",
+    "publisher": "Folio House Press",
+    "year": 2017,
+    "format": "Hardcover, 225 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 30. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_31",
+    "title": "The Story of Book 31",
+    "author": "F. Scott Fitzgerald",
+    "price": 400000,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuCSHQFMyGZ7fad82BOe_lzgTo56wu55cnpBiCs0sBHvnquFQoboVEL_JvckJ2LBE5KSGlZ2vL2dXiVgp4ojvFJl-UvSOL79rashDCi6FokE4gt3lHtiVmrluDXyp-1qDQPt_oakYfTHfm8uBHzpt6-GYXQyrwfG0quclSc6l_fK9jE9yHy2Zz-bvTI4rZ9AM1Ov5X--5GL0A90OETpruYaosp7Vjr6LRQ1hZ7u_yY9prtzp9z8Zf0-QZTyLK_T6trQc2DvXuRjOXIQ",
+    "imageAlt": "A modern fictional book cover with an abstract, painterly background...",
+    "genre": "Tiểu thuyết",
+    "rating": 4.2,
+    "stockStatus": "In stock",
+    "publisher": "Penguin Classics",
+    "year": 2011,
+    "format": "Hardcover, 418 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 31. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_32",
+    "title": "The Story of Book 32",
+    "author": "Marcus Aurelius",
+    "price": 165300,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDifn-V6ss3MXmeqKSenYTweqhItPB7mrQyN-Et9LSzk3NIqC3cyo9HUjoTQK2CCDPtk5Pde68ps7IT43Tx-EoCqh8EAN595YLDgkNT5ipiRoF1UOTX6NfTiNscoyDYrjvn6J7BzBoxdxRlBS_xWK1e1VJn_YNNPI_oYLu6g2GmTTFrNykMUWQhPl2-OIJQtMBxk9RSIu7ZbB82bXmoShPd9aegxIQJdYiKLAIPXK7iURVJo6XQq0UAHO9VkMBUc4E4vYFj1cFCmiA",
+    "imageAlt": "An exquisite, small-format poetry book...",
+    "genre": "Khoa học",
+    "rating": 4.4,
+    "stockStatus": "In stock",
+    "publisher": "Vintage Books",
+    "year": 2014,
+    "format": "Hardcover, 340 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 32. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_33",
+    "title": "The Story of Book 33",
+    "author": "Edward Gibbon",
+    "price": 241700,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDZhRi68MQJ8Hkbu8xIV_NH6awwKh0a-mQMp28ul_go5pVGksbGl0ciZusPtlRCVJhsTGdfbZhhLRKFnHIkiS4Ugw1B79ojhVD35wzaEFNc-0nn3E0rlPWc3av42ORAzVPOe_EWvUl09HjYonDOTMZ_KNn2QZz0mAVzDVwbqbN2MWwHijBSMjXY-5qt5FFDS5_VewWVBC3YKvG82pmGLcWgUz_8xzzdTLFgww7Y-V-TkvDa0sZv35e6R6ZfUjAaaa9s0vRXzFdA0o4",
+    "imageAlt": "A striking science book cover...",
+    "genre": "Phi hư cấu",
+    "rating": 4.8,
+    "stockStatus": "In stock",
+    "publisher": "Oxford Press",
+    "year": 2015,
+    "format": "Hardcover, 478 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 33. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_34",
+    "title": "The Story of Book 34",
+    "author": "Elena Rossi",
+    "price": 375100,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBUlGkJDzpY0rWDKd5Z6gnkMMibdWG3E0G_h13sxq5WmsEfzruTdWDbN6MZqBhNejqwcKA9c7IsdQMLaewjipwOaL_dsOxP0X236VJ8_LfNCm4faGsTfFPbSvgGa3y9HRgkCe5_5HDk2Okfza_R0el2QhqzXXgL4ja3eR1le4STGe1BCBv4-tVC7_FHbiQdAvFbkzutbJ_jGC9u_iVDU0qBR7W-pR-TiIXq_NW42k6LTzb7R7M1LreQb-vqbP__tztzB_Pmlnj1SxI",
+    "imageAlt": "A detailed close-up shot of a premium hardcover book...",
+    "genre": "Nghệ thuật",
+    "rating": 4.5,
+    "stockStatus": "In stock",
+    "publisher": "Faber & Faber",
+    "year": 2006,
+    "format": "Hardcover, 245 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 34. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_35",
+    "title": "The Story of Book 35",
+    "author": "Julian Thorne",
+    "price": 280900,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuCUM366_SJ-oNkwzuLKaRjKeub-Hj-m1_EX4b-caz_6bslfIfU6X7fMh_docwRUGYexWtoqMDkiiQ3ZOaKhdprvRfgm3g8jolZJKPc-51T991aSKrH7qO1OUkkTem1M0N1dT4wBPZvGu-06JtLPF1zmUJJW1fyl8Iiq-L4QCCktY9v4jctjzV8GAjKHskUnLetu595Pp0TWQJa4A10EFLKIA3_dXJ2T6eL7PtuKiKsFX6Fq5GuorZ0BNKmVxz1vwvNzjTM69SExac0",
+    "imageAlt": "A premium close-up shot of a classic hardcover book...",
+    "genre": "Tiểu thuyết",
+    "rating": 4.9,
+    "stockStatus": "In stock",
+    "publisher": "Folio House Press",
+    "year": 2006,
+    "format": "Hardcover, 464 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 35. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_36",
+    "title": "The Story of Book 36",
+    "author": "Dr. Sarah Jenkins",
+    "price": 257000,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuBpnTfBT_Ax2szDksEKjfUrlQyQKXqmRshNG-WoJHp6vuvGfkKjLYenp0lNNoGGxelRH0qwczdvxZQ3K3t68aXb5BcjFi7xPY89Elc2RFJa9t74FdnHrsIPdVLwk1QYzldmDjY8HvDqCu1JFgqq0YZusdx119zm31ht5j4HIJfy2ygNTXO8Ryt4IXnQyH5DIbCgEOXWj8gBeuV-TdvXrEg2_b3pq3IfV10eNDgLWIa1HDvvVbK_DEHgrlbBkaX_MZBV8Cwm3fPhznY",
+    "imageAlt": "A modern book cover for a philosophy text...",
+    "genre": "Phi hư cấu",
+    "rating": 4.5,
+    "stockStatus": "In stock",
+    "publisher": "Penguin Classics",
+    "year": 2017,
+    "format": "Hardcover, 453 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 36. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_37",
+    "title": "The Story of Book 37",
+    "author": "Sato Nakamura",
+    "price": 150300,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuC-PDCpnBb9JRQuDBOVKv2zjmZTwG25iLqqqyHNnGb8AkQAmHl9PFar70u1lfwc0QPyR6tu8wFcWwzEb8EzNEWCCKcbX_7eUmr3RmTGOx4NEwemZttD5iWm_3eh6fCxdFb50KwfH1opr5RF6fwv7rmrQD_HCa9UGPqJKuP_fm4-JSnNGN__PKjhEMHuxIyiJTIuBswIZfSapZz7O4VlBCBYRyGlU7vC7DqUiu73ANHqrI2U9mr1hX6okK-hv6WmUCplCVKFbRr3R_E",
+    "imageAlt": "A collection of vintage leather-bound books...",
+    "genre": "Lịch sử",
+    "rating": 4.7,
+    "stockStatus": "In stock",
+    "publisher": "Vintage Books",
+    "year": 2004,
+    "format": "Hardcover, 373 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 37. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_38",
+    "title": "The Story of Book 38",
+    "author": "S. J. Watson",
+    "price": 324700,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuCSHQFMyGZ7fad82BOe_lzgTo56wu55cnpBiCs0sBHvnquFQoboVEL_JvckJ2LBE5KSGlZ2vL2dXiVgp4ojvFJl-UvSOL79rashDCi6FokE4gt3lHtiVmrluDXyp-1qDQPt_oakYfTHfm8uBHzpt6-GYXQyrwfG0quclSc6l_fK9jE9yHy2Zz-bvTI4rZ9AM1Ov5X--5GL0A90OETpruYaosp7Vjr6LRQ1hZ7u_yY9prtzp9z8Zf0-QZTyLK_T6trQc2DvXuRjOXIQ",
+    "imageAlt": "A modern fictional book cover with an abstract, painterly background...",
+    "genre": "Tiểu thuyết",
+    "rating": 4.2,
+    "stockStatus": "In stock",
+    "publisher": "Oxford Press",
+    "year": 2003,
+    "format": "Hardcover, 338 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 38. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_39",
+    "title": "The Story of Book 39",
+    "author": "Catherine Rossi",
+    "price": 161200,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDifn-V6ss3MXmeqKSenYTweqhItPB7mrQyN-Et9LSzk3NIqC3cyo9HUjoTQK2CCDPtk5Pde68ps7IT43Tx-EoCqh8EAN595YLDgkNT5ipiRoF1UOTX6NfTiNscoyDYrjvn6J7BzBoxdxRlBS_xWK1e1VJn_YNNPI_oYLu6g2GmTTFrNykMUWQhPl2-OIJQtMBxk9RSIu7ZbB82bXmoShPd9aegxIQJdYiKLAIPXK7iURVJo6XQq0UAHO9VkMBUc4E4vYFj1cFCmiA",
+    "imageAlt": "An exquisite, small-format poetry book...",
+    "genre": "Khoa học",
+    "rating": 4.1,
+    "stockStatus": "In stock",
+    "publisher": "Faber & Faber",
+    "year": 2007,
+    "format": "Hardcover, 223 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 39. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  },
+  {
+    "id": "book_40",
+    "title": "The Story of Book 40",
+    "author": "Elena M. Thorne",
+    "price": 424400,
+    "originalPrice": null,
+    "coverImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuDZhRi68MQJ8Hkbu8xIV_NH6awwKh0a-mQMp28ul_go5pVGksbGl0ciZusPtlRCVJhsTGdfbZhhLRKFnHIkiS4Ugw1B79ojhVD35wzaEFNc-0nn3E0rlPWc3av42ORAzVPOe_EWvUl09HjYonDOTMZ_KNn2QZz0mAVzDVwbqbN2MWwHijBSMjXY-5qt5FFDS5_VewWVBC3YKvG82pmGLcWgUz_8xzzdTLFgww7Y-V-TkvDa0sZv35e6R6ZfUjAaaa9s0vRXzFdA0o4",
+    "imageAlt": "A striking science book cover...",
+    "genre": "Phi hư cấu",
+    "rating": 4.3,
+    "stockStatus": "In stock",
+    "publisher": "Folio House Press",
+    "year": 2019,
+    "format": "Hardcover, 328 pages",
+    "description": [
+      "This is the first paragraph of the description for The Story of Book 40. It is a beautifully crafted piece of literature that delves into the complexities of human emotion and the enduring spirit of resilience.",
+      "The author explores themes of identity, memory, and the passage of time through a masterful narrative that will keep readers engaged from the very first page to the unexpected conclusion."
+    ]
+  }
+]

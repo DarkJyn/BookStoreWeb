@@ -1,0 +1,130 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/header', { activePage }) %>
+
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-start">
+<!-- Left Column: Checkout Form -->
+<div class="lg:col-span-7 space-y-12">
+<section>
+<div class="flex items-center gap-4 mb-8">
+<span class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md text-label-md">1</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Shipping Information</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Full Name</label>
+<input class="h-12 px-4 border border-outline-variant bg-surface-container-lowest rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant" placeholder="Jane Doe" type="text">
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Phone Number</label>
+<input class="h-12 px-4 border border-outline-variant bg-surface-container-lowest rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant" placeholder="+1 (555) 000-0000" type="tel">
+</div>
+<div class="md:col-span-2 flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Email Address</label>
+<input class="h-12 px-4 border border-outline-variant bg-surface-container-lowest rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant" placeholder="jane.doe@example.com" type="email">
+</div>
+<div class="md:col-span-2 flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Shipping Address</label>
+<textarea class="p-4 border border-outline-variant bg-surface-container-lowest rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant resize-none" placeholder="Street Address, Apartment, Suite, etc." rows="3"></textarea>
+</div>
+</div>
+</section>
+<section>
+<div class="flex items-center gap-4 mb-8">
+<span class="w-10 h-10 rounded-full bg-outline-variant text-on-surface-variant flex items-center justify-center font-label-md text-label-md">2</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Payment Method</h2>
+</div>
+<div class="space-y-4">
+<!-- COD Option -->
+<label class="flex items-center p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors group">
+<input class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="payment" type="radio">
+<div class="ml-4 flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Cash on Delivery</span>
+<span class="font-caption text-caption text-on-surface-variant">Pay when your books arrive at your doorstep.</span>
+</div>
+<span class="material-symbols-outlined ml-auto text-on-surface-variant" data-icon="local_shipping">local_shipping</span>
+</label>
+<!-- Bank Transfer Option -->
+<label class="flex items-center p-4 border border-primary bg-surface-container-low rounded-lg cursor-pointer transition-colors group">
+<input checked="" class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="payment" type="radio">
+<div class="ml-4 flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Bank Transfer</span>
+<span class="font-caption text-caption text-on-surface-variant">Securely transfer funds via your banking app.</span>
+</div>
+<span class="material-symbols-outlined ml-auto text-primary" data-icon="account_balance">account_balance</span>
+</label>
+<!-- E-wallet Option -->
+<label class="flex items-center p-4 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors group">
+<input class="w-5 h-5 text-primary focus:ring-primary border-outline-variant" name="payment" type="radio">
+<div class="ml-4 flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Digital Wallet</span>
+<span class="font-caption text-caption text-on-surface-variant">Fast checkout via Apple Pay or Google Pay.</span>
+</div>
+<span class="material-symbols-outlined ml-auto text-on-surface-variant" data-icon="wallet">wallet</span>
+</label>
+</div>
+</section>
+</div>
+<!-- Right Column: Order Summary (Sticky) -->
+<div class="lg:col-span-5">
+<div class="sticky top-24 bg-surface-container-lowest p-8 rounded-xl checkout-shadow border border-outline-variant/30">
+<h3 class="font-headline-md text-headline-md text-primary mb-8">Order Summary</h3>
+<div class="space-y-6 mb-8">
+<!-- Item 1 -->
+<div class="flex gap-4">
+<img class="w-20 h-28 object-cover rounded-sm shadow-sm" data-alt="A close-up shot of a minimalist book cover with elegant serif typography. The cover is a warm cream color with deep brown accents, reflecting a cozy intellectual aesthetic. It is photographed in soft, diffused natural lighting on a clean white wooden surface, emphasizing the tactile quality of the paper and the sophisticated editorial design of the brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-kQBihxv9o-s4Zx3aQ7vkp0Auch3I617eaoBcx0iWw083A2R-DrGtR1I2aaeBlg6SOl3m-l17nJwh4KDO_L3bv5YKDkynj3W5oEX8rlKTEl-8srI7GSFKs09-gmCe5513bWNZeCr87Khq6PDagCdMQAlZCxT4APO6YTPx94QgN3HO-ei-5bspfgutyng1Ura8base2AwKrClYtIjUBevKUH59KdLzW94nsuhMKeAt2vtUleFtmJ0VMBfJrErjhrdJ1qerMUuGCdQ">
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">The Alchemist</h4>
+<p class="font-caption text-caption text-on-surface-variant italic">Paulo Coelho</p>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-caption text-caption text-on-surface-variant">Qty: 1</span>
+<span class="font-label-md text-label-md text-primary">180.000 đ</span>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex gap-4">
+<img class="w-20 h-28 object-cover rounded-sm shadow-sm" data-alt="A beautifully designed vintage-style book cover sitting on a textured linen cloth. The lighting is warm and golden, suggesting a late afternoon in a quiet library. The book has a deep forest green spine with gold embossed lettering, fitting perfectly within the minimalist yet luxurious atmosphere of an independent bookstore boutique. The image is clean and focused." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTCaQ3Nx4mGjPCjLPMcv6zZxeKAMci4_GWnTH4PrAPb-m-HOycyTePr22TGsMkN3mCrCm0lvzDTZcrbvA_G9Hma8QCDlogzTS8M2EsTlf9ZUicEldPnsEFNHVrttGBwLqszYV_77MvfOvTR7CU-9dR3IOSGxscGveUK4zsx4PjzNsAQO-plbTXNBmhq1L_0hr6vfGKzkz_a2NBWg_hO04FLrKiQFo21X9g8YW-vBW2wsYut62oklBmbI-LJ-XDNK6OxC1KgXi0p-s">
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Meditations</h4>
+<p class="font-caption text-caption text-on-surface-variant italic">Marcus Aurelius</p>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-caption text-caption text-on-surface-variant">Qty: 1</span>
+<span class="font-label-md text-label-md text-primary">240.000 đ</span>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-6 space-y-3">
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>Subtotal</span>
+<span>420.000 đ</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>Shipping</span>
+<span>55.000 đ</span>
+</div>
+<div class="flex justify-between font-headline-md text-headline-md text-primary pt-4">
+<span>Total</span>
+<span>475.000 đ</span>
+</div>
+</div>
+<button class="w-full h-12 mt-8 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span>Confirm Order</span>
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<p class="text-center mt-6 font-caption text-caption text-on-surface-variant">
+                        Secure SSL Encrypted Checkout
+                    </p>
+</div>
+</div>
+</div>
+
+</main>
+
+<%- include('partials/footer') %>
