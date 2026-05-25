@@ -40,6 +40,7 @@ app.get('/products', (req, res) => {
   const limit = 12;
   const authorQuery = req.query.author ? req.query.author.trim() : '';
   const maxPrice = parseInt(req.query.maxPrice) || 500000;
+  const sortBy = req.query.sort || 'newest';
 
   // Parse selected genres
   const genreQuery = req.query.genre;
@@ -52,9 +53,9 @@ app.get('/products', (req, res) => {
     }
   }
 
-  let filteredBooks = books;
+  let filteredBooks = [...books];
   if (authorQuery) {
-    filteredBooks = books.filter(book => 
+    filteredBooks = filteredBooks.filter(book => 
       book.author.toLowerCase().includes(authorQuery.toLowerCase())
     );
   }
@@ -65,6 +66,26 @@ app.get('/products', (req, res) => {
   // Filter by selected genres
   if (selectedGenres.length > 0) {
     filteredBooks = filteredBooks.filter(book => selectedGenres.includes(book.genre));
+  }
+
+  // Sort
+  switch (sortBy) {
+    case 'price_asc':
+      filteredBooks.sort((a, b) => a.price - b.price);
+      break;
+    case 'price_desc':
+      filteredBooks.sort((a, b) => b.price - a.price);
+      break;
+    case 'bestselling':
+      filteredBooks.sort((a, b) => (b.soldCount || 0) - (a.soldCount || 0));
+      break;
+    case 'rating':
+      filteredBooks.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+      break;
+    case 'newest':
+    default:
+      // Keep original order (assumed newest first in the JSON)
+      break;
   }
 
   const totalBooks = filteredBooks.length;
@@ -88,7 +109,8 @@ app.get('/products', (req, res) => {
     endIndex: endIndex,
     authorQuery: authorQuery,
     maxPrice: maxPrice,
-    selectedGenres: selectedGenres
+    selectedGenres: selectedGenres,
+    sortBy: sortBy
   });
 });
 

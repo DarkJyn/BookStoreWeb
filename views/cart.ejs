@@ -1,164 +1,421 @@
 <%- include('partials/head', { title }) %>
 <%- include('partials/header', { activePage }) %>
 
-<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 min-h-screen">
 
 <!-- Page Title -->
-<div class="mb-12">
-<h1 class="font-display-lg text-display-lg text-primary mb-2">Your Shopping Cart</h1>
-<p class="font-body-md text-body-md text-on-surface-variant">Review your selection of literary treasures.</p>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-start">
-<!-- Main Cart Table Area -->
-<div class="lg:col-span-8">
-<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(74,69,65,0.06)] overflow-hidden">
-<!-- Table Header (Desktop Only) -->
-<div class="hidden md:grid grid-cols-12 gap-4 px-8 py-4 border-b border-outline-variant bg-surface-container-low font-label-md text-on-surface-variant">
-<div class="col-span-6">Book Details</div>
-<div class="col-span-2 text-center">Unit Price</div>
-<div class="col-span-2 text-center">Quantity</div>
-<div class="col-span-2 text-right">Subtotal</div>
-</div>
-<!-- Cart Item 1 -->
-<div class="grid grid-cols-1 md:grid-cols-12 gap-4 px-6 md:px-8 py-8 border-b border-outline-variant items-center group">
-<div class="col-span-12 md:col-span-6 flex items-center space-x-6">
-<div class="w-24 h-32 flex-shrink-0 bg-surface-container overflow-hidden rounded-sm shadow-sm">
-<img class="w-full h-full object-cover" data-alt="A beautifully designed hardcover book cover featuring abstract botanical illustrations in muted sage green and warm cream. The title is embossed in a classic serif font, looking premium and artistic against a sun-drenched ivory background in a cozy bookstore setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZFcOcWSwiVs-mN93EKwx0wlKEDqv0i2LP8B3QfS8oY4DY7bVdpU_CBPdPAINFNnKxMJsb4ivGVhOy52YpXwgPeIPe5_TWPSJj5RzhbEN0Ri87dbtlOnwNz-eRVOn0afz7dsScsgh24nMwGhFqG_7hAQN-1KzBOuXzNW-zvNIEFjNhprBRSCDbyxqxLUO1saBjlKvC1oE5zV04VKUFTczb7dGYnVEiZFnwepR2egtASA8_1l0Y12D_eMlK98TO825nl5TiVEKXuS0">
-</div>
-<div>
-<h3 class="font-headline-md text-primary leading-tight mb-1">The Midnight Library</h3>
-<p class="font-body-md text-on-surface-variant text-sm">Matt Haig</p>
-<p class="font-caption text-on-tertiary-fixed-variant mt-2 px-2 py-0.5 bg-tertiary-fixed inline-block rounded">Hardcover</p>
-</div>
-</div>
-<div class="col-span-4 md:col-span-2 text-left md:text-center">
-<span class="md:hidden text-caption text-on-surface-variant block mb-1">Price</span>
-<span class="font-body-md text-on-surface">240.000 đ</span>
-</div>
-<div class="col-span-4 md:col-span-2 flex justify-center">
-<div class="flex items-center border border-outline-variant rounded-lg overflow-hidden h-10">
-<button class="px-2 hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-sm" data-icon="remove">remove</span></button>
-<span class="px-4 font-label-md">1</span>
-<button class="px-2 hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-sm" data-icon="add">add</span></button>
-</div>
-</div>
-<div class="col-span-4 md:col-span-2 text-right flex flex-col md:block items-end">
-<span class="md:hidden text-caption text-on-surface-variant block mb-1">Total</span>
-<div class="flex items-center justify-end space-x-4">
-<span class="font-label-md text-primary">240.000 đ</span>
-<button class="text-on-surface-variant hover:text-error transition-colors opacity-0 group-hover:opacity-100">
-<span class="material-symbols-outlined" data-icon="delete">delete</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Cart Item 2 -->
-<div class="grid grid-cols-1 md:grid-cols-12 gap-4 px-6 md:px-8 py-8 border-b border-outline-variant items-center group">
-<div class="col-span-12 md:col-span-6 flex items-center space-x-6">
-<div class="w-24 h-32 flex-shrink-0 bg-surface-container overflow-hidden rounded-sm shadow-sm">
-<img class="w-full h-full object-cover" data-alt="A minimalist book cover design for a classic novel, featuring a single golden line drawing of a compass on a deep charcoal textured paper background. The atmosphere is intellectual and sophisticated, shot with soft side-lighting that highlights the paper grain." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX2eCl7hXCD4BB7IkcAx-TygdG_fWDyn2fSKK5_SZ5bRlV3A8hjvqfqqpoZEUij9Mfx8nl6jnEq-9xeSiYsbj1lZFLi_ht7HAemq9YazkGSF4w4Ru2WInAKPCU-NSvroXeEHnwrSVdfhLmRTuCKVQ7cn2oQy9ZRY_FoM6gCCOZnlCa6uW1PXAJXCL159hcgNmq3o3m79sN__bSu0FDJucVCx4f8NcmVg9yvcNCG2PV-eAoKp-rIOH-QxK0y2aZfmdooyRB27eAkDQ">
-</div>
-<div>
-<h3 class="font-headline-md text-primary leading-tight mb-1">Circe</h3>
-<p class="font-body-md text-on-surface-variant text-sm">Madeline Miller</p>
-<p class="font-caption text-on-tertiary-fixed-variant mt-2 px-2 py-0.5 bg-tertiary-fixed inline-block rounded">Paperback</p>
-</div>
-</div>
-<div class="col-span-4 md:col-span-2 text-left md:text-center">
-<span class="md:hidden text-caption text-on-surface-variant block mb-1">Price</span>
-<span class="font-body-md text-on-surface">165.000 đ</span>
-</div>
-<div class="col-span-4 md:col-span-2 flex justify-center">
-<div class="flex items-center border border-outline-variant rounded-lg overflow-hidden h-10">
-<button class="px-2 hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-sm" data-icon="remove">remove</span></button>
-<span class="px-4 font-label-md">2</span>
-<button class="px-2 hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-sm" data-icon="add">add</span></button>
-</div>
-</div>
-<div class="col-span-4 md:col-span-2 text-right flex flex-col md:block items-end">
-<span class="md:hidden text-caption text-on-surface-variant block mb-1">Total</span>
-<div class="flex items-center justify-end space-x-4">
-<span class="font-label-md text-primary">330.000 đ</span>
-<button class="text-on-surface-variant hover:text-error transition-colors opacity-0 group-hover:opacity-100">
-<span class="material-symbols-outlined" data-icon="delete">delete</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Cart Footer Actions -->
-<div class="px-8 py-6 flex justify-between items-center bg-surface-container-low">
-<button class="flex items-center space-x-2 text-on-surface-variant hover:text-primary transition-colors font-label-md">
-<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
-<span>Continue Shopping</span>
-</button>
-<button class="text-primary hover:underline font-label-md">Clear All Items</button>
-</div>
-</div>
-<!-- Empty State (Hidden by default, shown for logic demonstration) -->
-<!-- 
-                <div class="bg-surface-container-lowest rounded-xl p-16 text-center shadow-[0px_4px_20px_rgba(74,69,65,0.06)]">
-                    <span class="material-symbols-outlined text-6xl text-outline-variant mb-6" data-icon="shopping_basket">shopping_basket</span>
-                    <h2 class="font-display-lg text-headline-lg text-primary mb-4">Your cart is empty</h2>
-                    <p class="font-body-md text-on-surface-variant mb-8 max-w-sm mx-auto">It seems you haven't discovered any treasures yet. Our shelves are full of waiting stories.</p>
-                    <button class="px-8 py-3 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary-container hover:text-on-primary-container transition-all">Start Shopping</button>
-                </div>
-                -->
-</div>
-<!-- Summary Panel -->
-<div class="lg:col-span-4 space-y-gutter-desktop">
-<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(74,69,65,0.06)] p-8">
-<h2 class="font-headline-md text-primary mb-6">Order Summary</h2>
-<div class="space-y-4 mb-6">
-<div class="flex justify-between font-body-md">
-<span class="text-on-surface-variant">Subtotal</span>
-<span class="text-on-surface">570.000 đ</span>
-</div>
-<div class="flex justify-between font-body-md">
-<span class="text-on-surface-variant">Shipping</span>
-<span class="text-on-surface">Calculated at next step</span>
-</div>
-<div class="flex justify-between font-body-md">
-<span class="text-on-surface-variant">Estimated Tax</span>
-<span class="text-on-surface">57.000 đ</span>
-</div>
-</div>
-<div class="mb-6 pt-6 border-t border-outline-variant">
-<label class="font-label-md text-on-surface-variant block mb-2">Discount Code</label>
-<div class="flex space-x-2">
-<input class="flex-1 bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:border-primary outline-none" placeholder="Enter code" type="text">
-<button class="px-4 py-2 bg-secondary text-on-secondary rounded-lg font-label-md hover:opacity-90 transition-opacity">Apply</button>
-</div>
-</div>
-<div class="flex justify-between items-end mb-8">
-<div>
-<span class="font-headline-md text-primary">Total</span>
-<p class="font-caption text-on-surface-variant">Including taxes</p>
-</div>
-<span class="text-3xl font-display-lg text-primary">627.000 đ</span>
-</div>
-<button class="w-full py-4 bg-primary text-on-primary rounded-lg font-label-md text-lg hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 mb-4">
-<span>Proceed to Checkout</span>
-<span class="material-symbols-outlined text-sm" data-icon="lock">lock</span>
-</button>
-<div class="flex items-center justify-center space-x-4">
-<span class="material-symbols-outlined text-outline-variant" data-icon="credit_card">credit_card</span>
-<span class="material-symbols-outlined text-outline-variant" data-icon="payments">payments</span>
-<span class="material-symbols-outlined text-outline-variant" data-icon="account_balance_wallet">account_balance_wallet</span>
-</div>
-</div>
-<!-- Trust Badge Area -->
-<div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant">
-<div class="flex items-start space-x-4">
-<span class="material-symbols-outlined text-secondary" data-icon="verified">verified</span>
-<div>
-<h4 class="font-label-md text-primary">The Folio Guarantee</h4>
-<p class="font-caption text-on-surface-variant mt-1">Every book is inspected for quality. 30-day easy returns on all physical orders.</p>
-</div>
-</div>
-</div>
-</div>
+<div class="mb-10">
+  <h1 class="font-display-lg text-display-lg text-primary mb-2">Giỏ hàng của bạn</h1>
+  <p class="font-body-md text-body-md text-on-surface-variant">Xem lại các cuốn sách bạn đã chọn.</p>
 </div>
 
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-start">
+
+  <!-- ===== LEFT: CART TABLE ===== -->
+  <div class="lg:col-span-8">
+
+    <!-- EMPTY STATE -->
+    <div id="cart-empty" class="hidden bg-surface-container-lowest rounded-xl p-16 text-center shadow-[0px_4px_20px_rgba(74,69,65,0.06)]">
+      <span class="material-symbols-outlined text-[72px] text-outline-variant mb-6 block" style="font-variation-settings:'FILL' 0">shopping_basket</span>
+      <h2 class="font-headline-lg text-primary mb-4">Giỏ hàng trống</h2>
+      <p class="font-body-md text-on-surface-variant mb-8 max-w-sm mx-auto">Bạn chưa thêm cuốn sách nào. Hãy khám phá kho sách của chúng tôi!</p>
+      <a href="/products" class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 active:scale-95 transition-all">
+        <span class="material-symbols-outlined text-[18px]">storefront</span>
+        Khám phá sách
+      </a>
+    </div>
+
+    <!-- CART TABLE -->
+    <div id="cart-filled" class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(74,69,65,0.06)] overflow-hidden">
+      <!-- Table Header (Desktop) -->
+      <div class="hidden md:grid grid-cols-12 gap-2 px-8 py-4 border-b border-outline-variant bg-surface-container-low font-label-md text-on-surface-variant text-sm">
+        <div class="col-span-5">Chi tiết sách</div>
+        <div class="col-span-2 text-center">Đơn giá</div>
+        <div class="col-span-3 text-center">Số lượng</div>
+        <div class="col-span-2 text-right pr-14">Thành tiền</div>
+      </div>
+
+      <!-- Dynamic Items -->
+      <div id="cart-items-container"></div>
+
+      <!-- Footer Actions -->
+      <div class="px-6 md:px-8 py-5 flex justify-between items-center bg-surface-container-low border-t border-outline-variant">
+        <a href="/products" class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-label-md">
+          <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+          Tiếp tục mua sắm
+        </a>
+        <button id="clear-btn" onclick="openClearModal()" class="flex items-center gap-1 text-error hover:underline font-label-md transition-colors">
+          <span class="material-symbols-outlined text-[18px]">delete_sweep</span>
+          Xóa tất cả
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RIGHT: ORDER SUMMARY ===== -->
+  <div class="lg:col-span-4 space-y-4">
+    <div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(74,69,65,0.06)] p-8">
+      <h2 class="font-headline-md text-primary mb-6">Tóm tắt đơn hàng</h2>
+
+      <!-- Line Items -->
+      <div class="space-y-3 mb-6">
+        <div class="flex justify-between font-body-md">
+          <span class="text-on-surface-variant">Tạm tính</span>
+          <span id="summary-subtotal" class="text-on-surface">0 đ</span>
+        </div>
+        <div id="discount-row" class="flex justify-between font-body-md" style="display:none!important">
+          <span class="text-secondary font-medium">Giảm giá</span>
+          <span id="summary-discount" class="text-secondary font-medium">-0 đ</span>
+        </div>
+        <div class="flex justify-between font-body-md">
+          <span class="text-on-surface-variant">Thuế (10%)</span>
+          <span id="summary-tax" class="text-on-surface">0 đ</span>
+        </div>
+        <div class="flex justify-between font-body-md">
+          <span class="text-on-surface-variant">Phí giao hàng</span>
+          <span class="text-on-surface-variant italic text-sm">Tính ở bước tiếp theo</span>
+        </div>
+      </div>
+
+      <!-- Discount Code -->
+      <div class="mb-6 pt-5 border-t border-outline-variant">
+        <label class="font-label-md text-on-surface-variant block mb-2">Mã giảm giá</label>
+        <div class="flex border border-outline-variant rounded-lg overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+          <input id="discount-input"
+            class="flex-1 bg-surface-container-low px-4 py-2.5 text-body-md outline-none bg-transparent min-w-0"
+            placeholder="Nhập mã..."
+            type="text"
+            autocomplete="off">
+          <button onclick="applyDiscount()"
+            class="px-5 py-2.5 bg-secondary text-on-secondary font-label-md hover:opacity-90 active:scale-95 transition-all whitespace-nowrap flex-shrink-0 border-l border-outline-variant">
+            Áp dụng
+          </button>
+        </div>
+        <p id="discount-msg" class="text-sm mt-2 hidden"></p>
+      </div>
+
+      <!-- Total -->
+      <div class="flex justify-between items-end mb-8 pt-5 border-t border-outline-variant">
+        <div>
+          <span class="font-headline-md text-primary">Tổng cộng</span>
+          <p class="font-caption text-on-surface-variant">Đã bao gồm thuế</p>
+        </div>
+        <span id="summary-total" class="text-3xl font-display-lg text-primary">0 đ</span>
+      </div>
+
+      <!-- Checkout Button -->
+      <a id="checkout-btn" href="/checkout"
+        class="w-full py-4 bg-primary text-on-primary rounded-lg font-label-md text-lg hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-2 mb-4">
+        <span>Tiến hành thanh toán</span>
+        <span class="material-symbols-outlined text-[18px]">lock</span>
+      </a>
+
+      <div class="flex items-center justify-center gap-4 text-outline-variant">
+        <span class="material-symbols-outlined">credit_card</span>
+        <span class="material-symbols-outlined">payments</span>
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+      </div>
+    </div>
+
+    <!-- Trust Badge -->
+    <div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant">
+      <div class="flex items-start gap-4">
+        <span class="material-symbols-outlined text-secondary" style="font-variation-settings:'FILL' 1">verified</span>
+        <div>
+          <h4 class="font-label-md text-primary">Cam kết chất lượng</h4>
+          <p class="font-caption text-on-surface-variant mt-1">Mỗi cuốn sách được kiểm tra kỹ lưỡng. Đổi trả dễ dàng trong 30 ngày.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 </main>
+
+<script>
+// ============ DISCOUNT CODES ============
+const DISCOUNT_CODES = {
+  'BOOK10':       0.10,
+  'LITERARY20':   0.20,
+  'OPENFOLIO15':  0.15,
+};
+
+let activeDiscount   = 0;   // fraction, e.g. 0.10
+let appliedCodeLabel = '';
+
+// ============ FORMAT ============
+function fmtVND(amount) {
+  return new Intl.NumberFormat('vi-VN').format(Math.round(amount)) + ' đ';
+}
+
+// ============ RENDER CART ============
+function renderCart() {
+  const cart      = getCart();
+  const emptyEl   = document.getElementById('cart-empty');
+  const filledEl  = document.getElementById('cart-filled');
+  const container = document.getElementById('cart-items-container');
+
+  if (!cart || cart.length === 0) {
+    emptyEl.classList.remove('hidden');
+    filledEl.classList.add('hidden');
+    updateSummary(0);
+    return;
+  }
+
+  emptyEl.classList.add('hidden');
+  filledEl.classList.remove('hidden');
+
+  container.innerHTML = cart.map(item => `
+    <div class="grid grid-cols-12 gap-2 px-6 md:px-8 py-6 border-b border-outline-variant items-center group transition-colors hover:bg-surface-container-lowest/50"
+         data-item-id="${item.id}">
+
+      <!-- Book Detail -->
+      <div class="col-span-12 md:col-span-5 flex items-center gap-4">
+        <a href="/products/${item.id}"
+           class="w-20 h-28 flex-shrink-0 bg-surface-container overflow-hidden rounded-lg shadow-sm block hover:shadow-md transition-shadow">
+          <img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+               src="${item.coverImage || ''}"
+               alt="${escHtml(item.title)}"
+               onerror="this.style.display='none'">
+        </a>
+        <div class="min-w-0">
+          <a href="/products/${item.id}"
+             class="font-headline-md text-primary leading-tight mb-1 hover:underline block line-clamp-2">
+            ${escHtml(item.title)}
+          </a>
+          <p class="font-body-md text-on-surface-variant text-sm mb-2">${escHtml(item.author || '')}</p>
+          ${item.genre ? `<span class="font-caption text-on-tertiary-fixed-variant px-2 py-0.5 bg-tertiary-fixed inline-block rounded text-xs uppercase tracking-wide">${escHtml(item.genre)}</span>` : ''}
+        </div>
+      </div>
+
+      <!-- Unit Price -->
+      <div class="col-span-6 md:col-span-2 text-left md:text-center">
+        <span class="md:hidden text-xs text-on-surface-variant block mb-1">Đơn giá</span>
+        <span class="font-body-md text-on-surface whitespace-nowrap">${fmtVND(item.price)}</span>
+      </div>
+
+      <!-- Quantity Stepper -->
+      <div class="col-span-6 md:col-span-3 flex justify-start md:justify-center">
+        <div class="inline-flex items-center border border-outline-variant rounded-lg overflow-hidden h-10">
+          <button onclick="handleUpdateQty('${item.id}', -1)"
+                  class="px-2 hover:bg-surface-container transition-colors h-full flex items-center text-on-surface-variant hover:text-primary"
+                  aria-label="Giảm số lượng">
+            <span class="material-symbols-outlined text-[18px]">remove</span>
+          </button>
+          <span class="px-3 font-label-md min-w-[2rem] text-center select-none">${item.quantity}</span>
+          <button onclick="handleUpdateQty('${item.id}', 1)"
+                  class="px-2 hover:bg-surface-container transition-colors h-full flex items-center text-on-surface-variant hover:text-primary"
+                  aria-label="Tăng số lượng">
+            <span class="material-symbols-outlined text-[18px]">add</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Subtotal + Delete (price never shifts: w-8 placeholder always reserves space) -->
+      <div class="col-span-12 md:col-span-2 flex items-center justify-end">
+        <span class="font-label-md text-primary whitespace-nowrap">${fmtVND(item.price * item.quantity)}</span>
+        <div class="w-12 flex-shrink-0 flex justify-end">
+          <button onclick="handleRemove('${item.id}')"
+                  class="text-on-surface-variant hover:text-error transition-all p-1 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-error-container"
+                  aria-label="Xóa">
+            <span class="material-symbols-outlined text-[20px]">delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  updateSummary(getCartTotal());
+}
+
+// Escape HTML to prevent XSS
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ============ SUMMARY ============
+function updateSummary(subtotal) {
+  const discountAmt  = subtotal * activeDiscount;
+  const afterDiscount = subtotal - discountAmt;
+  const tax           = afterDiscount * 0.10;
+  const total         = afterDiscount + tax;
+
+  document.getElementById('summary-subtotal').textContent = fmtVND(subtotal);
+  document.getElementById('summary-tax').textContent      = fmtVND(tax);
+  document.getElementById('summary-total').textContent    = fmtVND(total);
+
+  const discountRow = document.getElementById('discount-row');
+  if (discountAmt > 0) {
+    document.getElementById('summary-discount').textContent = '-' + fmtVND(discountAmt);
+    discountRow.style.removeProperty('display');
+  } else {
+    discountRow.style.setProperty('display', 'none', 'important');
+  }
+}
+
+// ============ EVENT HANDLERS ============
+function handleUpdateQty(id, delta) {
+  updateQuantity(id, delta);
+  renderCart();
+}
+
+function handleRemove(id) {
+  removeFromCart(id);
+  renderCart();
+  if (typeof showToast === 'function') showToast('Đã xóa khỏi giỏ hàng.', 'info');
+}
+
+function handleClearCart() {
+  if (!confirm('Bạn có chắc muốn xóa toàn bộ giỏ hàng?')) return;
+  clearCart();
+  activeDiscount = 0;
+  appliedCodeLabel = '';
+  document.getElementById('discount-input').value = '';
+  const msg = document.getElementById('discount-msg');
+  msg.textContent = '';
+  msg.classList.add('hidden');
+  renderCart();
+}
+
+// ============ DISCOUNT ============
+function applyDiscount() {
+  const input = document.getElementById('discount-input');
+  const code  = input.value.trim().toUpperCase();
+  const msg   = document.getElementById('discount-msg');
+
+  msg.classList.remove('hidden');
+
+  if (code === '') {
+    msg.textContent = 'Vui lòng nhập mã giảm giá.';
+    msg.className   = 'text-sm mt-2 text-error';
+    return;
+  }
+
+  if (DISCOUNT_CODES[code]) {
+    activeDiscount   = DISCOUNT_CODES[code];
+    appliedCodeLabel = code;
+    const pct = Math.round(activeDiscount * 100);
+    msg.textContent = `✓ Mã "${code}" hợp lệ — Giảm ${pct}%!`;
+    msg.className   = 'text-sm mt-2 font-label-md text-secondary';
+    updateSummary(getCartTotal());
+    if (typeof showToast === 'function') showToast(`Áp dụng mã giảm ${pct}% thành công!`);
+  } else {
+    activeDiscount   = 0;
+    appliedCodeLabel = '';
+    msg.textContent = `✗ Mã "${code}" không hợp lệ hoặc đã hết hạn.`;
+    msg.className   = 'text-sm mt-2 text-error';
+    updateSummary(getCartTotal());
+  }
+}
+
+// Enter key on discount input
+document.addEventListener('DOMContentLoaded', function () {
+  var inp = document.getElementById('discount-input');
+  if (inp) inp.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') applyDiscount();
+  });
+
+  // Close modal on backdrop click
+  document.getElementById('clear-modal-backdrop').addEventListener('click', function(e) {
+    if (e.target === this) closeClearModal();
+  });
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeClearModal();
+  });
+
+  // Initial render (cart.js is loaded via footer, should be ready)
+  renderCart();
+});
+
+// ============ CLEAR CART MODAL ============
+function openClearModal() {
+  const modal    = document.getElementById('clear-modal-backdrop');
+  const card     = document.getElementById('clear-modal-card');
+  modal.classList.remove('hidden');
+  // Trigger animation next frame
+  requestAnimationFrame(() => {
+    modal.classList.add('modal-visible');
+    card.classList.add('card-visible');
+  });
+}
+
+function closeClearModal() {
+  const modal = document.getElementById('clear-modal-backdrop');
+  const card  = document.getElementById('clear-modal-card');
+  modal.classList.remove('modal-visible');
+  card.classList.remove('card-visible');
+  setTimeout(() => modal.classList.add('hidden'), 250);
+}
+
+function confirmClearCart() {
+  closeClearModal();
+  setTimeout(() => {
+    clearCart();
+    activeDiscount   = 0;
+    appliedCodeLabel = '';
+    document.getElementById('discount-input').value = '';
+    const msg = document.getElementById('discount-msg');
+    msg.textContent = '';
+    msg.classList.add('hidden');
+    renderCart();
+    if (typeof showToast === 'function') showToast('Đã xóa toàn bộ giỏ hàng.', 'info');
+  }, 260);
+}
+</script>
+
+<!-- ===== CLEAR CART CONFIRM MODAL ===== -->
+<div id="clear-modal-backdrop"
+     class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4"
+     style="background: rgba(0,0,0,0); backdrop-filter: blur(0px); transition: background 0.25s ease, backdrop-filter 0.25s ease;">
+
+  <div id="clear-modal-card"
+       class="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-md p-8 border border-outline-variant"
+       style="opacity: 0; transform: translateY(20px) scale(0.97); transition: opacity 0.25s ease, transform 0.25s ease;">
+
+    <!-- Icon -->
+    <div class="flex justify-center mb-5">
+      <div class="w-16 h-16 rounded-full bg-error-container flex items-center justify-center">
+        <span class="material-symbols-outlined text-error text-[36px]"
+              style="font-variation-settings:'FILL' 1">delete_sweep</span>
+      </div>
+    </div>
+
+    <!-- Text -->
+    <h3 class="font-headline-md text-on-surface text-center mb-2">Xóa toàn bộ giỏ hàng?</h3>
+    <p class="font-body-md text-on-surface-variant text-center mb-8">
+      Tất cả sản phẩm trong giỏ hàng sẽ bị xóa.<br>Hành động này không thể hoàn tác.
+    </p>
+
+    <!-- Actions -->
+    <div class="flex gap-3">
+      <button onclick="closeClearModal()"
+              class="flex-1 py-3 rounded-xl border border-outline-variant font-label-md text-on-surface hover:bg-surface-container transition-colors">
+        Hủy bỏ
+      </button>
+      <button onclick="confirmClearCart()"
+              class="flex-1 py-3 rounded-xl bg-error text-on-error font-label-md hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">delete_forever</span>
+        Xóa tất cả
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #clear-modal-backdrop.modal-visible {
+    background: rgba(0, 0, 0, 0.45) !important;
+    backdrop-filter: blur(4px) !important;
+  }
+  #clear-modal-card.card-visible {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+  }
+</style>
 
 <%- include('partials/footer') %>

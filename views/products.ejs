@@ -100,61 +100,176 @@
 </div>
 <div class="flex items-center gap-4 w-full sm:w-auto">
 <div class="flex-1 sm:flex-none">
-<select class="w-full sm:w-48 bg-surface-container-low border-none rounded-lg px-3 py-2 text-label-md font-label-md focus:ring-1 focus:ring-primary cursor-pointer">
-<option>Newest Arrivals</option>
-<option>Price: Low to High</option>
-<option>Price: High to Low</option>
-<option>Bestselling</option>
-<option>Customer Rating</option>
+<select 
+  id="sortSelect"
+  name="sort"
+  onchange="applySortFilter(this.value)"
+  class="w-full sm:w-48 bg-surface-container-low border-none rounded-lg px-3 py-2 text-label-md font-label-md focus:ring-1 focus:ring-primary cursor-pointer">
+  <option value="newest" <%= (typeof sortBy !== 'undefined' && sortBy === 'newest') ? 'selected' : '' %>>Mới nhất</option>
+  <option value="price_asc" <%= (typeof sortBy !== 'undefined' && sortBy === 'price_asc') ? 'selected' : '' %>>Giá: Thấp đến Cao</option>
+  <option value="price_desc" <%= (typeof sortBy !== 'undefined' && sortBy === 'price_desc') ? 'selected' : '' %>>Giá: Cao đến Thấp</option>
+  <option value="bestselling" <%= (typeof sortBy !== 'undefined' && sortBy === 'bestselling') ? 'selected' : '' %>>Bán chạy nhất</option>
+  <option value="rating" <%= (typeof sortBy !== 'undefined' && sortBy === 'rating') ? 'selected' : '' %>>Đánh giá cao nhất</option>
 </select>
+<script>
+  function applySortFilter(sortValue) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('sort', sortValue);
+    url.searchParams.set('page', '1');
+    window.location.href = url.toString();
+  }
+</script>
 </div>
 <div class="flex gap-2">
-<button class="p-2 bg-primary text-on-primary rounded-lg material-symbols-outlined">grid_view</button>
-<button class="p-2 bg-surface-container-low text-on-surface-variant rounded-lg material-symbols-outlined hover:bg-surface-container-high">view_list</button>
+  <button id="btn-grid" onclick="setView('grid')" title="Dạng lưới"
+    class="p-2 rounded-lg material-symbols-outlined transition-all bg-primary text-on-primary">
+    grid_view
+  </button>
+  <button id="btn-list" onclick="setView('list')" title="Dạng danh sách"
+    class="p-2 rounded-lg material-symbols-outlined transition-all bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high">
+    view_list
+  </button>
 </div>
 </div>
 </div>
-<!-- Book Grid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter-desktop">
+<!-- Book Grid / List -->
+<div id="book-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter-desktop">
 <% if (typeof books !== 'undefined' && books.length > 0) { %>
-    <% books.forEach(book => { %>
-        <div class="book-card-shadow bg-white p-4 rounded-xl flex flex-col group h-full">
-            <a href="/products/<%= book.id %>" class="relative overflow-hidden rounded-lg mb-4 aspect-[2/3] bg-surface-container block">
-                <img alt="<%= book.title %>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="<%= book.imageAlt %>" src="<%= book.coverImage %>">
-                <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:text-primary" onclick="event.preventDefault();"><span class="material-symbols-outlined text-[20px]">favorite</span></button>
-                </div>
-            </a>
-            <div class="flex-1 flex flex-col">
-                <div class="flex justify-between items-start mb-1">
-                    <span class="font-caption text-caption text-secondary bg-secondary-fixed px-2 py-0.5 rounded-full uppercase tracking-wider"><%= book.genre %></span>
-                    <div class="flex items-center text-tertiary">
-                        <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                        <span class="font-label-md text-label-md ml-1"><%= book.rating.toFixed(1) %></span>
-                    </div>
-                </div>
-                <a href="/products/<%= book.id %>" class="font-headline-md text-on-surface mb-1 group-hover:text-primary transition-colors line-clamp-1 hover:underline"><%= book.title %></a>
-                <p class="font-body-md text-on-surface-variant mb-4"><%= book.author %></p>
-                <div class="mt-auto flex items-center justify-between">
-                    <span class="font-headline-md text-primary"><%= formatPrice(book.price) %></span>
-                    <button class="flex items-center justify-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all" 
-                            data-book="<%= JSON.stringify(book) %>" 
-                            onclick="if(typeof addToCart === 'function') addToCart(JSON.parse(this.getAttribute('data-book')))">
-                        <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
-                        Add
-                    </button>
-                </div>
-            </div>
+  <% books.forEach(book => { %>
+
+  <!-- GRID CARD -->
+  <div class="book-card book-card-grid book-card-shadow bg-white p-4 rounded-xl flex flex-col group h-full">
+    <a href="/products/<%= book.id %>" class="relative overflow-hidden rounded-lg mb-4 aspect-[2/3] bg-surface-container block">
+      <img alt="<%= book.title %>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="<%= book.coverImage %>">
+      <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:text-primary" onclick="event.preventDefault();"><span class="material-symbols-outlined text-[20px]">favorite</span></button>
+      </div>
+    </a>
+    <div class="flex-1 flex flex-col">
+      <div class="flex justify-between items-start mb-1">
+        <span class="font-caption text-caption text-secondary bg-secondary-fixed px-2 py-0.5 rounded-full uppercase tracking-wider"><%= book.genre %></span>
+        <div class="flex items-center text-tertiary">
+          <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+          <span class="font-label-md text-label-md ml-1"><%= book.rating.toFixed(1) %></span>
         </div>
-    <% }); %>
-<% } else { %>
-    <div class="col-span-full text-center py-20 bg-white rounded-xl border border-outline-variant shadow-sm flex flex-col items-center justify-center gap-4">
-        <span class="material-symbols-outlined text-[64px] text-outline-variant">search_off</span>
-        <p class="font-body-lg text-on-surface-variant">Không tìm thấy sách nào phù hợp với tác giả bạn tìm kiếm.</p>
-        <a href="/products" class="px-6 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Xóa bộ lọc</a>
+      </div>
+      <a href="/products/<%= book.id %>" class="font-headline-md text-on-surface mb-1 group-hover:text-primary transition-colors line-clamp-1 hover:underline"><%= book.title %></a>
+      <p class="font-body-md text-on-surface-variant mb-4"><%= book.author %></p>
+      <div class="mt-auto flex items-center justify-between">
+        <span class="font-headline-md text-primary"><%= formatPrice(book.price) %></span>
+        <button class="flex items-center justify-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all"
+                data-book="<%= JSON.stringify(book) %>"
+                onclick="if(typeof addToCart === 'function') addToCart(JSON.parse(this.getAttribute('data-book')))">
+          <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+          Thêm
+        </button>
+      </div>
     </div>
+  </div>
+
+  <!-- LIST CARD -->
+  <div class="book-card book-card-list hidden book-card-shadow bg-white rounded-xl overflow-hidden group" style="grid-column: 1 / -1;">
+    <div class="flex gap-5 p-4">
+      <a href="/products/<%= book.id %>" class="relative flex-shrink-0 w-28 sm:w-36 rounded-lg overflow-hidden bg-surface-container block" style="aspect-ratio:2/3;">
+        <img alt="<%= book.title %>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="<%= book.coverImage %>">
+      </a>
+      <div class="flex flex-col flex-1 min-w-0">
+        <div class="flex flex-wrap items-center gap-2 mb-2">
+          <span class="font-caption text-caption text-secondary bg-secondary-fixed px-2 py-0.5 rounded-full uppercase tracking-wider"><%= book.genre %></span>
+          <div class="flex items-center text-tertiary">
+            <span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">star</span>
+            <span class="font-label-md text-label-md ml-0.5"><%= book.rating.toFixed(1) %></span>
+          </div>
+        </div>
+        <a href="/products/<%= book.id %>" class="font-headline-md text-on-surface mb-1 group-hover:text-primary transition-colors line-clamp-2 hover:underline"><%= book.title %></a>
+        <p class="font-body-md text-on-surface-variant mb-2"><%= book.author %></p>
+        <% if (book.description) { %>
+          <p class="font-body-md text-on-surface-variant text-sm line-clamp-2 mb-3 hidden sm:block"><%= book.description %></p>
+        <% } %>
+        <div class="mt-auto flex items-center justify-between gap-4 flex-wrap">
+          <span class="font-headline-md text-primary"><%= formatPrice(book.price) %></span>
+          <button class="flex items-center justify-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all"
+                  data-book="<%= JSON.stringify(book) %>"
+                  onclick="if(typeof addToCart === 'function') addToCart(JSON.parse(this.getAttribute('data-book')))">
+            <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+            Thêm vào giỏ
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% }); %>
+<% } else { %>
+  <div class="col-span-full text-center py-20 bg-white rounded-xl border border-outline-variant shadow-sm flex flex-col items-center justify-center gap-4">
+    <span class="material-symbols-outlined text-[64px] text-outline-variant">search_off</span>
+    <p class="font-body-lg text-on-surface-variant">Không tìm thấy sách nào phù hợp với bộ lọc bạn chọn.</p>
+    <a href="/products" class="px-6 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Xóa bộ lọc</a>
+  </div>
 <% } %>
 </div>
+
+<style>
+  /* Smooth transition for view switch */
+  #book-container { transition: none; }
+  #book-container.list-view {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+</style>
+
+<script>
+  (function() {
+    var STORAGE_KEY = 'lh_products_view';
+
+    function setView(mode) {
+      localStorage.setItem(STORAGE_KEY, mode);
+      applyView(mode);
+    }
+
+    function applyView(mode) {
+      var container = document.getElementById('book-container');
+      var btnGrid   = document.getElementById('btn-grid');
+      var btnList   = document.getElementById('btn-list');
+      var gridCards = document.querySelectorAll('.book-card-grid');
+      var listCards = document.querySelectorAll('.book-card-list');
+
+      if (mode === 'list') {
+        // Container layout
+        container.classList.add('list-view');
+        container.classList.remove('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'gap-gutter-desktop');
+        // Show list cards, hide grid cards
+        gridCards.forEach(function(c) { c.classList.add('hidden'); });
+        listCards.forEach(function(c) { c.classList.remove('hidden'); });
+        // Button states
+        btnList.classList.add('bg-primary', 'text-on-primary');
+        btnList.classList.remove('bg-surface-container-low', 'text-on-surface-variant', 'hover:bg-surface-container-high');
+        btnGrid.classList.remove('bg-primary', 'text-on-primary');
+        btnGrid.classList.add('bg-surface-container-low', 'text-on-surface-variant', 'hover:bg-surface-container-high');
+      } else {
+        // Container layout
+        container.classList.remove('list-view');
+        container.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'gap-gutter-desktop');
+        // Show grid cards, hide list cards
+        gridCards.forEach(function(c) { c.classList.remove('hidden'); });
+        listCards.forEach(function(c) { c.classList.add('hidden'); });
+        // Button states
+        btnGrid.classList.add('bg-primary', 'text-on-primary');
+        btnGrid.classList.remove('bg-surface-container-low', 'text-on-surface-variant', 'hover:bg-surface-container-high');
+        btnList.classList.remove('bg-primary', 'text-on-primary');
+        btnList.classList.add('bg-surface-container-low', 'text-on-surface-variant', 'hover:bg-surface-container-high');
+      }
+    }
+
+    // Expose globally for onclick handlers
+    window.setView = setView;
+
+    // Restore saved preference on load
+    var saved = localStorage.getItem(STORAGE_KEY) || 'grid';
+    applyView(saved);
+  })();
+</script>
 <!-- Pagination -->
 <nav class="flex justify-center items-center gap-2 pt-8">
 <% 
@@ -163,7 +278,8 @@
   const genreParams = typeof selectedGenres !== 'undefined' && selectedGenres.length > 0
     ? selectedGenres.map(g => '&genre=' + encodeURIComponent(g)).join('')
     : '';
-  const queryParams = authorParam + priceParam + genreParams;
+  const sortParam = typeof sortBy !== 'undefined' && sortBy !== 'newest' ? '&sort=' + encodeURIComponent(sortBy) : '';
+  const queryParams = authorParam + priceParam + genreParams + sortParam;
 %>
 <% if (currentPage > 1) { %>
     <a href="/products?page=<%= currentPage - 1 %><%= queryParams %>" class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">chevron_left</span></a>

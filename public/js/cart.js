@@ -26,7 +26,7 @@ function addToCart(product) {
 
   saveCart(cart);
   if (typeof showToast === 'function') {
-    showToast(`"${product.title}" added to cart!`);
+    showToast(`"${product.title}" đã thêm vào giỏ!`);
   }
 }
 
@@ -36,11 +36,15 @@ function removeFromCart(productId) {
 }
 
 function updateQuantity(productId, delta) {
-  const cart = getCart();
+  let cart = getCart();
   const item = cart.find(item => item.id === productId);
-  
+
   if (item) {
-    item.quantity = Math.max(1, item.quantity + delta);
+    item.quantity += delta;
+    if (item.quantity <= 0) {
+      // Auto-remove when quantity drops to 0
+      cart = cart.filter(i => i.id !== productId);
+    }
     saveCart(cart);
   }
 }

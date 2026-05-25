@@ -21,7 +21,10 @@ function updateCartBadge() {
 // ============== TOAST NOTIFICATION ==============
 function showToast(message, type = 'success') {
   const toast = document.createElement('div');
-  const bgColor = type === 'success' ? '#4a6549' : type === 'error' ? '#ba1a1a' : '#4a321d';
+  const bgColor = type === 'success' ? '#4a6549'
+                : type === 'error'   ? '#ba1a1a'
+                : type === 'info'    ? '#1a5fa8'
+                :                     '#4a321d';
   
   toast.style.cssText = `
     position: fixed; bottom: 24px; right: 24px; z-index: 9999;

@@ -1,168 +1,481 @@
 <%- include('partials/head', { title }) %>
 <%- include('partials/header', { activePage }) %>
 
-<main class="flex-grow max-w-container-max mx-auto w-full px-4 md:px-margin-desktop py-12">
+<main class="flex-grow max-w-container-max mx-auto w-full px-4 md:px-margin-desktop py-12 min-h-screen">
 
-<div class="flex flex-col md:flex-row gap-gutter-desktop">
-<!-- SideNavBar -->
-<aside class="w-full md:w-64 flex flex-col space-y-2">
-<div class="mb-8 hidden md:block">
-<h2 class="font-display-lg text-headline-md text-primary mb-1">My Account</h2>
-<p class="font-body-md text-on-surface-variant text-caption">Manage your reading life</p>
-</div>
-<nav class="flex flex-col space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 text-on-secondary-container bg-secondary-container rounded-lg transition-all active:scale-98" href="/products">
-<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">person</span>
-<span class="font-label-md text-label-md">Profile</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all active:scale-98" href="/products">
-<span class="material-symbols-outlined text-[20px]">local_shipping</span>
-<span class="font-label-md text-label-md">Orders</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all active:scale-98" href="/products">
-<span class="material-symbols-outlined text-[20px]">lock</span>
-<span class="font-label-md text-label-md">Password</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all active:scale-98" href="/products">
-<span class="material-symbols-outlined text-[20px]">location_on</span>
-<span class="font-label-md text-label-md">Addresses</span>
-</a>
-</nav>
-<div class="pt-8 mt-8 border-t border-outline-variant flex flex-col space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="/products">
-<span class="material-symbols-outlined text-[20px]">settings</span>
-<span class="font-label-md text-label-md">Settings</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-error hover:bg-error-container rounded-lg transition-all" href="/products">
-<span class="material-symbols-outlined text-[20px]">logout</span>
-<span class="font-label-md text-label-md">Sign Out</span>
-</a>
-</div>
-</aside>
-<!-- Content Area -->
-<div class="flex-grow space-y-12">
-<!-- Profile Section -->
-<section class="bg-white rounded-xl p-8 shadow-[0px_4px_20px_rgba(74,69,65,0.06)]">
-<div class="flex flex-col md:flex-row md:items-start gap-8">
-<div class="relative group cursor-pointer">
-<img alt="Profile avatar" class="w-32 h-32 rounded-full object-cover border-4 border-surface-container-low" data-alt="A professional close-up portrait of a thoughtful man in his late 30s with short hair and a neatly trimmed beard, set against a warm, sun-drenched library background. The lighting is soft and golden, reflecting a cozy intellectual atmosphere. The style is modern and refined, emphasizing high-key tones and a minimalist aesthetic consistent with a luxury bookstore brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaLV0aBa-Bf7F8zVP6B9HGlbOh_Qu88CvQFXWGGvoNNWKxtwup3LssFnZI6Jv0vZ22yOezGvkE5qvVB2r-zaBrHlGFH-6C1-IGCh9BWRR9EYi0e2vL_GudQItsCKW-FX4r9hVjrZNhHL5FKgEh7lvbmmIuA93dISRxACbzKDLcDnrQqhGAUEI5nHCj24IgjSQ8xlzcLGTvZNELntuTY50OeLfqaJJWNl694Nh5D5kTBUg5k8TEcoyObO88d-OWgLnXqVeSnJlHpms">
-<div class="absolute inset-0 bg-black/20 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-<span class="material-symbols-outlined text-white">photo_camera</span>
-</div>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-center mb-6">
-<h3 class="font-headline-md text-headline-md text-primary">Personal Information</h3>
-<button class="px-6 h-12 rounded-lg border border-primary text-primary font-label-md hover:bg-surface-container-low transition-colors">Edit Profile</button>
-</div>
-<form class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div class="space-y-2">
-<label class="font-label-md text-label-md text-on-surface-variant">Full Name</label>
-<input class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none" type="text" value="Julian Thorne">
-</div>
-<div class="space-y-2">
-<label class="font-label-md text-label-md text-on-surface-variant">Email Address</label>
-<input class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none" type="email" value="j.thorne@classicmail.com">
-</div>
-<div class="space-y-2">
-<label class="font-label-md text-label-md text-on-surface-variant">Phone Number</label>
-<input class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none" type="text" value="+1 (555) 012-3456">
-</div>
-<div class="space-y-2">
-<label class="font-label-md text-label-md text-on-surface-variant">Preferred Genre</label>
-<select class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none appearance-none">
-<option>Classic Literature</option>
-<option>Modern Philosophy</option>
-<option>Historical Non-fiction</option>
-</select>
-</div>
-<div class="md:col-span-2 space-y-2">
-<label class="font-label-md text-label-md text-on-surface-variant">Short Bio</label>
-<textarea class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary outline-none" rows="3">Avid collector of 19th-century first editions and lover of quiet Sunday afternoons with a warm cup of Earl Grey.</textarea>
-</div>
-</form>
-</div>
-</div>
-</section>
-<!-- Order History Section -->
-<section class="space-y-6">
-<div class="flex justify-between items-end">
-<div>
-<h3 class="font-headline-md text-headline-md text-primary">Order History</h3>
-<p class="text-on-surface-variant font-body-md">You have placed 12 orders in the last year</p>
-</div>
-<div class="flex gap-2">
-<span class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full font-label-md text-label-md">All Orders</span>
-<span class="px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-full font-label-md text-label-md cursor-pointer hover:bg-outline-variant transition-colors">In Progress</span>
-</div>
-</div>
-<div class="bg-white rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(74,69,65,0.06)] border border-outline-variant">
-<table class="w-full text-left border-collapse">
-<thead class="bg-surface-container-low">
-<tr>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Order ID</th>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Date</th>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Total</th>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Status</th>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant text-right">Action</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant">
-<tr class="order-row transition-colors">
-<td class="px-6 py-6 font-label-md text-primary">#OF-88219</td>
-<td class="px-6 py-6 text-on-surface-variant">Oct 24, 2024</td>
-<td class="px-6 py-6 font-medium">$124.50</td>
-<td class="px-6 py-6">
-<span class="flex items-center gap-1.5 text-secondary">
-<span class="w-2 h-2 rounded-full bg-secondary"></span>
-                                            Delivered
-                                        </span>
-</td>
-<td class="px-6 py-6 text-right">
-<button class="text-primary font-label-md hover:underline">View Detail</button>
-</td>
-</tr>
-<tr class="order-row transition-colors">
-<td class="px-6 py-6 font-label-md text-primary">#OF-88104</td>
-<td class="px-6 py-6 text-on-surface-variant">Oct 12, 2024</td>
-<td class="px-6 py-6 font-medium">$42.00</td>
-<td class="px-6 py-6">
-<span class="flex items-center gap-1.5 text-tertiary">
-<span class="w-2 h-2 rounded-full bg-tertiary"></span>
-                                            Pending
-                                        </span>
-</td>
-<td class="px-6 py-6 text-right">
-<button class="text-primary font-label-md hover:underline">View Detail</button>
-</td>
-</tr>
-<tr class="order-row transition-colors">
-<td class="px-6 py-6 font-label-md text-primary">#OF-87955</td>
-<td class="px-6 py-6 text-on-surface-variant">Sept 28, 2024</td>
-<td class="px-6 py-6 font-medium">$89.90</td>
-<td class="px-6 py-6">
-<span class="flex items-center gap-1.5 text-on-surface-variant">
-<span class="w-2 h-2 rounded-full bg-on-surface-variant"></span>
-                                            Cancelled
-                                        </span>
-</td>
-<td class="px-6 py-6 text-right">
-<button class="text-primary font-label-md hover:underline">View Detail</button>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="px-6 py-4 bg-surface-container-low border-t border-outline-variant flex justify-center">
-<button class="text-primary font-label-md flex items-center gap-2 hover:gap-3 transition-all">
-                                See All Orders
-                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-</button>
-</div>
-</div>
-</section>
-</div>
-</div>
+<div class="flex flex-col md:flex-row gap-gutter-desktop items-start">
+  
+  <!-- ===== SideNavBar ===== -->
+  <aside class="w-full md:w-64 flex-shrink-0 flex flex-col space-y-2 sticky top-24">
+    <div class="mb-8 hidden md:block">
+      <h2 class="font-display-lg text-headline-md text-primary mb-1">Tài khoản</h2>
+      <p class="font-body-md text-on-surface-variant text-caption">Quản lý cuộc sống đọc sách</p>
+    </div>
 
+    <nav class="flex flex-col space-y-1">
+      <!-- Tab: Profile -->
+      <button onclick="switchTab('profile')" id="tab-profile" 
+        class="flex items-center gap-3 px-4 py-3 text-on-secondary-container bg-secondary-container rounded-lg transition-all active:scale-98 w-full text-left">
+        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">person</span>
+        <span class="font-label-md text-label-md">Hồ sơ cá nhân</span>
+      </button>
+
+      <!-- Tab: Orders -->
+      <button onclick="switchTab('orders')" id="tab-orders" 
+        class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all active:scale-98 w-full text-left">
+        <span class="material-symbols-outlined text-[20px]">local_shipping</span>
+        <span class="font-label-md text-label-md">Lịch sử đơn hàng</span>
+      </button>
+    </nav>
+
+    <div class="pt-8 mt-8 border-t border-outline-variant flex flex-col space-y-1">
+      <!-- Sign Out -->
+      <button onclick="signOut()" class="flex items-center gap-3 px-4 py-3 text-error hover:bg-error-container rounded-lg transition-all w-full text-left">
+        <span class="material-symbols-outlined text-[20px]">logout</span>
+        <span class="font-label-md text-label-md">Đăng xuất</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ===== Content Area ===== -->
+  <div class="flex-grow w-full">
+    
+    <!-- SECTION: PROFILE -->
+    <section id="section-profile" class="bg-surface-container-lowest rounded-xl p-8 shadow-[0px_4px_20px_rgba(74,69,65,0.06)] border border-outline-variant/30 transition-opacity duration-300">
+      <div class="flex flex-col md:flex-row md:items-start gap-8">
+        
+        <!-- Avatar -->
+        <div class="relative flex-shrink-0 flex flex-col items-center gap-3">
+          <img id="profile-avatar-img" alt="Avatar" 
+            class="w-32 h-32 rounded-full object-cover border-4 border-surface-container-low shadow-sm" 
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaLV0aBa-Bf7F8zVP6B9HGlbOh_Qu88CvQFXWGGvoNNWKxtwup3LssFnZI6Jv0vZ22yOezGvkE5qvVB2r-zaBrHlGFH-6C1-IGCh9BWRR9EYi0e2vL_GudQItsCKW-FX4r9hVjrZNhHL5FKgEh7lvbmmIuA93dISRxACbzKDLcDnrQqhGAUEI5nHCj24IgjSQ8xlzcLGTvZNELntuTY50OeLfqaJJWNl694Nh5D5kTBUg5k8TEcoyObO88d-OWgLnXqVeSnJlHpms"
+            onerror="this.src='https://ui-avatars.com/api/?name=User&background=random'">
+        </div>
+
+        <!-- Form Info -->
+        <div class="flex-grow">
+          <div class="flex justify-between items-center mb-6 border-b border-outline-variant pb-4">
+            <h3 class="font-headline-md text-headline-md text-primary">Thông tin cá nhân</h3>
+            <button id="btn-edit-profile" onclick="toggleEditProfile()" 
+              class="px-6 h-10 rounded-lg border border-primary text-primary font-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px]">edit</span>
+              <span>Chỉnh sửa</span>
+            </button>
+          </div>
+
+          <form id="form-profile" class="grid grid-cols-1 md:grid-cols-2 gap-5" onsubmit="event.preventDefault();">
+            
+            <div class="space-y-1.5 md:col-span-2">
+              <label class="font-label-md text-label-md text-on-surface-variant">URL Ảnh đại diện</label>
+              <input id="prof-avatar" class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all disabled:opacity-60 disabled:bg-surface-container" type="url" disabled>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="font-label-md text-label-md text-on-surface-variant">Họ và tên</label>
+              <input id="prof-name" class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all disabled:opacity-60 disabled:bg-surface-container" type="text" disabled>
+              <p id="err-prof-name" class="text-error text-sm hidden"></p>
+            </div>
+            
+            <div class="space-y-1.5">
+              <label class="font-label-md text-label-md text-on-surface-variant">Số điện thoại</label>
+              <input id="prof-phone" class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all disabled:opacity-60 disabled:bg-surface-container" type="tel" disabled>
+              <p id="err-prof-phone" class="text-error text-sm hidden"></p>
+            </div>
+
+            <div class="space-y-1.5 md:col-span-2">
+              <label class="font-label-md text-label-md text-on-surface-variant">Email</label>
+              <input id="prof-email" class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all disabled:opacity-60 disabled:bg-surface-container" type="email" disabled>
+              <p id="err-prof-email" class="text-error text-sm hidden"></p>
+            </div>
+
+            <div class="space-y-1.5 md:col-span-2">
+              <label class="font-label-md text-label-md text-on-surface-variant">Thể loại yêu thích</label>
+              <select id="prof-genre" class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all disabled:opacity-60 disabled:bg-surface-container" disabled>
+                <option value="">-- Chọn thể loại --</option>
+                <option value="Tiểu thuyết">Tiểu thuyết</option>
+                <option value="Lịch sử">Lịch sử</option>
+                <option value="Nghệ thuật">Nghệ thuật</option>
+                <option value="Khoa học">Khoa học</option>
+                <option value="Phi hư cấu">Phi hư cấu</option>
+              </select>
+            </div>
+
+            <div class="md:col-span-2 space-y-1.5">
+              <label class="font-label-md text-label-md text-on-surface-variant">Tiểu sử ngắn</label>
+              <textarea id="prof-bio" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all resize-none disabled:opacity-60 disabled:bg-surface-container" rows="3" disabled></textarea>
+            </div>
+            
+            <div id="prof-actions" class="md:col-span-2 flex justify-end gap-3 mt-2 hidden">
+              <button type="button" onclick="cancelEditProfile()" class="px-6 py-2 rounded-lg border border-outline-variant text-on-surface font-label-md hover:bg-surface-container transition-colors">Hủy</button>
+              <button type="button" onclick="saveProfile()" class="px-6 py-2 rounded-lg bg-primary text-on-primary font-label-md hover:opacity-90 transition-opacity">Lưu thay đổi</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: ORDERS -->
+    <section id="section-orders" class="hidden space-y-6 transition-opacity duration-300">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+        <div>
+          <h3 class="font-headline-md text-headline-md text-primary mb-1">Lịch sử mua hàng</h3>
+          <p class="text-on-surface-variant font-body-md" id="orders-subtitle">Đang tải...</p>
+        </div>
+      </div>
+
+      <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(74,69,65,0.06)] border border-outline-variant/30">
+        
+        <!-- Empty State -->
+        <div id="orders-empty" class="hidden text-center py-16 px-4">
+          <span class="material-symbols-outlined text-[64px] text-outline-variant block mb-4" style="font-variation-settings:'FILL' 0">receipt_long</span>
+          <h3 class="font-headline-md text-on-surface mb-2">Chưa có đơn hàng nào</h3>
+          <p class="text-on-surface-variant mb-6">Bạn chưa đặt cuốn sách nào. Hãy khám phá và mua sắm ngay!</p>
+          <a href="/products" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 transition-opacity">
+            Bắt đầu mua sắm
+          </a>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="overflow-x-auto">
+          <table id="orders-table" class="w-full text-left border-collapse hidden min-w-[600px]">
+            <thead class="bg-surface-container-low border-b border-outline-variant">
+              <tr>
+                <th class="px-6 py-4 font-label-md text-on-surface-variant whitespace-nowrap">Mã đơn hàng</th>
+                <th class="px-6 py-4 font-label-md text-on-surface-variant whitespace-nowrap">Ngày đặt</th>
+                <th class="px-6 py-4 font-label-md text-on-surface-variant whitespace-nowrap">Tổng tiền</th>
+                <th class="px-6 py-4 font-label-md text-on-surface-variant whitespace-nowrap">Trạng thái</th>
+                <th class="px-6 py-4 font-label-md text-on-surface-variant text-right whitespace-nowrap">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="orders-tbody" class="divide-y divide-outline-variant">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</div>
 </main>
+
+<!-- ===== ORDER DETAIL MODAL ===== -->
+<div id="order-modal-backdrop" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4" style="background: rgba(0,0,0,0); backdrop-filter: blur(0px); transition: background 0.3s ease, backdrop-filter 0.3s ease;">
+  <div id="order-modal-card" class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-2xl border border-outline-variant flex flex-col max-h-[90vh]" style="opacity:0; transform: translateY(24px) scale(0.96); transition: opacity 0.3s ease, transform 0.3s ease;">
+    
+    <!-- Modal Header -->
+    <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-low rounded-t-2xl">
+      <h3 class="font-headline-md text-primary">Chi tiết đơn hàng <span id="mdl-order-id" class="text-on-surface font-medium ml-2"></span></h3>
+      <button onclick="closeOrderModal()" class="text-on-surface-variant hover:text-error transition-colors p-1 rounded-full hover:bg-surface-container">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-6 overflow-y-auto flex-grow space-y-6">
+      
+      <!-- Info Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant">
+          <p class="font-label-md text-on-surface-variant mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">person</span> Người nhận</p>
+          <p id="mdl-name" class="font-label-md text-on-surface"></p>
+          <p id="mdl-phone" class="font-body-md text-on-surface-variant mt-1"></p>
+          <p id="mdl-email" class="font-body-md text-on-surface-variant"></p>
+        </div>
+        <div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant">
+          <p class="font-label-md text-on-surface-variant mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">location_on</span> Giao hàng</p>
+          <p id="mdl-address" class="font-body-md text-on-surface line-clamp-2"></p>
+          <p class="font-label-md text-on-surface-variant mt-2 mb-1 flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">payments</span> Thanh toán</p>
+          <p id="mdl-payment" class="font-body-md text-on-surface"></p>
+        </div>
+      </div>
+
+      <!-- Items List -->
+      <div>
+        <h4 class="font-label-md text-on-surface-variant mb-3 border-b border-outline-variant pb-2">Sản phẩm đã mua</h4>
+        <div id="mdl-items" class="space-y-3 max-h-60 overflow-y-auto pr-2">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="bg-surface-container-low rounded-xl p-4 border border-outline-variant space-y-2">
+        <div class="flex justify-between font-body-md text-on-surface-variant">
+          <span>Tạm tính</span><span id="mdl-subtotal"></span>
+        </div>
+        <div class="flex justify-between font-body-md text-on-surface-variant">
+          <span>Phí giao hàng</span><span id="mdl-shipping"></span>
+        </div>
+        <div class="flex justify-between font-body-md text-on-surface-variant">
+          <span>Thuế (10%)</span><span id="mdl-tax"></span>
+        </div>
+        <div class="flex justify-between font-headline-md text-primary pt-2 border-t border-outline-variant mt-2">
+          <span>Tổng cộng</span><span id="mdl-total"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  #order-modal-backdrop.modal-open {
+    background: rgba(0,0,0,0.5) !important;
+    backdrop-filter: blur(4px) !important;
+  }
+  #order-modal-card.modal-open {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+  }
+  .field-error { border-color: var(--md-sys-color-error, #ba1a1a) !important; }
+</style>
+
+<script>
+// ============ UTILS ============
+function fmtVND(n) { return new Intl.NumberFormat('vi-VN').format(Math.round(n)) + ' đ'; }
+function escHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ============ TABS LOGIC ============
+function switchTab(tabId) {
+  // Update sidebar buttons
+  document.getElementById('tab-profile').className = "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all active:scale-98 w-full text-left";
+  document.getElementById('tab-orders').className  = "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all active:scale-98 w-full text-left";
+  
+  const activeClass = "flex items-center gap-3 px-4 py-3 text-on-secondary-container bg-secondary-container rounded-lg transition-all w-full text-left font-medium";
+  document.getElementById(`tab-${tabId}`).className = activeClass;
+
+  // Icons
+  document.getElementById('tab-profile').querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
+  document.getElementById('tab-orders').querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
+  document.getElementById(`tab-${tabId}`).querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+
+  // Hide all sections
+  document.getElementById('section-profile').classList.add('hidden');
+  document.getElementById('section-orders').classList.add('hidden');
+
+  // Show target section with simple fade
+  const target = document.getElementById(`section-${tabId}`);
+  target.classList.remove('hidden');
+  target.style.opacity = '0';
+  setTimeout(() => target.style.opacity = '1', 10);
+}
+
+// ============ PROFILE LOGIC ============
+const defaultProfile = {
+  avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaLV0aBa-Bf7F8zVP6B9HGlbOh_Qu88CvQFXWGGvoNNWKxtwup3LssFnZI6Jv0vZ22yOezGvkE5qvVB2r-zaBrHlGFH-6C1-IGCh9BWRR9EYi0e2vL_GudQItsCKW-FX4r9hVjrZNhHL5FKgEh7lvbmmIuA93dISRxACbzKDLcDnrQqhGAUEI5nHCj24IgjSQ8xlzcLGTvZNELntuTY50OeLfqaJJWNl694Nh5D5kTBUg5k8TEcoyObO88d-OWgLnXqVeSnJlHpms',
+  name: 'Julian Thorne',
+  phone: '0912345678',
+  email: 'j.thorne@classicmail.com',
+  genre: 'Tiểu thuyết',
+  bio: 'Người đam mê sưu tầm các ấn bản đầu tiên thế kỷ 19 và yêu thích những buổi chiều Chủ nhật yên tĩnh bên tách trà nóng.'
+};
+
+let isEditingProfile = false;
+
+function loadProfile() {
+  const saved = localStorage.getItem('lh_user_profile');
+  const profile = saved ? JSON.parse(saved) : defaultProfile;
+  
+  document.getElementById('prof-avatar').value = profile.avatar || '';
+  document.getElementById('profile-avatar-img').src = profile.avatar || defaultProfile.avatar;
+  
+  document.getElementById('prof-name').value = profile.name || '';
+  document.getElementById('prof-phone').value = profile.phone || '';
+  document.getElementById('prof-email').value = profile.email || '';
+  document.getElementById('prof-genre').value = profile.genre || '';
+  document.getElementById('prof-bio').value = profile.bio || '';
+}
+
+function toggleEditProfile() {
+  isEditingProfile = true;
+  document.querySelectorAll('#form-profile input, #form-profile select, #form-profile textarea').forEach(el => el.disabled = false);
+  document.getElementById('btn-edit-profile').classList.add('hidden');
+  document.getElementById('prof-actions').classList.remove('hidden');
+  document.getElementById('prof-name').focus();
+}
+
+function cancelEditProfile() {
+  isEditingProfile = false;
+  loadProfile(); // Reset to saved data
+  document.querySelectorAll('#form-profile input, #form-profile select, #form-profile textarea').forEach(el => {
+    el.disabled = true;
+    el.classList.remove('field-error');
+  });
+  document.querySelectorAll('#form-profile p.text-error').forEach(el => el.classList.add('hidden'));
+  document.getElementById('btn-edit-profile').classList.remove('hidden');
+  document.getElementById('prof-actions').classList.add('hidden');
+}
+
+function saveProfile() {
+  // Validate
+  let valid = true;
+  const name = document.getElementById('prof-name');
+  const phone = document.getElementById('prof-phone');
+  const email = document.getElementById('prof-email');
+
+  const errName = document.getElementById('err-prof-name');
+  const errPhone = document.getElementById('err-prof-phone');
+  const errEmail = document.getElementById('err-prof-email');
+
+  const setErr = (inp, err, msg) => { inp.classList.add('field-error'); err.textContent = msg; err.classList.remove('hidden'); valid = false; }
+  const setOk = (inp, err) => { inp.classList.remove('field-error'); err.classList.add('hidden'); }
+
+  if(name.value.trim().length < 2) setErr(name, errName, "Tên quá ngắn."); else setOk(name, errName);
+  
+  if(!/^0[3-9]\d{8}$/.test(phone.value.replace(/\s/g,''))) setErr(phone, errPhone, "SĐT không hợp lệ."); else setOk(phone, errPhone);
+  
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) setErr(email, errEmail, "Email không hợp lệ."); else setOk(email, errEmail);
+
+  if(!valid) return;
+
+  // Save
+  const profile = {
+    avatar: document.getElementById('prof-avatar').value.trim(),
+    name: name.value.trim(),
+    phone: phone.value.trim(),
+    email: email.value.trim(),
+    genre: document.getElementById('prof-genre').value,
+    bio: document.getElementById('prof-bio').value.trim()
+  };
+
+  localStorage.setItem('lh_user_profile', JSON.stringify(profile));
+  
+  if(typeof showToast === 'function') showToast("Đã lưu thông tin cá nhân!");
+  
+  // Close edit mode
+  cancelEditProfile(); 
+}
+
+// ============ ORDERS LOGIC ============
+let globalOrders = [];
+
+function loadOrders() {
+  const saved = localStorage.getItem('lh_orders');
+  globalOrders = saved ? JSON.parse(saved) : [];
+  // Sort by date desc
+  globalOrders.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  const emptyEl = document.getElementById('orders-empty');
+  const tableEl = document.getElementById('orders-table');
+  const tbodyEl = document.getElementById('orders-tbody');
+  const subtitleEl = document.getElementById('orders-subtitle');
+
+  if(globalOrders.length === 0) {
+    emptyEl.classList.remove('hidden');
+    tableEl.classList.add('hidden');
+    subtitleEl.textContent = 'Bạn chưa có đơn hàng nào.';
+    return;
+  }
+
+  emptyEl.classList.add('hidden');
+  tableEl.classList.remove('hidden');
+  subtitleEl.textContent = `Bạn đã đặt ${globalOrders.length} đơn hàng.`;
+
+  tbodyEl.innerHTML = globalOrders.map((order, index) => {
+    // Simulate status based on time (if > 5 mins, Delivered, else Processing)
+    const orderDate = new Date(order.createdAt);
+    const minsPassed = (new Date() - orderDate) / 60000;
+    
+    let statusBadge = '';
+    if(minsPassed > 5) {
+      statusBadge = `<span class="flex items-center gap-1.5 text-secondary"><span class="w-2 h-2 rounded-full bg-secondary"></span>Đã giao</span>`;
+    } else {
+      statusBadge = `<span class="flex items-center gap-1.5 text-tertiary"><span class="w-2 h-2 rounded-full bg-tertiary"></span>Đang xử lý</span>`;
+    }
+
+    return `
+      <tr class="hover:bg-surface-container-lowest/50 transition-colors">
+        <td class="px-6 py-4 font-label-md text-primary font-medium tracking-wide">${order.orderId}</td>
+        <td class="px-6 py-4 text-on-surface-variant font-body-sm">${orderDate.toLocaleDateString('vi-VN')} ${orderDate.toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'})}</td>
+        <td class="px-6 py-4 font-label-md">${fmtVND(order.total)}</td>
+        <td class="px-6 py-4">${statusBadge}</td>
+        <td class="px-6 py-4 text-right">
+          <button onclick="openOrderModal(${index})" class="px-4 py-2 border border-outline-variant rounded-lg text-primary font-label-md hover:bg-surface-container transition-colors text-sm">
+            Xem chi tiết
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ============ MODAL LOGIC ============
+function openOrderModal(index) {
+  const order = globalOrders[index];
+  if(!order) return;
+
+  // Fill Header
+  document.getElementById('mdl-order-id').textContent = order.orderId;
+
+  // Fill Customer Info
+  document.getElementById('mdl-name').textContent = order.customer.name;
+  document.getElementById('mdl-phone').textContent = order.customer.phone;
+  document.getElementById('mdl-email').textContent = order.customer.email;
+  document.getElementById('mdl-address').textContent = order.customer.address + (order.customer.note ? ` (Ghi chú: ${order.customer.note})` : '');
+  
+  const paymentLabels = { cod: 'Thanh toán khi nhận hàng', bank: 'Chuyển khoản ngân hàng', wallet: 'Ví điện tử' };
+  document.getElementById('mdl-payment').textContent = paymentLabels[order.paymentMethod] || order.paymentMethod;
+
+  // Fill Items
+  document.getElementById('mdl-items').innerHTML = order.items.map(item => `
+    <div class="flex gap-3 items-center bg-surface-container-lowest border border-outline-variant rounded-lg p-2">
+      <img src="${item.coverImage}" class="w-12 h-16 object-cover rounded shadow-sm">
+      <div class="flex-grow min-w-0">
+        <p class="font-label-md text-on-surface line-clamp-1">${escHtml(item.title)}</p>
+        <p class="text-caption text-on-surface-variant">${fmtVND(item.price)} x ${item.quantity}</p>
+      </div>
+      <span class="font-label-md text-primary pr-2 whitespace-nowrap">${fmtVND(item.price * item.quantity)}</span>
+    </div>
+  `).join('');
+
+  // Fill Summary
+  document.getElementById('mdl-subtotal').textContent = fmtVND(order.subtotal);
+  document.getElementById('mdl-shipping').textContent = fmtVND(order.shipping);
+  document.getElementById('mdl-tax').textContent      = fmtVND(order.tax);
+  document.getElementById('mdl-total').textContent    = fmtVND(order.total);
+
+  // Show Modal
+  const backdrop = document.getElementById('order-modal-backdrop');
+  const card = document.getElementById('order-modal-card');
+  backdrop.classList.remove('hidden');
+  requestAnimationFrame(() => {
+    backdrop.classList.add('modal-open');
+    card.classList.add('modal-open');
+  });
+}
+
+function closeOrderModal() {
+  const backdrop = document.getElementById('order-modal-backdrop');
+  const card = document.getElementById('order-modal-card');
+  backdrop.classList.remove('modal-open');
+  card.classList.remove('modal-open');
+  setTimeout(() => backdrop.classList.add('hidden'), 300);
+}
+
+function signOut() {
+  if(confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+    window.location.href = '/';
+  }
+}
+
+// ============ INIT ============
+document.addEventListener('DOMContentLoaded', () => {
+  switchTab('profile'); // Default tab
+  loadProfile();
+  loadOrders();
+
+  // Close modal on outside click
+  document.getElementById('order-modal-backdrop').addEventListener('click', function(e) {
+    if(e.target === this) closeOrderModal();
+  });
+  // Close modal on escape
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape') closeOrderModal();
+  });
+});
+
+</script>
 
 <%- include('partials/footer') %>
