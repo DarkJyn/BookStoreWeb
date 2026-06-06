@@ -1,0 +1,63 @@
+<aside class="flex flex-col h-screen p-4 space-y-4 bg-surface-container-low dark:bg-surface-container-low docked h-full w-64 left-0 shadow-sm sticky top-0 shrink-0 border-r border-outline-variant">
+    <div class="flex items-center space-x-3 px-2 py-4">
+        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white">
+            <span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+        </div>
+        <div>
+            <h1 class="font-display-lg text-headline-md text-primary dark:text-inverse-primary leading-tight">Folio Admin</h1>
+            <p class="font-label-md text-label-md text-on-surface-variant opacity-70">System Controller</p>
+        </div>
+    </div>
+    <nav class="flex-1 space-y-1">
+        <a class="flex items-center px-4 py-3 space-x-3 <%= typeof activePage !== 'undefined' && activePage === 'dashboard' ? 'text-on-secondary-container bg-secondary-container dark:bg-secondary-fixed-dim dark:text-on-secondary-fixed' : 'text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant' %> transition-all rounded-lg active:scale-98" href="/admin/dashboard">
+            <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+            <span class="font-label-md text-label-md">Dashboard</span>
+        </a>
+        <a class="flex items-center px-4 py-3 space-x-3 <%= typeof activePage !== 'undefined' && activePage === 'books' ? 'text-on-secondary-container bg-secondary-container dark:bg-secondary-fixed-dim dark:text-on-secondary-fixed' : 'text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant' %> transition-all rounded-lg active:scale-98" href="/admin/books">
+            <span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+            <span class="font-label-md text-label-md">Catalog (Books)</span>
+        </a>
+        <a class="flex items-center px-4 py-3 space-x-3 <%= typeof activePage !== 'undefined' && activePage === 'orders' ? 'text-on-secondary-container bg-secondary-container dark:bg-secondary-fixed-dim dark:text-on-secondary-fixed' : 'text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant' %> transition-all rounded-lg active:scale-98" href="/admin/orders">
+            <span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+            <span class="font-label-md text-label-md">Orders</span>
+        </a>
+        <a class="flex items-center px-4 py-3 space-x-3 <%= typeof activePage !== 'undefined' && activePage === 'promotions' ? 'text-on-secondary-container bg-secondary-container dark:bg-secondary-fixed-dim dark:text-on-secondary-fixed' : 'text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant' %> transition-all rounded-lg active:scale-98" href="/admin/promotions">
+            <span class="material-symbols-outlined" data-icon="confirmation_number">confirmation_number</span>
+            <span class="font-label-md text-label-md">Promotions</span>
+        </a>
+        <a class="flex items-center px-4 py-3 space-x-3 <%= typeof activePage !== 'undefined' && activePage === 'customers' ? 'text-on-secondary-container bg-secondary-container dark:bg-secondary-fixed-dim dark:text-on-secondary-fixed' : 'text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant' %> transition-all rounded-lg active:scale-98" href="/admin/customers">
+            <span class="material-symbols-outlined" data-icon="group">group</span>
+            <span class="font-label-md text-label-md">Patrons</span>
+        </a>
+        <a class="flex items-center px-4 py-3 space-x-3 <%= typeof activePage !== 'undefined' && activePage === 'inventory' ? 'text-on-secondary-container bg-secondary-container dark:bg-secondary-fixed-dim dark:text-on-secondary-fixed' : 'text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant' %> transition-all rounded-lg active:scale-98" href="/admin/inventory">
+            <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+            <span class="font-label-md text-label-md">Inventory</span>
+        </a>
+        <a class="flex items-center px-4 py-3 space-x-3 <%= typeof activePage !== 'undefined' && activePage === 'import' ? 'text-on-secondary-container bg-secondary-container dark:bg-secondary-fixed-dim dark:text-on-secondary-fixed' : 'text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant' %> transition-all rounded-lg active:scale-98" href="/admin/import">
+            <span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+            <span class="font-label-md text-label-md">Import Goods</span>
+        </a>
+        <a class="flex items-center px-4 py-3 space-x-3 <%= typeof activePage !== 'undefined' && activePage === 'staff' ? 'text-on-secondary-container bg-secondary-container dark:bg-secondary-fixed-dim dark:text-on-secondary-fixed' : 'text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant' %> transition-all rounded-lg active:scale-98" href="/admin/staff">
+            <span class="material-symbols-outlined" data-icon="badge">badge</span>
+            <span class="font-label-md text-label-md">Librarians (Staff)</span>
+        </a>
+        <a class="flex items-center px-4 py-3 space-x-3 <%= typeof activePage !== 'undefined' && activePage === 'reports' ? 'text-on-secondary-container bg-secondary-container dark:bg-secondary-fixed-dim dark:text-on-secondary-fixed' : 'text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant' %> transition-all rounded-lg active:scale-98" href="/admin/reports">
+            <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+            <span class="font-label-md text-label-md">Analytics</span>
+        </a>
+    </nav>
+    <div class="pt-4 border-t border-outline-variant space-y-1">
+        <a href="/admin/book-form" class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md flex items-center justify-center space-x-2 transition-transform active:scale-95 mb-4">
+            <span class="material-symbols-outlined" data-icon="add">add</span>
+            <span>Add New Book</span>
+        </a>
+        <a class="flex items-center px-4 py-3 space-x-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+            <span class="font-label-md text-label-md">Settings</span>
+        </a>
+        <a class="flex items-center px-4 py-3 space-x-3 text-error hover:bg-error-container rounded-lg transition-all" href="/admin/logout">
+            <span class="material-symbols-outlined" data-icon="logout">logout</span>
+            <span class="font-label-md text-label-md">Logout</span>
+        </a>
+    </div>
+</aside>

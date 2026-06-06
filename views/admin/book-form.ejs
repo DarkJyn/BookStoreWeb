@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<%- include('partials/head', { title }) %>
+<body class="bg-background text-on-surface flex min-h-screen">
+<%- include('partials/sidebar', { activePage: 'books' }) %>
+
+<% const isEdit = Boolean(book && book.id); %>
+<% const action = isEdit ? `/admin/books/${book.id}` : '/admin/books'; %>
+<% const descriptionText = Array.isArray(book?.description) ? book.description.join('\n') : (book?.description || ''); %>
+
+<main class="admin-main">
+  <form method="post" action="<%= action %>">
+    <header class="admin-page-header">
+      <nav class="flex items-center text-on-surface-variant font-label-md text-label-md">
+        <a href="/admin/books" class="hover:text-primary">Catalog</a>
+        <span class="material-symbols-outlined text-[16px] mx-2">chevron_right</span>
+        <span class="text-primary"><%= isEdit ? 'Sua sach' : 'Them sach' %></span>
+      </nav>
+      <div class="flex items-center space-x-4">
+        <a href="/admin/books" class="h-10 px-4 rounded-full text-primary border border-outline font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center">Huy</a>
+        <button class="h-10 px-6 rounded-full bg-primary text-on-primary font-label-md text-label-md custom-shadow hover:opacity-90 transition-all active:scale-95 duration-150" type="submit">Luu thong tin</button>
+      </div>
+    </header>
+
+    <div class="admin-page-content max-w-[1000px] space-y-gutter-desktop">
+      <% if (errors && errors.length) { %>
+        <div class="bg-error-container border border-error/20 p-4 rounded-xl text-on-error-container">
+          <% errors.forEach((error) => { %>
+            <p><%= error %></p>
+          <% }) %>
+        </div>
+      <% } %>
+
+      <div class="flex flex-col md:flex-row gap-gutter-desktop">
+        <div class="w-full md:w-1/3 space-y-gutter-desktop">
+          <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant custom-shadow">
+            <h3 class="font-headline-md text-headline-md text-primary mb-4">Anh bia</h3>
+            <div class="aspect-[3/4] rounded-lg bg-surface-container-low border border-outline-variant overflow-hidden">
+              <img class="w-full h-full object-cover" src="<%= book?.coverImage || 'https://placehold.co/300x400?text=Book+Cover' %>" alt="<%= book?.imageAlt || 'Book cover' %>">
+            </div>
+            <label class="block mt-4">
+              <span class="font-label-md text-label-md text-on-surface-variant mb-2 block">URL anh bia</span>
+              <input name="coverImage" value="<%= book?.coverImage || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="https://..." type="url">
+            </label>
+            <label class="block mt-4">
+              <span class="font-label-md text-label-md text-on-surface-variant mb-2 block">Mo ta anh</span>
+              <input name="imageAlt" value="<%= book?.imageAlt || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Book cover" type="text">
+            </label>
+          </div>
+
+          <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant custom-shadow">
+            <h3 class="font-headline-md text-headline-md text-primary mb-4">Trang thai</h3>
+            <div class="space-y-4">
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Trang thai kho</span>
+                <select name="stockStatus" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary">
+                  <% ['In stock', 'Out of stock', 'Archived'].forEach((status) => { %>
+                    <option value="<%= status %>" <%= (book?.stockStatus || 'In stock') === status ? 'selected' : '' %>><%= status %></option>
+                  <% }) %>
+                </select>
+              </label>
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Vi tri ke</span>
+                <input name="shelfLocation" value="<%= book?.shelfLocation || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="A-12-04" type="text">
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full md:w-2/3 space-y-gutter-desktop">
+          <section class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant custom-shadow">
+            <div class="flex items-center space-x-3 mb-6">
+              <span class="material-symbols-outlined text-primary">info</span>
+              <h3 class="font-headline-md text-headline-md text-primary">Thong tin co ban</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <label class="md:col-span-2 flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Ten sach *</span>
+                <input name="title" value="<%= book?.title || '' %>" required class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Ten sach" type="text">
+              </label>
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Tac gia *</span>
+                <input name="author" value="<%= book?.author || '' %>" required class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Tac gia" type="text">
+              </label>
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">The loai</span>
+                <input name="genre" value="<%= book?.genre || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Tieu thuyet" type="text">
+              </label>
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Nha xuat ban</span>
+                <input name="publisher" value="<%= book?.publisher || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="NXB" type="text">
+              </label>
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Nam xuat ban</span>
+                <input name="year" value="<%= book?.year || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="2026" type="number" min="0">
+              </label>
+              <label class="md:col-span-2 flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Dinh dang</span>
+                <input name="format" value="<%= book?.format || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Paperback, 320 pages" type="text">
+              </label>
+            </div>
+          </section>
+
+          <section class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant custom-shadow">
+            <div class="flex items-center space-x-3 mb-6">
+              <span class="material-symbols-outlined text-primary">payments</span>
+              <h3 class="font-headline-md text-headline-md text-primary">Gia va kho</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Gia nhap</span>
+                <input name="importPrice" value="<%= book?.importPrice || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" type="number" min="0">
+              </label>
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Gia ban *</span>
+                <input name="price" value="<%= book?.price || '' %>" required class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" type="number" min="0">
+              </label>
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Gia goc</span>
+                <input name="originalPrice" value="<%= book?.originalPrice || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" type="number" min="0">
+              </label>
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">So luong ton</span>
+                <input name="stock" value="<%= book?.stock || 0 %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" type="number" min="0">
+              </label>
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Danh gia</span>
+                <input name="rating" value="<%= book?.rating || 4 %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" type="number" min="0" max="5" step="0.1">
+              </label>
+            </div>
+          </section>
+
+          <section class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant custom-shadow">
+            <div class="flex items-center space-x-3 mb-6">
+              <span class="material-symbols-outlined text-primary">description</span>
+              <h3 class="font-headline-md text-headline-md text-primary">Mo ta sach</h3>
+            </div>
+            <label class="flex flex-col">
+              <span class="font-label-md text-label-md text-on-surface-variant mb-2">Tom tat noi dung</span>
+              <textarea name="description" class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary p-4" placeholder="Nhap mo ta..." rows="6"><%= descriptionText %></textarea>
+            </label>
+          </section>
+        </div>
+      </div>
+    </div>
+  </form>
+</main>
+</body>
+</html>

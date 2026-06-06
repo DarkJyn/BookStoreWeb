@@ -1,0 +1,271 @@
+<!DOCTYPE html><html class="light" lang="en"><%- include('partials/head', { title: "Admin" }) %>
+<body class="flex min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<%- include('partials/sidebar', { activePage: 'dashboard' }) %>
+<!-- Main Content Area -->
+<main class="admin-main flex flex-col">
+<!-- TopAppBar (Shared Component Logic) -->
+<header class="admin-page-header">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-1 focus:ring-primary focus:border-primary font-body-md text-body-md transition-all outline-none" placeholder="Search system for books, patrons, or orders..." type="text">
+</div>
+</div>
+<div class="flex items-center space-x-6 ml-8">
+<div class="relative group cursor-pointer text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</div>
+<div class="flex items-center space-x-3 pl-6 border-l border-outline-variant">
+<div class="text-right hidden md:block">
+<p class="font-label-md text-label-md text-on-surface leading-none">Julian Vane</p>
+<p class="font-caption text-caption text-on-surface-variant opacity-70">Administrator</p>
+</div>
+<img alt="Admin Profile" class="w-10 h-10 rounded-full object-cover border-2 border-primary-fixed" data-alt="A professional portrait of a man with a clean, modern look, shot in a bright studio with soft, warm lighting. He has a friendly, authoritative expression. The visual style is crisp and editorial, reflecting a high-end corporate identity with a palette of soft creams and warm browns." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk2RDCgXoy2WbV-WI9byIhMx1YtG8INqdGCwCCm05HRBOGI4y2VWBbjWv7Gf20RS7zc6teGeUK19-K5YGmwqUhUv_MJMYWTN2Ho_nMYxXTDm-fejYjy3fkHBKDOMB-y7ILEMpw4WDqpnAPprXdo9rCS2kgd_BmGbBGP7Dq6XKh1Ske_-BRPi8GreSmEx-TBf-mqbBRlNMTjoUNDndYv0pJ69Dbhpt-STkB3TxVxMJBuDh1C_5951rLqw0WEH9i8SFeZtQTSIGKw7A">
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="admin-page-content space-y-gutter-desktop">
+<!-- Welcome Header -->
+<section>
+<h2 class="font-display-lg text-headline-lg text-primary">System Overview</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Good morning, Julian. Here is what is happening across The Open Folio network today.</p>
+</section>
+<!-- Alert: Low Stock -->
+<div class="bg-error-container border border-error/20 p-4 rounded-xl flex items-center justify-between">
+<div class="flex items-center space-x-4">
+<div class="bg-error text-on-error w-10 h-10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-error-container">Low Stock Alert</h4>
+<p class="font-caption text-caption text-on-error-container">12 titles from 'Contemporary Classics' are below the safety threshold.</p>
+</div>
+</div>
+<button class="px-4 py-2 bg-on-error-container text-white rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">
+                    Review Inventory
+                </button>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter-desktop">
+<div class="bg-white p-6 rounded-xl custom-shadow border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary p-2 bg-surface-container-low rounded-lg" data-icon="menu_book">menu_book</span>
+<span class="text-secondary font-label-md text-label-md flex items-center"><span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span> +2.4%</span>
+</div>
+<div class="mt-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Total Books</p>
+<p class="font-display-lg text-headline-lg text-on-surface mt-1">42,892</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl custom-shadow border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary p-2 bg-secondary-container/30 rounded-lg" data-icon="shopping_bag">shopping_bag</span>
+<span class="text-secondary font-label-md text-label-md flex items-center"><span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span> +12%</span>
+</div>
+<div class="mt-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Total Orders</p>
+<p class="font-display-lg text-headline-lg text-on-surface mt-1">1,402</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl custom-shadow border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-tertiary p-2 bg-tertiary-fixed rounded-lg" data-icon="payments">payments</span>
+<span class="text-secondary font-label-md text-label-md flex items-center"><span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span> +8.1%</span>
+</div>
+<div class="mt-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Today Revenue</p>
+<p class="font-display-lg text-headline-lg text-on-surface mt-1">$14,210</p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl custom-shadow border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary p-2 bg-primary-fixed rounded-lg" data-icon="person_add">person_add</span>
+<span class="text-on-surface-variant font-label-md text-label-md flex items-center"><span class="material-symbols-outlined text-sm" data-icon="trending_flat">trending_flat</span> 0%</span>
+</div>
+<div class="mt-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">New Patrons</p>
+<p class="font-display-lg text-headline-lg text-on-surface mt-1">84</p>
+</div>
+</div>
+</div>
+<!-- Asymmetric Grid for Charts/Analytics -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter-desktop">
+<!-- Line Chart Mockup -->
+<div class="lg:col-span-2 bg-white p-8 rounded-xl custom-shadow border border-outline-variant/30 h-96 flex flex-col">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-display text-headline-md text-primary">Monthly Revenue Performance</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Comparative analysis of digital vs physical sales</p>
+</div>
+<div class="flex space-x-2">
+<button class="px-3 py-1 bg-surface-container text-on-surface-variant rounded font-label-md text-label-md">Year</button>
+<button class="px-3 py-1 bg-primary text-on-primary rounded font-label-md text-label-md">Month</button>
+</div>
+</div>
+<!-- Chart Placeholder -->
+<div class="flex-1 flex items-end justify-between space-x-4 border-b border-l border-outline-variant pb-2 relative">
+<!-- Simulated Bar/Line Graph -->
+<div class="w-full h-full absolute inset-0 flex items-center justify-center">
+<div class="w-full h-[60%] border-t-2 border-primary/20 absolute top-[20%] border-dashed"></div>
+<div class="w-full h-[30%] border-t-2 border-primary/20 absolute top-[50%] border-dashed"></div>
+</div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-[40%] transition-all hover:bg-primary/20 relative group">
+<div class="hidden group-hover:block absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded">Jan: $82k</div>
+</div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-[55%] transition-all hover:bg-primary/20 relative group"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-[45%] transition-all hover:bg-primary/20 relative group"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-[70%] transition-all hover:bg-primary/20 relative group"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-[65%] transition-all hover:bg-primary/20 relative group"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-[85%] transition-all hover:bg-primary/20 relative group"></div>
+<div class="flex-1 bg-primary/10 rounded-t-lg h-[60%] transition-all hover:bg-primary/20 relative group"></div>
+<div class="flex-1 bg-primary h-[95%] rounded-t-lg relative group">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-primary text-white text-xs px-2 py-1 rounded shadow-lg">August: $128k</div>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] uppercase tracking-tighter text-on-surface-variant font-label-md">
+<span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
+</div>
+</div>
+<!-- Pie Chart Mockup -->
+<div class="bg-white p-8 rounded-xl custom-shadow border border-outline-variant/30 flex flex-col">
+<h3 class="font-display text-headline-md text-primary mb-6">Bestsellers by Category</h3>
+<div class="flex-1 flex flex-col justify-center items-center">
+<!-- Donut Chart Visual -->
+<div class="relative w-48 h-48 rounded-full border-[24px] border-surface-container flex items-center justify-center">
+<div class="absolute inset-0 rounded-full border-[24px] border-primary border-t-transparent border-l-transparent -rotate-45"></div>
+<div class="absolute inset-0 rounded-full border-[24px] border-secondary border-b-transparent border-r-transparent rotate-12"></div>
+<div class="text-center">
+<span class="font-display text-headline-md text-primary">8.4k</span>
+<p class="font-caption text-caption text-on-surface-variant">Sold this wk</p>
+</div>
+</div>
+<div class="mt-8 w-full space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="font-body-md text-body-md text-on-surface-variant">Fiction</span>
+</div>
+<span class="font-label-md text-label-md">42%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="font-body-md text-body-md text-on-surface-variant">Philosophy</span>
+</div>
+<span class="font-label-md text-label-md">28%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="w-3 h-3 rounded-full bg-tertiary-container"></span>
+<span class="font-body-md text-body-md text-on-surface-variant">Biography</span>
+</div>
+<span class="font-label-md text-label-md">15%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Orders Table -->
+<section class="bg-white rounded-xl custom-shadow border border-outline-variant/30 overflow-hidden">
+<div class="p-6 border-b border-outline-variant/50 flex justify-between items-center">
+<h3 class="font-display text-headline-md text-primary">Recent Orders</h3>
+<button class="text-primary font-label-md text-label-md hover:underline">View All Records</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+<tr>
+<th class="px-6 py-4">Order ID</th>
+<th class="px-6 py-4">Customer</th>
+<th class="px-6 py-4">Items</th>
+<th class="px-6 py-4">Date</th>
+<th class="px-6 py-4">Amount</th>
+<th class="px-6 py-4">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 font-body-md text-body-md">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 font-bold text-primary">#ORD-8821</td>
+<td class="px-6 py-4 flex items-center space-x-3">
+<img alt="Customer" class="w-8 h-8 rounded-full" data-alt="Close-up portrait of a woman with a serene expression, styled with professional yet soft lighting. The background is a blurred bookshelf, emphasizing the intellectual bookstore theme. Colors include rich umbers and ivory tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuADw9NlRqKNCMuMhvmiSeWfQfPIT18Nj_R9w6_bn_hTWej-LLc0E7gezk9q1Jinwbl1vucLsUxmQVjPCpSF_vnciaH9fEIxgc4BsaxoAuD5gUAHBbTnTijhKb1m9vB6xuyOZ6c7HyvHWZuenB6AhtZjf2mVfh9uJvPRIZHcn5hiOplRe5pDmiMWLh-S9f6j1AI-3Zl02Er9NDjhC9vQGJbDY-UPje2jEHro7Td9VUpaxEuA4eFeOEWL9aQ1Z2ba7tRn-2KRv4x1A">
+<span>Clara Bennett</span>
+</td>
+<td class="px-6 py-4">"The Silent Patient", "The Alchemist"</td>
+<td class="px-6 py-4 text-on-surface-variant">Aug 24, 2024</td>
+<td class="px-6 py-4">$42.50</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold uppercase">Dispatched</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 font-bold text-primary">#ORD-8820</td>
+<td class="px-6 py-4 flex items-center space-x-3">
+<img alt="Customer" class="w-8 h-8 rounded-full" data-alt="Headshot of a smiling young man in a library setting, with soft natural light filtering through windows. The visual language is clean and modern, highlighting a warm-toned color palette of tans and creams." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIXeAj7r6Z16R5h0S-tDj-Dd4GAFFfENVCf5UXHKmeDVHfoAj_EV7RxTKAFGkY4qskxbKdMDvGQQUjUNOWRjS9ujOeZhEnZhssCPhdn9ZN6RTD1Ptnwt9mAz4Zpu7ltdKEBybJIlGdD33W4lM5K-2a01BHvePaX6XR0tnOIvNFyWXNI8iqOilBGctU_CuRIxqutz9HPRzK2HWQMm0aKttXeYiTd3yuL87QAxXJ7GSsxOqp-jNfY_3aZESbbiEBIkaNblFjkxuKhLw">
+<span>Marcus Reed</span>
+</td>
+<td class="px-6 py-4">"Meditations" - Leather Edition</td>
+<td class="px-6 py-4 text-on-surface-variant">Aug 23, 2024</td>
+<td class="px-6 py-4">$120.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-xs font-bold uppercase">Processing</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 font-bold text-primary">#ORD-8819</td>
+<td class="px-6 py-4 flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">EJ</div>
+<span>Elena Jovic</span>
+</td>
+<td class="px-6 py-4">Subscription Box: Curator's Pick</td>
+<td class="px-6 py-4 text-on-surface-variant">Aug 23, 2024</td>
+<td class="px-6 py-4">$45.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold uppercase">Dispatched</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 font-bold text-primary">#ORD-8818</td>
+<td class="px-6 py-4 flex items-center space-x-3">
+<img alt="Customer" class="w-8 h-8 rounded-full" data-alt="Portrait of a sophisticated woman in a high-end minimalist setting. Soft, directional light creates a sense of elegance and focus. The aesthetic is curated, using a palette of creams, browns, and muted greens to match the brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCoptcLSSfezazi68h1-6V6-mRvvDvXeq1YPMDy-GFYrA-RI6qzBHbNcRbk1scZ_wYRHaag8H9HqArA9lm_PbmlN2PfHCO67ZJ71Z454KFGeLinAqhyPUTpFdGa44i1A-so8HVz-PVa8YlpyAUdku7j80KEa7SZ-WAQYlyb8Dot85Y5pHwLok3JDxE0jAVsjC-vI0zHbLd8b-jKSflBzIKXTXlVglHcvBjM-GiX-vTPQpyF9GouGggZAkBMBhXT-beystwE_A7uKI">
+<span>Sonia Gupta</span>
+</td>
+<td class="px-6 py-4">"The Goldfinch", "Atomic Habits"</td>
+<td class="px-6 py-4 text-on-surface-variant">Aug 22, 2024</td>
+<td class="px-6 py-4">$38.15</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-xs font-bold uppercase">Held</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-12 px-8 grid grid-cols-1 md:grid-cols-4 gap-8 max-w-container-max bg-surface-container-highest dark:bg-surface-container-highest border-t border-outline-variant mt-auto">
+<div class="md:col-span-2">
+<span class="font-display-lg text-headline-md text-primary">The Open Folio</span>
+<p class="mt-4 font-body-md text-body-md text-on-surface-variant max-w-sm">Elevating the intellectual experience through curated literature and seamless digital orchestration. Administrative Portal v2.4.0.</p>
+</div>
+<div>
+<h5 class="font-label-md text-label-md text-primary mb-4 uppercase tracking-widest">Internal Links</h5>
+<ul class="space-y-2 font-body-md text-body-md text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Shipping Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div class="flex flex-col justify-between">
+<p class="font-caption text-caption text-on-surface-variant">© 2024 The Open Folio. All rights reserved.</p>
+<div class="flex space-x-4 mt-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="language">language</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="terminal">terminal</span>
+</div>
+</div>
+</footer>
+</main>
+</body></html>

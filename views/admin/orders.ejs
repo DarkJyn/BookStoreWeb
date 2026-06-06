@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="en"><%- include('partials/head', { title: "Admin" }) %>
+<body class="flex min-h-screen">
+<!-- SideNavBar (Authority Source: JSON) -->
+<%- include('partials/sidebar', { activePage: 'orders' }) %>
+<!-- Main Content Canvas -->
+<main class="admin-main">
+<!-- Header Section -->
+<header class="admin-page-header">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary mb-2">Order Management</h2>
+<p class="font-body-md text-on-surface-variant">Oversee client transactions and fulfillment cycles in real-time.</p>
+</div>
+<div class="flex gap-4">
+<button class="bg-surface-container-highest text-primary font-label-md h-12 px-6 rounded-lg flex items-center hover:bg-outline-variant transition-colors active:scale-95">
+<span class="material-symbols-outlined mr-2" data-icon="print">print</span> In hóa đơn
+                </button>
+<button class="bg-primary text-on-primary font-label-md h-12 px-6 rounded-lg flex items-center hover:opacity-90 transition-opacity active:scale-95">
+<span class="material-symbols-outlined mr-2" data-icon="add">add</span> Tạo đơn hàng
+                </button>
+</div>
+</header>
+<!-- Search & Filter Bento Section -->
+<div class="admin-page-content space-y-8">
+<section class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+<div class="lg:col-span-2 bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm flex items-center">
+<span class="material-symbols-outlined text-outline mr-3" data-icon="search">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 font-body-md text-on-surface placeholder-outline" placeholder="Tìm kiếm theo mã đơn, khách hàng..." type="text">
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm flex items-center">
+<span class="material-symbols-outlined text-outline mr-3" data-icon="calendar_today">calendar_today</span>
+<select class="w-full bg-transparent border-none focus:ring-0 font-label-md text-on-surface appearance-none">
+<option>Ngày đặt</option>
+<option>Hôm nay</option>
+<option>7 ngày qua</option>
+<option>Tháng này</option>
+</select>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm flex items-center">
+<span class="material-symbols-outlined text-outline mr-3" data-icon="filter_list">filter_list</span>
+<select class="w-full bg-transparent border-none focus:ring-0 font-label-md text-on-surface appearance-none">
+<option>Trạng thái</option>
+<option>Đang xử lý</option>
+<option>Đã xác nhận</option>
+<option>Đã giao</option>
+<option>Đã hủy</option>
+</select>
+</div>
+</section>
+<!-- Orders Table Section -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Mã đơn</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Khách hàng</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Ngày đặt</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Tổng tiền</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Phương thức</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Trạng thái</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-right">Hành động</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Order Row 1 -->
+<tr class="hover:bg-surface-variant/30 transition-colors group">
+<td class="px-6 py-5 font-label-md text-primary">#ORD-8821</td>
+<td class="px-6 py-5">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-xs mr-3">NH</div>
+<div>
+<p class="font-body-md text-on-surface font-medium">Nguyễn Hoàng</p>
+<p class="font-caption text-on-surface-variant">hoang.n@email.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">12/05/2024</td>
+<td class="px-6 py-5 font-body-md text-on-surface font-semibold">1.250.000đ</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-full text-xs font-label-md">Thẻ tín dụng</span>
+</td>
+<td class="px-6 py-5">
+<span class="flex items-center text-secondary font-label-md">
+<span class="w-2 h-2 rounded-full bg-secondary mr-2"></span> Đã xác nhận
+                                </span>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded-lg transition-colors" title="Cập nhật trạng thái">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container rounded-lg transition-colors" title="Hủy đơn">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Order Row 2 -->
+<tr class="hover:bg-surface-variant/30 transition-colors group">
+<td class="px-6 py-5 font-label-md text-primary">#ORD-8822</td>
+<td class="px-6 py-5">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center font-bold text-xs mr-3">TM</div>
+<div>
+<p class="font-body-md text-on-surface font-medium">Trần Minh</p>
+<p class="font-caption text-on-surface-variant">minh.t@email.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">12/05/2024</td>
+<td class="px-6 py-5 font-body-md text-on-surface font-semibold">450.000đ</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-full text-xs font-label-md">COD</span>
+</td>
+<td class="px-6 py-5">
+<span class="flex items-center text-tertiary font-label-md">
+<span class="w-2 h-2 rounded-full bg-tertiary mr-2"></span> Đang xử lý
+                                </span>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-lg text-xs font-label-md hover:opacity-80 active:scale-95 transition-all">
+                                        Xác nhận
+                                    </button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors" title="Hành động khác">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Order Row 3 -->
+<tr class="hover:bg-surface-variant/30 transition-colors group">
+<td class="px-6 py-5 font-label-md text-primary">#ORD-8823</td>
+<td class="px-6 py-5">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-xs mr-3">LA</div>
+<div>
+<p class="font-body-md text-on-surface font-medium">Lê Anh</p>
+<p class="font-caption text-on-surface-variant">anh.le@email.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">11/05/2024</td>
+<td class="px-6 py-5 font-body-md text-on-surface font-semibold">2.100.000đ</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-full text-xs font-label-md">Chuyển khoản</span>
+</td>
+<td class="px-6 py-5">
+<span class="flex items-center text-on-surface-variant font-label-md">
+<span class="material-symbols-outlined text-secondary mr-2 text-sm" data-icon="check_circle">check_circle</span> Đã giao
+                                </span>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-lg transition-colors" title="In hóa đơn">
+<span class="material-symbols-outlined" data-icon="print">print</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors" title="Xem chi tiết">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Order Row 4 -->
+<tr class="hover:bg-surface-variant/30 transition-colors group">
+<td class="px-6 py-5 font-label-md text-primary">#ORD-8824</td>
+<td class="px-6 py-5">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-error-container text-on-error-container flex items-center justify-center font-bold text-xs mr-3">PV</div>
+<div>
+<p class="font-body-md text-on-surface font-medium">Phan Vinh</p>
+<p class="font-caption text-on-surface-variant">vinh.p@email.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">11/05/2024</td>
+<td class="px-6 py-5 font-body-md text-on-surface font-semibold">890.000đ</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-full text-xs font-label-md">Ví điện tử</span>
+</td>
+<td class="px-6 py-5">
+<span class="flex items-center text-error font-label-md">
+<span class="w-2 h-2 rounded-full bg-error mr-2"></span> Đã hủy
+                                </span>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-lg transition-colors" title="Khôi phục">
+<span class="material-symbols-outlined" data-icon="restore">restore</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 flex items-center justify-between border-t border-outline-variant bg-surface-container-low">
+<p class="font-caption text-on-surface-variant">Hiển thị 1 - 4 trên 128 đơn hàng</p>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg border border-outline-variant hover:bg-surface-variant disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-primary text-on-primary font-label-md">1</button>
+<button class="w-10 h-10 rounded-lg border border-outline-variant hover:bg-surface-variant font-label-md text-on-surface-variant">2</button>
+<button class="w-10 h-10 rounded-lg border border-outline-variant hover:bg-surface-variant font-label-md text-on-surface-variant">3</button>
+<button class="p-2 rounded-lg border border-outline-variant hover:bg-surface-variant">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer (Authority Source: JSON) -->
+<footer class="mt-16 w-full py-12 px-0 grid grid-cols-1 md:grid-cols-4 gap-8 max-w-container-max mx-auto border-t border-outline-variant">
+<div class="col-span-1 md:col-span-2">
+<h3 class="font-display-lg text-headline-md text-primary mb-4">The Open Folio</h3>
+<p class="font-body-md text-on-surface-variant max-w-md">Bridging the gap between the tactile experience of physical libraries and the efficiency of modern digital management.</p>
+<p class="font-caption text-on-surface-variant mt-6">© 2024 The Open Folio. All rights reserved.</p>
+</div>
+<div>
+<h4 class="font-label-md text-primary mb-4 uppercase">Company</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Shipping Policy</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div class="bg-surface-container p-6 rounded-xl">
+<h4 class="font-label-md text-primary mb-2">Need assistance?</h4>
+<p class="font-caption text-on-surface-variant mb-4">Our support librarians are available 24/7 for system inquiries.</p>
+<a class="text-primary font-bold font-body-md block underline" href="mailto:support@openfolio.com">support@openfolio.com</a>
+</div>
+</footer>
+</div>
+</main>
+<!-- Contextual FAB (Hidden on this dashboard-focused view according to UX rules, but defined for completeness if navigating to sub-tasks) -->
+</body></html>

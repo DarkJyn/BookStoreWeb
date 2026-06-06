@@ -1,0 +1,274 @@
+<!DOCTYPE html><html class="light" lang="vi"><%- include('partials/head', { title: "Admin" }) %>
+<body class="flex min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<%- include('partials/sidebar', { activePage: 'reports' }) %>
+<!-- Main Content -->
+<main class="admin-main flex flex-col">
+<!-- Header / Filter Bar -->
+<header class="admin-page-header">
+<div>
+<h2 class="font-display-lg text-headline-md text-primary">Báo cáo thống kê</h2>
+<p class="font-body-md text-on-surface-variant">Phân tích dữ liệu kinh doanh định kỳ</p>
+</div>
+<div class="flex items-center gap-3">
+<!-- Time Range Filter -->
+<div class="flex items-center bg-surface-container-low rounded-lg p-1 border border-outline-variant">
+<button class="px-4 py-1.5 font-label-md text-label-md bg-white shadow-sm rounded-md text-primary">7 Ngày</button>
+<button class="px-4 py-1.5 font-label-md text-label-md text-on-surface-variant hover:bg-surface-variant rounded-md transition-colors">30 Ngày</button>
+<button class="px-4 py-1.5 font-label-md text-label-md text-on-surface-variant hover:bg-surface-variant rounded-md transition-colors">Quý này</button>
+<button class="px-3 py-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+</button>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-2">
+<button class="px-4 h-10 border border-outline rounded-lg flex items-center gap-2 text-primary font-label-md hover:bg-surface-container transition-colors active:scale-95">
+<span class="material-symbols-outlined">description</span>
+                        Excel
+                    </button>
+<button class="px-4 h-10 bg-primary text-on-primary rounded-lg flex items-center gap-2 font-label-md hover:opacity-90 transition-opacity active:scale-95">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+                        PDF
+                    </button>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="admin-page-content space-y-gutter-desktop">
+<!-- Quick Stats Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-secondary-fixed text-on-secondary-fixed-variant rounded-lg material-symbols-outlined">payments</span>
+<span class="text-green-600 font-label-md flex items-center gap-1">+12% <span class="material-symbols-outlined text-[14px]">trending_up</span></span>
+</div>
+<div class="mt-4">
+<p class="font-label-md text-on-surface-variant uppercase tracking-wider">Tổng Doanh Thu</p>
+<h3 class="font-display-lg text-headline-lg mt-1">128.450.000đ</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-lg material-symbols-outlined">shopping_bag</span>
+<span class="text-green-600 font-label-md flex items-center gap-1">+5% <span class="material-symbols-outlined text-[14px]">trending_up</span></span>
+</div>
+<div class="mt-4">
+<p class="font-label-md text-on-surface-variant uppercase tracking-wider">Đơn Hàng Mới</p>
+<h3 class="font-display-lg text-headline-lg mt-1">1,240</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-primary-fixed text-on-primary-fixed-variant rounded-lg material-symbols-outlined">person_add</span>
+<span class="text-red-600 font-label-md flex items-center gap-1">-2% <span class="material-symbols-outlined text-[14px]">trending_down</span></span>
+</div>
+<div class="mt-4">
+<p class="font-label-md text-on-surface-variant uppercase tracking-wider">Khách Hàng Mới</p>
+<h3 class="font-display-lg text-headline-lg mt-1">458</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="p-2 bg-outline-variant text-on-surface-variant rounded-lg material-symbols-outlined">auto_stories</span>
+<span class="text-on-surface-variant font-label-md flex items-center gap-1">85% <span class="material-symbols-outlined text-[14px]">inventory</span></span>
+</div>
+<div class="mt-4">
+<p class="font-label-md text-on-surface-variant uppercase tracking-wider">Tỉ Lệ Lấp Đầy Kho</p>
+<h3 class="font-display-lg text-headline-lg mt-1">12,500 <span class="text-body-md font-body-md font-normal">cuốn</span></h3>
+</div>
+</div>
+</div>
+<!-- Revenue Chart & Best Sellers Column Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter-desktop">
+<!-- Revenue Line Chart Visualization -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)]">
+<div class="flex justify-between items-center mb-8">
+<h4 class="font-display-lg text-headline-md text-primary">Biểu đồ doanh thu</h4>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="font-label-md">Tháng này</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-outline-variant"></span>
+<span class="font-label-md">Tháng trước</span>
+</div>
+</div>
+</div>
+<!-- Simulated Line Chart -->
+<div class="relative h-64 w-full flex flex-col justify-between">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="border-b border-outline-variant/30 h-0 w-full"></div>
+<div class="border-b border-outline-variant/30 h-0 w-full"></div>
+<div class="border-b border-outline-variant/30 h-0 w-full"></div>
+<div class="border-b border-outline-variant/30 h-0 w-full"></div>
+<div class="border-b border-outline-variant h-0 w-full"></div>
+</div>
+<div class="relative h-full flex items-end justify-between px-4">
+<!-- Visual placeholder for a line chart curve using SVG paths -->
+<svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+<path class="text-primary" d="M0 180 Q 50 160, 100 190 T 200 120 T 300 150 T 400 80 T 500 100 T 600 40 T 700 60 T 800 20" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-outline-variant" d="M0 200 Q 50 190, 100 220 T 200 180 T 300 190 T 400 160 T 500 180 T 600 140 T 700 150 T 800 130" fill="none" stroke="currentColor" stroke-dasharray="4 4" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<div class="flex justify-between mt-4 px-4 font-label-md text-on-surface-variant">
+<span>01 Th12</span>
+<span>07 Th12</span>
+<span>14 Th12</span>
+<span>21 Th12</span>
+<span>28 Th12</span>
+</div>
+</div>
+<!-- Top Sellers Bar Chart -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)]">
+<h4 class="font-display-lg text-headline-md text-primary mb-8">Top sách bán chạy</h4>
+<div class="space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between items-center font-label-md">
+<span class="text-primary truncate pr-4">Mắt Biếc - Nguyễn Nhật Ánh</span>
+<span class="text-on-surface-variant">420 bản</span>
+</div>
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[95%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center font-label-md">
+<span class="text-primary truncate pr-4">Suối Nguồn - Ayn Rand</span>
+<span class="text-on-surface-variant">380 bản</span>
+</div>
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[85%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center font-label-md">
+<span class="text-primary truncate pr-4">Nhà Giả Kim - Paulo Coelho</span>
+<span class="text-on-surface-variant">315 bản</span>
+</div>
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[72%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center font-label-md">
+<span class="text-primary truncate pr-4">Đại Dương Đen - Đặng Hoàng Giang</span>
+<span class="text-on-surface-variant">290 bản</span>
+</div>
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center font-label-md">
+<span class="text-primary truncate pr-4">Hoàng Tử Bé</span>
+<span class="text-on-surface-variant">210 bản</span>
+</div>
+<div class="w-full bg-surface-container h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[50%]"></div>
+</div>
+</div>
+</div>
+<button class="w-full mt-8 text-primary font-label-md hover:underline transition-all">Xem tất cả báo cáo sản phẩm</button>
+</div>
+</div>
+<!-- Inventory & Customers Two-Column Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter-desktop">
+<!-- Inventory Report -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)]">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-display-lg text-headline-md text-primary">Báo cáo tồn kho</h4>
+<span class="px-3 py-1 bg-error-container text-on-error-container text-xs font-bold rounded-full uppercase tracking-tighter">Cần nhập thêm</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="border-b border-outline-variant font-label-md text-on-surface-variant">
+<tr>
+<th class="pb-3 font-medium">Tên sách</th>
+<th class="pb-3 font-medium">Tồn kho</th>
+<th class="pb-3 font-medium">Trạng thái</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-4 font-body-md text-primary">Những Đứa Trẻ Nhà Mann</td>
+<td class="py-4 font-label-md">05</td>
+<td class="py-4 text-error font-label-md flex items-center gap-1">Sắp hết</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-4 font-body-md text-primary">Văn Hóa Việt Nam</td>
+<td class="py-4 font-label-md">12</td>
+<td class="py-4 text-on-surface-variant font-label-md">Ổn định</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-4 font-body-md text-primary">Nghệ Thuật Tư Duy</td>
+<td class="py-4 font-label-md">02</td>
+<td class="py-4 text-error font-label-md">Sắp hết</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-4 font-body-md text-primary">Lược Sử Thời Gian</td>
+<td class="py-4 font-label-md">45</td>
+<td class="py-4 text-on-surface-variant font-label-md">Ổn định</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Customer Engagement -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)]">
+<h4 class="font-display-lg text-headline-md text-primary mb-6">Khách hàng tiêu biểu</h4>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-4 hover:bg-surface-container-low rounded-xl transition-all border border-transparent hover:border-outline-variant">
+<img alt="Customer" class="w-12 h-12 rounded-full object-cover" data-alt="A portrait of a sophisticated woman with a warm, professional expression, set against a blurred bookstore background. The lighting is soft and natural, emphasizing a premium and editorial aesthetic with a warm, creamy color palette consistent with a high-end literary brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUWfMBbZ6jA69lQl3SYhHoh3QalG9MpG7NBfUDj11nOGgQTQDGukhMQJZsP-yYqsr0K5VAzbJDtiGgHgdDdZ8LJS5SjEUGgQ7Ng7uyFhOlqjNDiD6WQTxa_ZSJ21w0gvGouYn0s8OAjPYlc0Q6wExd46FhbuLFKYfo2bHtM1eWNpJ01k2jiB9-31I7j4eiz1R0S4NbY5aejyO7bJkZRJOctiOcgg-DnFuuIq9lR8omd-QVe1S93NQlaX43dyDlsJPx-GDRn-Kx9wg">
+<div class="flex-1">
+<p class="font-label-md text-primary">Minh Anh Nguyễn</p>
+<p class="font-caption text-on-surface-variant">Thành viên Kim cương • 12 Đơn hàng</p>
+</div>
+<div class="text-right">
+<p class="font-label-md text-primary">12,400k</p>
+<p class="font-caption text-green-600">Hoàn thành</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 hover:bg-surface-container-low rounded-xl transition-all border border-transparent hover:border-outline-variant">
+<img alt="Customer" class="w-12 h-12 rounded-full object-cover" data-alt="A portrait of a man in his late 20s wearing glasses and a minimalist sweater, looking thoughtful. The image has a clean, modern aesthetic with soft shadows and a warm color tone, fitting the cozy intellectualism of a high-end independent book retail brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsZ03xRGV4hBZxv5aUUyxaKz7p0873xcq8r0InD21dN-T28D63FpSkg2Lu9WVwYsB7QDdAbFvp11dYW64nOQxuWpBp_6r6v_u0KeMiUf6_apYh-hnxyk4sPxC94vRD9V3vn6woB_gZb6VUcHebSgq0m5FLz90W7ZZPDVbU6iMjyzT5s4KnMppbaaHd9VCkZgw9gROL55kZinAeO0FzcV3_ErOlaS7g8dxRgX_2jAX71Z_qnOATkMv3gXdyA61WJO4ni-Jtq2u72wU">
+<div class="flex-1">
+<p class="font-label-md text-primary">Lê Hoàng Việt</p>
+<p class="font-caption text-on-surface-variant">Thành viên Vàng • 8 Đơn hàng</p>
+</div>
+<div class="text-right">
+<p class="font-label-md text-primary">8,250k</p>
+<p class="font-caption text-green-600">Hoàn thành</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 hover:bg-surface-container-low rounded-xl transition-all border border-transparent hover:border-outline-variant">
+<img alt="Customer" class="w-12 h-12 rounded-full object-cover" data-alt="A close-up portrait of a cheerful young woman with a classic style, lit by soft afternoon sunlight. The composition is clean and focused, reflecting an editorial lifestyle aesthetic that evokes calm and curiosity within a modern literary context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBC8Nkzctp0XipLv_2kYHMBD3EfG3fZ1VlWJ7vmk_XoESi9wyhKQUrGBqHcqMv_FkzTwjIOi1epNl6zod4Lm6-en1hj861d-N8z_CGXwImR32ixufCXbf1pBXS5EkTYAYyP33ov0NSgZOxnAOsEfhMCoDipwfgMXsad-t_vBXxgTnFVidkycvE9s1Tej2_eshK6LDAW5L5VU8P5vmhNKvJ8Hl9Q-nUt0MXVlOMS_phnaD_h_qstbxsntyb_bgvOobtxl3X4y0O-iH8">
+<div class="flex-1">
+<p class="font-label-md text-primary">Trần Thị Lan</p>
+<p class="font-caption text-on-surface-variant">Thành viên Mới • 2 Đơn hàng</p>
+</div>
+<div class="text-right">
+<p class="font-label-md text-primary">1,100k</p>
+<p class="font-caption text-green-600">Hoàn thành</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer (Shared Component Style) -->
+<footer class="mt-auto border-t border-outline-variant bg-surface-container-highest w-full py-8 px-8">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex flex-col items-center md:items-start">
+<h5 class="font-display-lg text-headline-md text-primary">The Open Folio</h5>
+<p class="font-caption text-on-surface-variant mt-1">© 2024 The Open Folio. All rights reserved.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">About Us</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+</main>
+</body></html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html><html class="light" lang="vi"><%- include('partials/head', { title: "Admin" }) %>
+<body class="flex min-h-screen">
+<!-- SideNavBar Shell -->
+<%- include('partials/sidebar', { activePage: 'promotions' }) %>
+<!-- Main Content -->
+<main class="admin-main">
+<!-- Header -->
+<header class="admin-page-header">
+<div>
+<h2 class="font-display-lg text-headline-lg text-primary">Quản lý khuyến mãi</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Tạo và theo dõi các chương trình ưu đãi cho thư viện số.</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                Tạo mã mới
+            </button>
+</header>
+<div class="admin-page-content space-y-gutter-desktop">
+<!-- Bento Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] col-span-1">
+<span class="material-symbols-outlined text-secondary mb-2" data-icon="bolt">bolt</span>
+<h3 class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Đang hoạt động</h3>
+<p class="font-display-lg text-display-lg text-primary">12</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] col-span-1">
+<span class="material-symbols-outlined text-outline mb-2" data-icon="schedule">schedule</span>
+<h3 class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Sắp diễn ra</h3>
+<p class="font-display-lg text-display-lg text-on-surface">05</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] md:col-span-2 flex items-center justify-between relative overflow-hidden">
+<div>
+<h3 class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Hiệu quả nhất</h3>
+<p class="font-headline-md text-headline-md text-primary mt-1">SUMMER2024</p>
+<p class="font-caption text-caption text-secondary mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                            +24% lượt mượn sách
+                        </p>
+</div>
+<div class="w-32 h-32 opacity-20 absolute -right-4 -bottom-4">
+<span class="material-symbols-outlined text-9xl text-primary" data-icon="rewarded_ads">rewarded_ads</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- List Table Section -->
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] overflow-hidden">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-primary">Danh sách mã giảm giá</h3>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 border border-outline-variant rounded-full text-label-md font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none bg-surface-bright" placeholder="Tìm tên hoặc mã..." type="text">
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container text-on-surface-variant">
+<tr>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider">Chương trình</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider">Loại &amp; Giá trị</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider">Thời hạn</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider">Trạng thái</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-bold">Chào hè rực rỡ</span>
+<code class="text-primary font-bold bg-primary-fixed/30 px-2 py-0.5 rounded text-sm w-fit mt-1">HE2024</code>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Giảm giá %</span>
+<span class="text-secondary font-bold">20%</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col text-caption font-caption text-on-surface-variant">
+<span>Bắt đầu: 01/06/2024</span>
+<span>Kết thúc: 30/06/2024</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                                Đang chạy
+                                            </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-bold">Ngày hội đọc sách</span>
+<code class="text-primary font-bold bg-primary-fixed/30 px-2 py-0.5 rounded text-sm w-fit mt-1">BOOKDAY</code>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Cố định</span>
+<span class="text-secondary font-bold">50,000đ</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col text-caption font-caption text-on-surface-variant">
+<span>Bắt đầu: 15/04/2024</span>
+<span>Kết thúc: 25/04/2024</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full bg-surface-variant text-on-surface-variant text-xs font-bold flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                                                Kết thúc
+                                            </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-bold">Thành viên mới</span>
+<code class="text-primary font-bold bg-primary-fixed/30 px-2 py-0.5 rounded text-sm w-fit mt-1">NEWBIE</code>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Giảm giá %</span>
+<span class="text-secondary font-bold">10%</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-col text-caption font-caption text-on-surface-variant">
+<span>Vĩnh viễn</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                                Đang chạy
+                                            </span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 bg-surface-container-lowest border-t border-outline-variant flex justify-between items-center">
+<span class="font-caption text-caption text-on-surface-variant">Hiển thị 1-10 trên 45 mã khuyến mãi</span>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-variant disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-variant">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Form Creation Section -->
+<div class="lg:col-span-1">
+<div class="bg-surface-container-highest rounded-xl border border-outline-variant shadow-[0px_8px_30px_rgba(74,69,65,0.12)] p-6 sticky top-28">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+<h3 class="font-headline-md text-headline-md text-primary">Tạo chương trình mới</h3>
+</div>
+<form class="space-y-5">
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Tên chương trình</label>
+<input class="w-full px-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="VD: Khuyến mãi Thu 2024" type="text">
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Mã giảm giá</label>
+<input class="w-full px-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none uppercase font-bold" placeholder="FALL24" type="text">
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Trạng thái</label>
+<select class="w-full px-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none">
+<option>Đang chạy</option>
+<option>Sắp ra mắt</option>
+<option>Bản nháp</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Loại giảm giá</label>
+<select class="w-full px-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+<option>Phần trăm (%)</option>
+<option>Cố định (đ)</option>
+<option>Free Shipping</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Giá trị</label>
+<input class="w-full px-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="20" type="number">
+</div>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Điều kiện áp dụng</label>
+<textarea class="w-full px-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none resize-none" placeholder="VD: Áp dụng cho đơn từ 200k, tối đa 50k..." rows="2"></textarea>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Ngày bắt đầu</label>
+<input class="w-full px-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none" type="date">
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Ngày kết thúc</label>
+<input class="w-full px-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none" type="date">
+</div>
+</div>
+<div class="pt-4 space-y-3">
+<button class="w-full bg-primary text-on-primary py-4 rounded-lg font-label-md text-label-md hover:opacity-90 transition-all flex justify-center items-center gap-2 shadow-md" type="submit">
+                                    Xác nhận lưu mã
+                                </button>
+<button class="w-full border border-outline text-on-surface py-3 rounded-lg font-label-md text-label-md hover:bg-surface-container transition-all" type="reset">
+                                    Hủy bỏ
+                                </button>
+</div>
+</form>
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+e.preventDefault();
+alert('Đã thêm mã khuyến mãi thành công (Mock)!');
+});
+</script>
+</div>
+</div>
+</div>
+<!-- Footer Area -->
+<footer class="mt-12 py-12 border-t border-outline-variant bg-surface-container-highest w-full rounded-t-3xl">
+<div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="col-span-2">
+<h4 class="font-display-lg text-headline-md text-primary mb-4">The Open Folio</h4>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Nền tảng quản lý thư viện hiện đại, kiến tạo không gian đọc sách số văn minh và hiệu quả cho mọi người.</p>
+</div>
+<div>
+<h5 class="font-label-md text-label-md text-primary uppercase tracking-widest mb-6">Liên kết</h5>
+<ul class="space-y-4 font-body-md text-body-md text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Hướng dẫn sử dụng</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Chính sách bảo mật</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Hỗ trợ kỹ thuật</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-md text-label-md text-primary uppercase tracking-widest mb-6">Trạng thái hệ thống</h5>
+<div class="flex items-center gap-2 text-secondary">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-caption text-caption">Hoạt động bình thường</span>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop mt-12 pt-8 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-caption text-caption text-on-surface-variant">© 2024 The Open Folio. All rights reserved.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="language">language</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="help_center">help_center</span>
+</div>
+</div>
+</footer>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html><html class="light" lang="vi"><%- include('partials/head', { title: "Admin" }) %>
+<body class="flex min-h-screen">
+<!-- SideNavBar Component -->
+<%- include('partials/sidebar', { activePage: 'inventory' }) %>
+<!-- Main Content -->
+<main class="admin-main">
+<!-- Header Section -->
+<header class="admin-page-header">
+<div class="flex items-center gap-4">
+<h2 class="font-display-lg text-headline-lg text-primary">Quản lý tồn kho</h2>
+<div class="flex gap-2 ml-8">
+<span class="px-3 py-1 bg-surface-container-high rounded-full font-label-md text-on-surface-variant">Tổng: 1,284</span>
+<span class="px-3 py-1 bg-error-container rounded-full font-label-md text-on-error-container">Hết hàng: 12</span>
+<span class="px-3 py-1 bg-tertiary-fixed rounded-full font-label-md text-on-tertiary-fixed-variant">Sắp hết: 45</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative w-80">
+<input class="w-full h-10 pl-10 pr-4 bg-surface-container-low border border-outline-variant rounded-full text-body-md focus:outline-none focus:border-primary transition-colors" placeholder="Tìm kiếm mã sách, tên sách..." type="text">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">notifications</span>
+<div class="w-10 h-10 rounded-full border border-outline overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a library administrator in a minimalist studio setting. The lighting is soft and even, typical of a high-end corporate portrait. He has a warm, intellectual expression. The background is a soft, muted cream color, maintaining the cozy and minimalist aesthetic of the brand system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfwC7X7Iox1hlDKCfGwsOpD884KzkZuEAxHRDAZhpUKzc8A7-UBxdTRx6QAHPvqXKAwgeV8UTeFd4n7bcjaK76OBTSeIPdzj8dXBRTC40goGX__LA52CYoy0vt8myzZuKR7wUMuH_ikikPAJzyKKBU3w-iqo0vtetR7qvi4EGcqUyuARL2s8dpVwjr9XldqmkdhjcC7yAk_k9WXMHF1PReBjiOBCo4LEtBZgli7pTopYyU0zu6H21D-P3D7XPnvMisPNf4WZ80jIM">
+</div>
+</div>
+</div>
+</header>
+<div class="admin-page-content">
+<!-- Filter Bar -->
+<div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+<div class="flex gap-2">
+<button class="px-6 py-2.5 bg-primary text-on-primary rounded-full font-label-md shadow-sm">Tất cả</button>
+<button class="px-6 py-2.5 bg-surface-container-high text-on-surface-variant rounded-full font-label-md hover:bg-surface-variant transition-colors">Còn hàng</button>
+<button class="px-6 py-2.5 bg-surface-container-high text-on-surface-variant rounded-full font-label-md hover:bg-surface-variant transition-colors">Sắp hết hàng</button>
+<button class="px-6 py-2.5 bg-surface-container-high text-on-surface-variant rounded-full font-label-md hover:bg-surface-variant transition-colors">Hết hàng</button>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 px-4 py-2.5 border border-outline-variant rounded-lg font-label-md text-on-surface-variant hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined">filter_list</span>
+                        Bộ lọc nâng cao
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2.5 border border-outline-variant rounded-lg font-label-md text-on-surface-variant hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined">download</span>
+                        Xuất báo cáo (CSV)
+                    </button>
+</div>
+</div>
+<!-- Inventory Table Bento Grid Container -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0px_4px_20px_rgba(74,69,65,0.06)] overflow-hidden border border-outline-variant">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 font-label-md text-on-surface-variant border-b border-outline-variant uppercase tracking-wider">Mã Sách</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant border-b border-outline-variant uppercase tracking-wider">Sách</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant border-b border-outline-variant uppercase tracking-wider">Thể loại</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant border-b border-outline-variant uppercase tracking-wider">Tồn kho</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant border-b border-outline-variant uppercase tracking-wider">Cảnh báo</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant border-b border-outline-variant uppercase tracking-wider">Trạng thái</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant border-b border-outline-variant uppercase tracking-wider">Hành động</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1: Normal -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-5 font-body-md text-on-surface">#BK-9021</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<img class="w-10 h-14 rounded-sm object-cover shadow-sm" data-alt="A detailed close-up of a minimalist book cover titled 'The Art of Simplicity' resting on a rustic wooden table. The cover features elegant serif typography in dark brown against a soft cream background. Warm, natural morning light streams across the cover, creating long, soft shadows and a calm, intellectual mood perfect for an independent bookstore brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkNuqIm-jqedmlwDRWTfltDj2otHJ3zkJLQZLJZtO3AlDm9IaZJTEIOk9AUDB_MvRT3plyrQV7KbJWNkTxGyBB7by-QMNnrlS2cYeQYinBrHdIVQECeEVDWeuxGRP5pm27I_63OcRAVtskkUD-6iqk-Ly3F9j8SI89nfkr4ZgzTQvnw0GwFjWJIk75ZxS2LwnBhEKw8iyde70YxnJqqISAIjpdhWY9eci0G51dem4EttMAG7oZgNLU58Wpo2wxAAcHc8ZrYkqR-dE">
+<div>
+<div class="font-label-md text-on-surface">The Art of Simplicity</div>
+<div class="font-caption text-on-surface-variant">Dominique Loreau</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">Lối sống</td>
+<td class="px-6 py-5 font-body-md text-on-surface">142</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">10</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full font-label-md text-xs">Còn hàng</span>
+</td>
+<td class="px-6 py-5">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 2: Warning (Yellow) -->
+<tr class="hover:bg-surface-container transition-colors group bg-tertiary-fixed/10">
+<td class="px-6 py-5 font-body-md text-on-surface">#BK-4452</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<img class="w-10 h-14 rounded-sm object-cover shadow-sm" data-alt="A professional book cover of a classical literature masterpiece, 'Great Expectations', displayed vertically. The design is modern minimalist with thick paper texture and gold-leaf lettering. The background is a deep forest green, creating a moody and sophisticated tone. Soft focused background of library shelves enhances the cozy intellectualism vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHXc8glYOL9JVeTqPoa1ldakh_G4CMutMdmK_hpOcb_LY3csn-D-9M5ZR1dfANLIkCmyfniyfVYk1bY1zny1KOPGJCoAHhdbgueR5e5T0BODFV9HTQI8gfforDkzXZhJr_2G2UhYsNWMzSR1k250lxQCY5TyjS4ShE5m8bCI9CsbhbzVEEQeYh-DX5IDr0hubWT_F7CxuK1Q1ky51QVmV9i71Le0g3QHeiIcTJqJN_BULx5n80Gg4yqDHKinydkFeNkTb0Ixb8iJg">
+<div>
+<div class="font-label-md text-on-surface">Great Expectations</div>
+<div class="font-caption text-on-surface-variant">Charles Dickens</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">Kinh điển</td>
+<td class="px-6 py-5 font-body-md text-tertiary font-bold">8</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">15</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full font-label-md text-xs flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                                    Sắp hết hàng
+                                </span>
+</td>
+<td class="px-6 py-5">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 3: Out of Stock (Red) -->
+<tr class="hover:bg-surface-container transition-colors group bg-error-container/10">
+<td class="px-6 py-5 font-body-md text-on-surface">#BK-1108</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<img class="w-10 h-14 rounded-sm object-cover shadow-sm" data-alt="A minimalist and contemporary book cover for a title called 'Digital Silence'. The design features a single abstract geometric circle in the center. The color palette is strictly monochromatic, with shades of white, light grey, and charcoal. The lighting is crisp and cool, giving it a modern and clean tech-inspired editorial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAya54ve4lJSWWNlyiE0DGPluIFLa5jY-HR55uBTYxVo4cEj2NAQzVnh1Hjy1XvQ25RzOWicnHxTcESiVgK1PL6fYycxhCc5oWWSSQ-wPRXPeWC2xf9rwaBxQYWkkSRl42hiR39cwKKZafmAKum1VnU-3MA8nLKu_FdziQSg_EBTZqOfZDMUXxk5yeyCUe_CzhPnJDzjHMC43XNzcPo_eVxykYedQE2rTVzm4fKxQRyvtzGkTYdn9ArtzgG0-IzY52GP5RunzeCRd0">
+<div>
+<div class="font-label-md text-on-surface">Digital Silence</div>
+<div class="font-caption text-on-surface-variant">Sarah J. Miller</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">Công nghệ</td>
+<td class="px-6 py-5 font-body-md text-error font-bold">0</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">5</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-error-container text-on-error-container rounded-full font-label-md text-xs flex items-center gap-1 w-fit">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                                    Hết hàng
+                                </span>
+</td>
+<td class="px-6 py-5">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 4: Normal -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-6 py-5 font-body-md text-on-surface">#BK-7721</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<img class="w-10 h-14 rounded-sm object-cover shadow-sm" data-alt="A soft, warm-toned book cover featuring a delicate watercolor illustration of a botanical garden. The title 'Quiet Moments' is written in a graceful, handwritten script font. The scene is illuminated by golden hour light, evoking a sense of calm and nostalgia. High-end paper texture is visible on the cover's surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL26L0-7nvpA0ykxQTru1Vij2kvFmvi926AWKe51SgKbQJFn2AGNVovy26_zIE-2pLWOtE_Mp8Vnv1-0Rj-3LDwA37r_89SaJ9-Im3hF2gigsl0yFQpXd7Ydo3FXCJaFDmEjJQfseWAi9-S_k6HIFNHZwBoxUMCMZ8F1NBZua-GyT1x1gYkiEWW9AfMoCIAr-pM7uRVpX17bUPBa_Qr8wfCRSpdlpkrRPW5qKvg364pD8BiR6Kpqwacrh6KAdU5haV2Xc-tgs4M_0">
+<div>
+<div class="font-label-md text-on-surface">Quiet Moments</div>
+<div class="font-caption text-on-surface-variant">Elena Rossi</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">Thơ ca</td>
+<td class="px-6 py-5 font-body-md text-on-surface">45</td>
+<td class="px-6 py-5 font-body-md text-on-surface-variant">10</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full font-label-md text-xs">Còn hàng</span>
+</td>
+<td class="px-6 py-5">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination -->
+<div class="px-6 py-4 flex items-center justify-between border-t border-outline-variant bg-surface-container-low">
+<span class="font-caption text-on-surface-variant">Hiển thị 1 - 4 trên tổng số 1,284 sách</span>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-variant transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-label-md">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-variant transition-colors font-label-md">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-variant transition-colors font-label-md">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-64 right-0 bg-surface-container-highest dark:bg-surface-container-highest border-t border-outline-variant px-margin-desktop py-4 flex justify-between items-center z-10">
+<div class="font-caption text-on-surface-variant">
+            © 2024 The Open Folio. All rights reserved.
+        </div>
+<div class="flex gap-6">
+<a class="font-caption text-on-surface-variant hover:text-primary transition-colors" href="#">About Us</a>
+<a class="font-caption text-on-surface-variant hover:text-primary transition-colors" href="#">Shipping Policy</a>
+<a class="font-caption text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-caption text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+</footer>
+</body></html>

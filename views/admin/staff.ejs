@@ -1,0 +1,287 @@
+<!DOCTYPE html><html class="light" lang="vi"><%- include('partials/head', { title: "Admin" }) %>
+<body class="bg-background text-on-surface flex min-h-screen">
+<!-- SideNavBar Component -->
+<%- include('partials/sidebar', { activePage: 'staff' }) %>
+<!-- Main Content Canvas -->
+<main class="admin-main">
+<!-- Header Section -->
+<header class="admin-page-header">
+<div>
+<nav class="flex items-center gap-2 text-on-surface-variant font-label-md mb-2">
+<span>Admin</span>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary">Librarians &amp; Staff</span>
+</nav>
+<h2 class="font-display-lg text-headline-lg text-primary">Staff Management</h2>
+</div>
+<div class="flex gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-md w-64" placeholder="Search staff..." type="text">
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-md flex items-center gap-2 shadow-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[20px]" data-icon="person_add">person_add</span>
+                    Thêm nhân viên
+                </button>
+</div>
+</header>
+<div class="admin-page-content">
+<!-- Bento Grid Stats Summary -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-gutter-desktop mb-12">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm flex flex-col gap-2">
+<span class="text-on-surface-variant font-label-md">Total Personnel</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-headline-lg text-primary">24</span>
+<span class="text-secondary font-label-md">+2 this month</span>
+</div>
+</div>
+<div class="bg-secondary-container p-6 rounded-xl border border-secondary shadow-sm flex flex-col gap-2">
+<span class="text-on-secondary-container font-label-md">Active Librarians</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-headline-lg text-on-secondary-container">18</span>
+<span class="text-on-secondary-container opacity-70 font-caption">Currently online</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm flex flex-col gap-2">
+<span class="text-on-surface-variant font-label-md">Warehouse Ops</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-headline-lg text-primary">4</span>
+<span class="text-on-surface-variant opacity-60 font-caption">2 Pending shifts</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm flex flex-col gap-2">
+<span class="text-on-surface-variant font-label-md">Avg Response Time</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-headline-lg text-primary">12m</span>
+<span class="text-error font-label-md">+5% slow</span>
+</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-12 gap-gutter-desktop items-start">
+<!-- Staff Table (Main Section) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h3 class="font-display-lg text-headline-md text-primary">Staff Roster</h3>
+<div class="flex gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-md">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant font-label-md border-b border-outline-variant">
+<th class="px-6 py-4 font-semibold">Mã NV</th>
+<th class="px-6 py-4 font-semibold">Họ tên &amp; Email</th>
+<th class="px-6 py-4 font-semibold">Vai trò</th>
+<th class="px-6 py-4 font-semibold">Trạng thái</th>
+<th class="px-6 py-4 font-semibold text-right">Thao tác</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-5 text-on-surface-variant font-label-md">#LIB-001</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold">AN</div>
+<div>
+<p class="font-semibold text-primary">Alex Nguyen</p>
+<p class="text-caption text-on-surface-variant">alex.n@openfolio.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-caption font-semibold">Admin</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-on-surface font-label-md">Đang làm việc</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-5 text-on-surface-variant font-label-md">#LIB-042</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="A professional headshot of a female librarian with soft natural lighting in a cozy library setting. She is wearing a warm brown sweater, consistent with the brand's earthy palette. The mood is calm and intellectual, representing a high-end academic atmosphere with a blurred background of book-filled shelves." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ6TjObY1p0eBU93Y7d1ifw4FoL3GCrhVKmnWJ0ZsX5J_m1VLXvQaCMrSrPL3c3Ih2UarfuIQU6zHiGAF-K-i60toAgDrS4j8_cpNVcfaGHzzTPPZ6gmPr7xu4KmS8rpdN9mSkfhMf-J-CFm6BRoeGOKpI5625ERBSAdJ67Gosb2KYSKQp8N2644GVBIrO0vsXoy3F8ElB0jCtj8Lt3ArSp8FVu6XABdHcIiIrQK9usyJnmqYUh11SAQZ_1epZ4oGgUXT55rRJMG0">
+<div>
+<p class="font-semibold text-primary">Elena Rodriguez</p>
+<p class="text-caption text-on-surface-variant">e.rod@openfolio.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-tertiary-fixed-dim text-on-tertiary-fixed-variant rounded-full text-caption font-semibold">Bán hàng</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-on-surface font-label-md">Đang làm việc</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-5 text-on-surface-variant font-label-md">#WH-009</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant font-bold">MK</div>
+<div>
+<p class="font-semibold text-primary">Marcus Kim</p>
+<p class="text-caption text-on-surface-variant">m.kim@openfolio.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-variant text-on-surface-variant rounded-full text-caption font-semibold">Kho</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="text-on-surface-variant font-label-md">Nghỉ phép</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-5 text-on-surface-variant font-label-md">#LIB-015</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold">SH</div>
+<div>
+<p class="font-semibold text-primary">Sarah Hudson</p>
+<p class="text-caption text-on-surface-variant">s.hudson@openfolio.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-tertiary-fixed-dim text-on-tertiary-fixed-variant rounded-full text-caption font-semibold">Bán hàng</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-on-surface font-label-md">Đang làm việc</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 border-t border-outline-variant flex justify-between items-center text-on-surface-variant font-label-md">
+<span>Showing 1-4 of 24 librarians</span>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-outline-variant rounded-lg hover:bg-surface-variant transition-colors disabled:opacity-50" disabled="">Previous</button>
+<button class="px-4 py-2 border border-outline-variant rounded-lg hover:bg-surface-variant transition-colors">Next</button>
+</div>
+</div>
+</div>
+<!-- Add/Edit Form (Side Panel Style) -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter-desktop">
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant shadow-sm">
+<h3 class="font-display-lg text-headline-md text-primary mb-6">Staff Details</h3>
+<form class="space-y-6">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Họ và tên</label>
+<input class="w-full border border-outline-variant rounded-lg p-3 bg-white focus:ring-primary focus:border-primary font-body-md" type="text" value="Elena Rodriguez">
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Email công việc</label>
+<input class="w-full border border-outline-variant rounded-lg p-3 bg-white focus:ring-primary focus:border-primary font-body-md" type="email" value="e.rod@openfolio.com">
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Vai trò</label>
+<select class="w-full border border-outline-variant rounded-lg p-3 bg-white focus:ring-primary focus:border-primary font-body-md">
+<option>Admin</option>
+<option selected="">Bán hàng</option>
+<option>Kho</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Trạng thái</label>
+<select class="w-full border border-outline-variant rounded-lg p-3 bg-white focus:ring-primary focus:border-primary font-body-md">
+<option selected="">Hoạt động</option>
+<option>Nghỉ phép</option>
+<option>Tạm khóa</option>
+</select>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant">
+<h4 class="font-label-md text-primary mb-4 uppercase tracking-wider">Phân quyền chi tiết</h4>
+<div class="space-y-3">
+<label class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-container transition-colors cursor-pointer border border-transparent hover:border-outline-variant">
+<input checked="" class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox">
+<div>
+<p class="font-label-md text-on-surface">Quản lý kho</p>
+<p class="text-caption text-on-surface-variant">Cho phép nhập, xuất và kiểm kê sách</p>
+</div>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-container transition-colors cursor-pointer border border-transparent hover:border-outline-variant">
+<input checked="" class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox">
+<div>
+<p class="font-label-md text-on-surface">Xử lý đơn hàng</p>
+<p class="text-caption text-on-surface-variant">Truy cập lịch sử giao dịch và vận chuyển</p>
+</div>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-container transition-colors cursor-pointer border border-transparent hover:border-outline-variant">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox">
+<div>
+<p class="font-label-md text-on-surface">Quản trị hệ thống</p>
+<p class="text-caption text-on-surface-variant">Cài đặt API, bảo mật và tài chính</p>
+</div>
+</label>
+</div>
+</div>
+<div class="flex gap-4 pt-4">
+<button class="flex-1 bg-primary text-on-primary py-3 rounded-lg font-label-md hover:opacity-90 transition-opacity" type="submit">Cập nhật</button>
+<button class="px-6 py-3 border border-error text-error rounded-lg font-label-md hover:bg-error-container transition-colors" type="button">Xóa</button>
+</div>
+</form>
+</div>
+<div class="bg-primary-container p-8 rounded-xl text-on-primary-container relative overflow-hidden group">
+<div class="relative z-10">
+<h4 class="font-display-lg text-headline-md mb-2">Need Help?</h4>
+<p class="font-body-md opacity-80 mb-6">Our system documentation provides full guides on librarian permissions and roles.</p>
+<a class="inline-flex items-center gap-2 font-label-md hover:underline" href="#">
+                            View Documentation 
+                            <span class="material-symbols-outlined text-[18px]" data-icon="open_in_new">open_in_new</span>
+</a>
+</div>
+<!-- Abstract Background Pattern -->
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
+<span class="material-symbols-outlined text-[120px]" data-icon="auto_stories">auto_stories</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
