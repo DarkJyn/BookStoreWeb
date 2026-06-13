@@ -9,10 +9,18 @@
     </div>
     <div class="flex items-center gap-4 md:gap-6">
       <!-- Search Bar -->
-      <div class="hidden lg:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant w-64 group focus-within:border-primary transition-all">
-        <span class="material-symbols-outlined text-on-surface-variant text-body-md mr-2">search</span>
-        <input class="bg-transparent border-none focus:ring-0 text-label-md w-full placeholder:text-on-surface-variant" placeholder="Search for books..." type="text">
-      </div>
+      <form action="/products" method="GET" class="hidden lg:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant w-64 group focus-within:border-primary focus-within:w-80 transition-all duration-300">
+        <span class="material-symbols-outlined text-on-surface-variant text-body-md mr-2 flex-shrink-0">search</span>
+        <input
+          id="header-search-input"
+          name="q"
+          value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+          class="bg-transparent border-none focus:ring-0 text-label-md w-full placeholder:text-on-surface-variant outline-none"
+          placeholder="Search for books..."
+          type="search"
+          autocomplete="off"
+        >
+      </form>
       <div class="flex items-center gap-4">
         <div class="relative">
           <a href="/cart" class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-transform active:scale-95 <%= activePage === 'cart' ? 'text-primary' : '' %>">shopping_cart</a>

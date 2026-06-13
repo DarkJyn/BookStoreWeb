@@ -75,21 +75,62 @@
 <!-- Publisher Dropdown -->
 <section>
 <h3 class="font-label-md text-label-md text-on-surface mb-4">Nhà xuất bản</h3>
-<select class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none">
-<option>Tất cả nhà xuất bản</option>
-<option>Penguin Classics</option>
-<option>Vintage Books</option>
-<option>Oxford Press</option>
-<option>Faber &amp; Faber</option>
-</select>
+<div class="relative">
+  <select
+    name="publisher"
+    onchange="this.form.submit()"
+    class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none cursor-pointer pr-8"
+  >
+    <option value="">Tất cả nhà xuất bản</option>
+    <% if (typeof publishers !== 'undefined') { publishers.forEach(pub => { %>
+      <option value="<%= pub %>" <%= (typeof publisherQuery !== 'undefined' && publisherQuery === pub) ? 'selected' : '' %>>
+        <%= pub %>
+      </option>
+    <% }); } %>
+  </select>
+  <span class="material-symbols-outlined absolute right-2 top-2.5 text-on-surface-variant text-[18px] pointer-events-none">expand_more</span>
+</div>
 </section>
 </form>
 </aside>
 <!-- Main Content Area -->
 <div class="flex-1 space-y-gutter-desktop">
+
+<%
+  // Khai báo các tham số query để dùng trong cả badge lẫn pagination
+  const _searchParam    = typeof searchQuery    !== 'undefined' && searchQuery    ? '&q='         + encodeURIComponent(searchQuery)    : '';
+  const _authorParam    = typeof authorQuery    !== 'undefined' && authorQuery    ? '&author='    + encodeURIComponent(authorQuery)    : '';
+  const _publisherParam = typeof publisherQuery !== 'undefined' && publisherQuery ? '&publisher=' + encodeURIComponent(publisherQuery) : '';
+  const _priceParam     = typeof maxPrice       !== 'undefined'                   ? '&maxPrice='  + maxPrice                           : '';
+  const _genreParams    = typeof selectedGenres !== 'undefined' && selectedGenres.length > 0
+    ? selectedGenres.map(g => '&genre=' + encodeURIComponent(g)).join('')
+    : '';
+  const _sortParam      = typeof sortBy !== 'undefined' && sortBy !== 'newest' ? '&sort=' + encodeURIComponent(sortBy) : '';
+  const _noSearchUrl    = '/products?' + _authorParam + _publisherParam + _priceParam + _genreParams + _sortParam;
+  const _noPublisherUrl = '/products?' + _searchParam + _authorParam   + _priceParam + _genreParams + _sortParam;
+%>
+
 <!-- Sorting & View Controls -->
 <div class="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-xl border border-outline-variant shadow-sm gap-4">
-<div class="flex items-center gap-2">
+<div class="flex items-center gap-2 flex-wrap">
+<% if (typeof searchQuery !== 'undefined' && searchQuery) { %>
+  <div class="flex items-center gap-1.5 bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
+    <span class="material-symbols-outlined text-[15px]">search</span>
+    <span>"<%= searchQuery %>"</span>
+    <a href="<%= _noSearchUrl %>" class="ml-0.5 hover:text-error transition-colors" title="Xóa tìm kiếm">
+      <span class="material-symbols-outlined text-[13px]">close</span>
+    </a>
+  </div>
+<% } %>
+<% if (typeof publisherQuery !== 'undefined' && publisherQuery) { %>
+  <div class="flex items-center gap-1.5 bg-secondary/10 text-secondary px-3 py-1 rounded-full text-sm font-medium">
+    <span class="material-symbols-outlined text-[15px]">business</span>
+    <span><%= publisherQuery %></span>
+    <a href="<%= _noPublisherUrl %>" class="ml-0.5 hover:text-error transition-colors" title="Bỏ chọn NXB">
+      <span class="material-symbols-outlined text-[13px]">close</span>
+    </a>
+  </div>
+<% } %>
 <span class="font-caption text-caption text-on-surface-variant">
     <% if (totalBooks === 0) { %>
         Không tìm thấy kết quả nào phù hợp
@@ -273,13 +314,7 @@
 <!-- Pagination -->
 <nav class="flex justify-center items-center gap-2 pt-8">
 <% 
-  const authorParam = typeof authorQuery !== 'undefined' && authorQuery ? '&author=' + encodeURIComponent(authorQuery) : '';
-  const priceParam = typeof maxPrice !== 'undefined' ? '&maxPrice=' + maxPrice : '';
-  const genreParams = typeof selectedGenres !== 'undefined' && selectedGenres.length > 0
-    ? selectedGenres.map(g => '&genre=' + encodeURIComponent(g)).join('')
-    : '';
-  const sortParam = typeof sortBy !== 'undefined' && sortBy !== 'newest' ? '&sort=' + encodeURIComponent(sortBy) : '';
-  const queryParams = authorParam + priceParam + genreParams + sortParam;
+  const queryParams = _searchParam + _authorParam + _publisherParam + _priceParam + _genreParams + _sortParam;
 %>
 <% if (currentPage > 1) { %>
     <a href="/products?page=<%= currentPage - 1 %><%= queryParams %>" class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined">chevron_left</span></a>

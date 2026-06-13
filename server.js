@@ -85,10 +85,12 @@ app.get('/products', (req, res) => {
   const books = getBooks();
   const page = parseInt(req.query.page, 10) || 1;
   const limit = 12;
+  const searchQuery = req.query.q ? req.query.q.trim() : '';
   const authorQuery = req.query.author ? req.query.author.trim() : '';
   const maxPrice = parseInt(req.query.maxPrice, 10) || 500000;
   const sortBy = req.query.sort || 'newest';
   const genreQuery = req.query.genre;
+  const publisherQuery = req.query.publisher ? req.query.publisher.trim() : '';
   let selectedGenres = [];
 
   if (genreQuery) {
@@ -96,6 +98,16 @@ app.get('/products', (req, res) => {
   }
 
   let filteredBooks = [...books];
+
+  // Tìm kiếm theo từ khóa (tên sách hoặc tác giả)
+  if (searchQuery) {
+    const keyword = searchQuery.toLowerCase();
+    filteredBooks = filteredBooks.filter((book) =>
+      (book.title || '').toLowerCase().includes(keyword) ||
+      (book.author || '').toLowerCase().includes(keyword)
+    );
+  }
+
   if (authorQuery) {
     filteredBooks = filteredBooks.filter((book) =>
       book.author.toLowerCase().includes(authorQuery.toLowerCase())
@@ -106,6 +118,12 @@ app.get('/products', (req, res) => {
 
   if (selectedGenres.length > 0) {
     filteredBooks = filteredBooks.filter((book) => selectedGenres.includes(book.genre));
+  }
+
+  if (publisherQuery) {
+    filteredBooks = filteredBooks.filter((book) =>
+      (book.publisher || '').toLowerCase() === publisherQuery.toLowerCase()
+    );
   }
 
   switch (sortBy) {
@@ -140,10 +158,13 @@ app.get('/products', (req, res) => {
     totalBooks,
     startIndex,
     endIndex,
+    searchQuery,
     authorQuery,
     maxPrice,
     selectedGenres,
-    sortBy
+    sortBy,
+    publisherQuery,
+    publishers: [...new Set(getBooks().map((b) => b.publisher).filter(Boolean))].sort()
   });
 });
 
