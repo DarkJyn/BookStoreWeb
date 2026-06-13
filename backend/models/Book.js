@@ -202,7 +202,9 @@ class Book {
       const hasAuthor = queryHasField(query, 'author');
       const hasGenre  = queryHasField(query, 'genre') || queryHasField(query, 'category_name');
 
-      let joins = '';
+      let joins = `
+        LEFT JOIN oltp.Inventory i ON i.book_id = b.book_id
+        LEFT JOIN oltp.Publisher p ON p.publisher_id = b.publisher_id`;
       if (hasAuthor) joins += `
         LEFT JOIN oltp.Book_Author ba ON ba.book_id = b.book_id
         LEFT JOIN oltp.Author a       ON a.author_id = ba.author_id`;

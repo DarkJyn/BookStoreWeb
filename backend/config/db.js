@@ -270,7 +270,9 @@ class QueryChain {
       const hasGenre  = queryHasField(this.mongoQuery, 'genre') ||
                         queryHasField(this.mongoQuery, 'category_name');
       const distinct  = (hasAuthor || hasGenre) ? 'DISTINCT' : '';
-      let joins = 'LEFT JOIN oltp.Inventory i ON i.book_id = b.book_id\n';
+      let joins = `
+        LEFT JOIN oltp.Inventory i ON i.book_id = b.book_id
+        LEFT JOIN oltp.Publisher p ON p.publisher_id = b.publisher_id\n`;
       if (hasAuthor) joins += `
         LEFT JOIN oltp.Book_Author ba ON ba.book_id = b.book_id
         LEFT JOIN oltp.Author a       ON a.author_id = ba.author_id`;
