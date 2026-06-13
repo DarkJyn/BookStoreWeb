@@ -76,7 +76,7 @@ function hexIdToInt(hex) {
 const mapFieldName = (field, modelClass) => {
   const name = modelClass && modelClass.name;
 
-  if (name === 'Product') {
+  if (name === 'Book') {
     // Bảng b = oltp.Book, a = oltp.Author (join), c = oltp.Category (join), i = oltp.Inventory (join)
     switch (field) {
       case '_id':
@@ -264,13 +264,15 @@ class QueryChain {
 
     let sqlQuery = '';
 
-    // ── Product ─────────────────────────────────────────────────────────────
-    if (modelName === 'Product') {
+    // ── Book ─────────────────────────────────────────────────────────────
+    if (modelName === 'Book') {
       const hasAuthor = queryHasField(this.mongoQuery, 'author');
       const hasGenre  = queryHasField(this.mongoQuery, 'genre') ||
                         queryHasField(this.mongoQuery, 'category_name');
       const distinct  = (hasAuthor || hasGenre) ? 'DISTINCT' : '';
-      let joins = 'LEFT JOIN oltp.Inventory i ON i.book_id = b.book_id\n';
+      let joins = `
+        LEFT JOIN oltp.Inventory i ON i.book_id = b.book_id
+        LEFT JOIN oltp.Publisher p ON p.publisher_id = b.publisher_id\n`;
       if (hasAuthor) joins += `
         LEFT JOIN oltp.Book_Author ba ON ba.book_id = b.book_id
         LEFT JOIN oltp.Author a       ON a.author_id = ba.author_id`;
@@ -309,7 +311,7 @@ class QueryChain {
     }
 
     // ── ORDER BY ──────────────────────────────────────────────────────────────
-    const defaultOrder = modelName === 'Product' ? 'b.created_at' :
+    const defaultOrder = modelName === 'Book'    ? 'b.created_at' :
                          modelName === 'Order'   ? 'order_date'   : 'created_at';
     let orderBy = `ORDER BY ${defaultOrder} DESC`;
 
@@ -334,40 +336,50 @@ class QueryChain {
 
     const result = await request.query(sqlQuery);
 
-    // ── Post-process Product ──────────────────────────────────────────────────
-    if (modelName === 'Product' && result.recordset.length > 0) {
-      const Product = require('../models/Product');
+    // ── Post-process Book ─────────────────────────────────────────────────────
+    if (modelName === 'Book' && result.recordset.length > 0) {
+      const Book = require('../models/Book');
       const bookIds = result.recordset.map(r => r.book_id);
-      const idList  = bookIds.join(',');
+      
+      const cleanIds = bookIds.map(id => Number(id)).filter(id => !isNaN(id));
+      let authorsMap = {}, categoriesMap = {};
+      
+      if (cleanIds.length > 0) {
+        const requestAuth = pool.request();
+        const requestCat = pool.request();
+        cleanIds.forEach((id, index) => {
+          requestAuth.input(`id_${index}`, id);
+          requestCat.input(`id_${index}`, id);
+        });
+        const paramPlaceholders = cleanIds.map((_, index) => `@id_${index}`).join(',');
 
-      const [ar, cr] = await Promise.all([
-        pool.request().query(`
-          SELECT ba.book_id, a.author_name
-          FROM oltp.Book_Author ba
-          JOIN oltp.Author a ON a.author_id = ba.author_id
-          WHERE ba.book_id IN (${idList})`),
-        pool.request().query(`
-          SELECT bc.book_id, c.category_name
-          FROM oltp.Book_Category bc
-          JOIN oltp.Category c ON c.category_id = bc.category_id
-          WHERE bc.book_id IN (${idList})`)
-      ]);
+        const [ar, cr] = await Promise.all([
+          requestAuth.query(`
+            SELECT ba.book_id, a.author_name
+            FROM oltp.Book_Author ba
+            JOIN oltp.Author a ON a.author_id = ba.author_id
+            WHERE ba.book_id IN (${paramPlaceholders})`),
+          requestCat.query(`
+            SELECT bc.book_id, c.category_name
+            FROM oltp.Book_Category bc
+            JOIN oltp.Category c ON c.category_id = bc.category_id
+            WHERE bc.book_id IN (${paramPlaceholders})`)
+        ]);
 
-      const authorsMap = {};
-      ar.recordset.forEach(r => {
-        if (!authorsMap[r.book_id]) authorsMap[r.book_id] = [];
-        authorsMap[r.book_id].push(r.author_name);
-      });
-      const categoriesMap = {};
-      cr.recordset.forEach(r => {
-        if (!categoriesMap[r.book_id]) categoriesMap[r.book_id] = [];
-        categoriesMap[r.book_id].push(r.category_name);
-      });
+        ar.recordset.forEach(r => {
+          if (!authorsMap[r.book_id]) authorsMap[r.book_id] = [];
+          authorsMap[r.book_id].push(r.author_name);
+        });
+        cr.recordset.forEach(r => {
+          if (!categoriesMap[r.book_id]) categoriesMap[r.book_id] = [];
+          categoriesMap[r.book_id].push(r.category_name);
+        });
+      }
 
       return result.recordset.map(row => {
         row.author = (authorsMap[row.book_id] || []).join(', ');
         row.genre  = (categoriesMap[row.book_id] || [])[0] || 'Khác';
-        return new Product(row, false);
+        return new Book(row, false);
       });
     }
 
@@ -375,7 +387,7 @@ class QueryChain {
     if (modelName === 'Order' && result.recordset.length > 0) {
       const Order   = require('../models/Order');
       const User    = require('../models/User');
-      const Product = require('../models/Product');
+      const Book    = require('../models/Book');
       const orders  = [];
 
       for (const row of result.recordset) {
@@ -402,20 +414,28 @@ class QueryChain {
           `);
 
         const bookIds = itemsRes.recordset.map(r => r.book_id);
+        const cleanIds = bookIds.map(id => Number(id)).filter(id => !isNaN(id));
         let authorsMap = {}, categoriesMap = {};
-        if (bookIds.length) {
-          const idList = bookIds.join(',');
+        if (cleanIds.length) {
+          const requestAuth = pool.request();
+          const requestCat = pool.request();
+          cleanIds.forEach((id, index) => {
+            requestAuth.input(`id_${index}`, id);
+            requestCat.input(`id_${index}`, id);
+          });
+          const paramPlaceholders = cleanIds.map((_, index) => `@id_${index}`).join(',');
+
           const [ar, cr] = await Promise.all([
-            pool.request().query(`SELECT ba.book_id, a.author_name FROM oltp.Book_Author ba JOIN oltp.Author a ON a.author_id=ba.author_id WHERE ba.book_id IN (${idList})`),
-            pool.request().query(`SELECT bc.book_id, c.category_name FROM oltp.Book_Category bc JOIN oltp.Category c ON c.category_id=bc.category_id WHERE bc.book_id IN (${idList})`)
+            requestAuth.query(`SELECT ba.book_id, a.author_name FROM oltp.Book_Author ba JOIN oltp.Author a ON a.author_id=ba.author_id WHERE ba.book_id IN (${paramPlaceholders})`),
+            requestCat.query(`SELECT bc.book_id, c.category_name FROM oltp.Book_Category bc JOIN oltp.Category c ON c.category_id=bc.category_id WHERE bc.book_id IN (${paramPlaceholders})`)
           ]);
           ar.recordset.forEach(r => { if (!authorsMap[r.book_id]) authorsMap[r.book_id]=[]; authorsMap[r.book_id].push(r.author_name); });
           cr.recordset.forEach(r => { if (!categoriesMap[r.book_id]) categoriesMap[r.book_id]=[]; categoriesMap[r.book_id].push(r.category_name); });
         }
 
         const items = itemsRes.recordset.map(ir => ({
-          product: new Product({ book_id: ir.book_id, title: ir.title, selling_price: ir.selling_price, image_url: ir.image_url,
-                                  author: (authorsMap[ir.book_id]||[]).join(', '), genre: (categoriesMap[ir.book_id]||[])[0]||'Khác' }, false),
+          product: new Book({ book_id: ir.book_id, title: ir.title, selling_price: ir.selling_price, image_url: ir.image_url,
+                               author: (authorsMap[ir.book_id]||[]).join(', '), genre: (categoriesMap[ir.book_id]||[])[0]||'Khác' }, false),
           quantity: Number(ir.quantity),
           price:    Number(ir.unit_price)
         }));

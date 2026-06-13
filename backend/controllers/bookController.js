@@ -1,6 +1,6 @@
-const Product = require('../models/Product');
+const Book = require('../models/Book');
 
-// @desc    Get all products with filters & pagination
+// @desc    Get all books with filters & pagination
 // @route   GET /api/products
 // @access  Public
 const getProducts = async (req, res) => {
@@ -51,14 +51,14 @@ const getProducts = async (req, res) => {
         break;
     }
 
-    const total = await Product.countDocuments(query);
-    const products = await Product.find(query)
+    const total = await Book.countDocuments(query);
+    const books = await Book.find(query)
       .skip((page - 1) * limit)
       .limit(limit)
       .sort(sortOptions);
 
     res.json({
-      products,
+      products: books, // Trả về trường products để tương thích với frontend
       page,
       pages: Math.ceil(total / limit),
       total
@@ -68,35 +68,35 @@ const getProducts = async (req, res) => {
   }
 };
 
-// @desc    Get single product details
+// @desc    Get single book details
 // @route   GET /api/products/:id
 // @access  Public
 const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
-    if (product) {
-      res.json(product);
+    const book = await Book.findById(req.params.id);
+    if (book) {
+      res.json(book);
     } else {
-      res.status(404).json({ message: 'Không tìm thấy sản phẩm.' });
+      res.status(404).json({ message: 'Không tìm thấy sách.' });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// @desc    Create a new product
+// @desc    Create a new book
 // @route   POST /api/products
 // @access  Private/Admin
 const createProduct = async (req, res) => {
   try {
-    const product = new Product({
+    const book = new Book({
       title: req.body.title,
       author: req.body.author,
       price: req.body.price,
       originalPrice: req.body.originalPrice || null,
       coverImage: req.body.coverImage,
       imageAlt: req.body.imageAlt || req.body.title,
-      genre: req.body.genre || 'Khac',
+      genre: req.body.genre || 'Khác',
       rating: req.body.rating || 4,
       stockStatus: req.body.stockStatus || 'In stock',
       publisher: req.body.publisher || '',
@@ -110,61 +110,75 @@ const createProduct = async (req, res) => {
         : req.body.description ? [req.body.description] : []
     });
 
-    const createdProduct = await product.save();
-    res.status(201).json(createdProduct);
+    const createdBook = await book.save();
+    res.status(201).json(createdBook);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-// @desc    Update a product
+// @desc    Update a book
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updateProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const book = await Book.findById(req.params.id);
 
-    if (product) {
-      product.title = req.body.title || product.title;
-      product.author = req.body.author || product.author;
-      product.price = req.body.price ?? product.price;
-      product.originalPrice = req.body.originalPrice ?? product.originalPrice;
-      product.coverImage = req.body.coverImage || product.coverImage;
-      product.imageAlt = req.body.imageAlt || product.imageAlt;
-      product.genre = req.body.genre || product.genre;
-      product.rating = req.body.rating ?? product.rating;
-      product.stockStatus = req.body.stockStatus || product.stockStatus;
-      product.publisher = req.body.publisher || product.publisher;
-      product.year = req.body.year ?? product.year;
-      product.format = req.body.format || product.format;
-      product.stock = req.body.stock ?? product.stock;
-      product.importPrice = req.body.importPrice ?? product.importPrice;
-      product.shelfLocation = req.body.shelfLocation || product.shelfLocation;
-      product.description = req.body.description || product.description;
+    if (book) {
+      book.title = req.body.title || book.title;
+      book.author = req.body.author || book.author;
+      book.price = req.body.price ?? book.price;
+      book.originalPrice = req.body.originalPrice ?? book.originalPrice;
+      book.coverImage = req.body.coverImage || book.coverImage;
+      book.imageAlt = req.body.imageAlt || book.imageAlt;
+      book.genre = req.body.genre || book.genre;
+      book.rating = req.body.rating ?? book.rating;
+      book.stockStatus = req.body.stockStatus || book.stockStatus;
+      book.publisher = req.body.publisher || book.publisher;
+      book.year = req.body.year ?? book.year;
+      book.format = req.body.format || book.format;
+      book.stock = req.body.stock ?? book.stock;
+      book.importPrice = req.body.importPrice ?? book.importPrice;
+      book.shelfLocation = req.body.shelfLocation || book.shelfLocation;
+      book.description = req.body.description || book.description;
 
-      const updatedProduct = await product.save();
-      res.json(updatedProduct);
+      const updatedBook = await book.save();
+      res.json(updatedBook);
     } else {
-      res.status(404).json({ message: 'Không tìm thấy sản phẩm.' });
+      res.status(404).json({ message: 'Không tìm thấy sách.' });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-// @desc    Delete a product
+// @desc    Delete a book
 // @route   DELETE /api/products/:id
 // @access  Private/Admin
 const deleteProduct = async (req, res) => {
   try {
-    const result = await Product.deleteOne({ _id: req.params.id });
+    const result = await Book.deleteOne({ _id: req.params.id });
     if (result.deletedCount > 0) {
-      res.json({ message: 'Đã xóa sản phẩm thành công.' });
+      res.json({ message: 'Đã xóa sách thành công.' });
     } else {
-      res.status(404).json({ message: 'Không tìm thấy sản phẩm.' });
+      res.status(404).json({ message: 'Không tìm thấy sách.' });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+
+const searchBooks = async (req, res) => {
+  try {
+    const keyword = req.query.q || "";
+    const books = await Book.searchByTitle(keyword);
+    res.json(books);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Search failed"
+    });
   }
 };
 
@@ -173,5 +187,6 @@ module.exports = {
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  searchBooks
 };

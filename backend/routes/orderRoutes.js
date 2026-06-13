@@ -19,15 +19,15 @@ router.post('/', protect, createOrder);
 // @access  Private
 router.get('/myorders', protect, getMyOrders);
 
-// @desc    Get order by ID
-// @route   GET /api/orders/:id
-// @access  Private
-router.get('/:id', protect, getOrderById);
-
 // @desc    Get all orders (Admin only)
 // @route   GET /api/orders
 // @access  Private/Admin
 router.get('/', protect, adminOnly, getAllOrders);
+
+// @desc    Get order by ID
+// @route   GET /api/orders/:id
+// @access  Private
+router.get('/:id', protect, getOrderById);
 
 // @desc    Update order status (Admin only)
 // @route   PUT /api/orders/:id/status

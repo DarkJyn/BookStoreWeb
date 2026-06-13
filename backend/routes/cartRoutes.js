@@ -24,14 +24,14 @@ router.post('/', protect, addToCart);
 // @access  Private
 router.put('/', protect, updateCartItem);
 
-// @desc    Remove an item from cart
-// @route   DELETE /api/cart/:productId
-// @access  Private
-router.delete('/:productId', protect, removeCartItem);
-
 // @desc    Clear entire cart
 // @route   DELETE /api/cart
 // @access  Private
 router.delete('/', protect, clearCart);
+
+// @desc    Remove an item from cart
+// @route   DELETE /api/cart/:productId
+// @access  Private
+router.delete('/:productId', protect, removeCartItem);
 
 module.exports = router;
