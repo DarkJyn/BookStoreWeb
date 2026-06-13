@@ -12,7 +12,7 @@ const generateToken = (id) => {
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, phone } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -25,7 +25,8 @@ const registerUser = async (req, res) => {
       name,
       email,
       password,
-      role: role || 'customer' // Defaults to customer
+      role: role || 'customer', // Defaults to customer
+      phone: phone || null
     });
 
     if (user) {
@@ -34,7 +35,15 @@ const registerUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        token: generateToken(user._id)
+        token: generateToken(user._id),
+        profile: {
+          avatar: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=random',
+          name: user.name,
+          phone: user.phone || '',
+          email: user.email,
+          genre: '',
+          bio: ''
+        }
       });
     } else {
       res.status(400).json({ message: 'Thông tin đăng ký không hợp lệ.' });
@@ -60,7 +69,15 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        token: generateToken(user._id)
+        token: generateToken(user._id),
+        profile: {
+          avatar: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=random',
+          name: user.name,
+          phone: user.phone || '',
+          email: user.email,
+          genre: '',
+          bio: ''
+        }
       });
     } else {
       res.status(401).json({ message: 'Email hoặc mật khẩu không chính xác.' });

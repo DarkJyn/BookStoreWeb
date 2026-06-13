@@ -7,9 +7,10 @@ const dotenv = require('dotenv');
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 const { connectDB } = require('./config/db.js');
+const connectMongoDB = require("./config/mongoDB");
 // Connect to Database
 connectDB();
-
+connectMongoDB();
 const app = express();
 
 // Middleware
@@ -24,7 +25,7 @@ app.get('/', (req, res) => {
 
 // Register API Routes
 app.use('/api/auth', require('./routes/authRoutes.js'));
-app.use('/api/products', require('./routes/productRoutes.js'));
+app.use('/api/products', require('./routes/bookRoutes.js'));
 app.use('/api/orders', require('./routes/orderRoutes.js'));
 app.use('/api/cart', require('./routes/cartRoutes.js'));
 
@@ -39,6 +40,19 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5050;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();       // SQL Server
+    await connectMongoDB();  // MongoDB
+
+    app.listen(PORT, () => {
+      console.log(
+        `Server is running on port ${PORT} in ${process.env.NODE_ENV || "development"} mode`
+      );
+    });
+  } catch (error) {
+    console.error("Server start failed:", error.message);
+    process.exit(1);
+  }
+};
+startServer();

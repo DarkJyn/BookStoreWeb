@@ -5,50 +5,39 @@ const {
   getProductById, 
   createProduct, 
   updateProduct, 
-  deleteProduct 
-} = require('../controllers/productController');
-const Product = require('../models/Product');
+  deleteProduct,
+  searchBooks
+} = require('../controllers/bookController');
 const { protect, adminOnly } = require('../middlewares/auth');
 
-// @desc    Get all products with filters & pagination
+// @desc    Get all books with filters & pagination
 // @route   GET /api/products
 // @access  Public
 router.get('/', getProducts);
-router.get("/search", async (req, res) => {
-  try {
-    const keyword = req.query.q || "";
+  
+// @desc    Search books by title
+// @route   GET /api/products/search
+// @access  Public
+router.get("/search", searchBooks);
 
-    const products = await Product.searchByTitle(keyword);
-
-    res.json(products);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "Search failed"
-    });
-  }
-});
-
-// @desc    Get single product details
+// @desc    Get single book details
 // @route   GET /api/products/:id
 // @access  Public
 router.get('/:id', getProductById);
 
-// @desc    Create a new product
+// @desc    Create a new book
 // @route   POST /api/products
 // @access  Private/Admin
 router.post('/', protect, adminOnly, createProduct);
 
-// @desc    Update a product
+// @desc    Update a book
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 router.put('/:id', protect, adminOnly, updateProduct);
 
-// @desc    Delete a product
+// @desc    Delete a book
 // @route   DELETE /api/products/:id
 // @access  Private/Admin
 router.delete('/:id', protect, adminOnly, deleteProduct);
-
-
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const Order = require('../models/Order');
-const Product = require('../models/Product');
+const Book = require('../models/Book');
 const Cart = require('../models/Cart');
 
 // @desc    Create a new order
@@ -24,13 +24,13 @@ const createOrder = async (req, res) => {
   try {
     // 1. Verify item prices and stock availability
     for (const item of items) {
-      const dbProduct = await Product.findById(item.product);
-      if (!dbProduct) {
-        return res.status(404).json({ message: `Sản phẩm ID ${item.product} không tồn tại.` });
+      const dbBook = await Book.findById(item.product);
+      if (!dbBook) {
+        return res.status(404).json({ message: `Sách ID ${item.product} không tồn tại.` });
       }
-      if (dbProduct.stock < item.quantity) {
+      if (dbBook.stock < item.quantity) {
         return res.status(400).json({ 
-          message: `Sách "${dbProduct.title}" không đủ số lượng trong kho. Còn lại: ${dbProduct.stock}` 
+          message: `Sách "${dbBook.title}" không đủ số lượng trong kho. Còn lại: ${dbBook.stock}` 
         });
       }
     }
@@ -52,7 +52,7 @@ const createOrder = async (req, res) => {
 
     // 3. Deduct stock and increment sold count for purchased products
     for (const item of items) {
-      await Product.findByIdAndUpdate(item.product, {
+      await Book.findByIdAndUpdate(item.product, {
         $inc: { 
           stock: -item.quantity,
           soldCount: item.quantity
