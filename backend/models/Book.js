@@ -47,43 +47,48 @@ const fetchAuthorsAndCategories = async (poolOrTx, bookIds) => {
   const cleanIds = bookIds.map(id => Number(id)).filter(id => !isNaN(id));
   if (cleanIds.length === 0) return { authorsMap: {}, categoriesMap: {} };
 
-  const requestAuth = poolOrTx.request();
-  const requestCat = poolOrTx.request();
-
-  // Gắn tham số động cho câu truy vấn IN
-  cleanIds.forEach((id, index) => {
-    requestAuth.input(`id_${index}`, id);
-    requestCat.input(`id_${index}`, id);
-  });
-
-  const paramPlaceholders = cleanIds.map((_, index) => `@id_${index}`).join(',');
-
-  const [authRes, catRes] = await Promise.all([
-    requestAuth.query(`
-      SELECT ba.book_id, a.author_name
-      FROM oltp.Book_Author ba
-      JOIN oltp.Author a ON a.author_id = ba.author_id
-      WHERE ba.book_id IN (${paramPlaceholders})
-    `),
-    requestCat.query(`
-      SELECT bc.book_id, c.category_name
-      FROM oltp.Book_Category bc
-      JOIN oltp.Category c ON c.category_id = bc.category_id
-      WHERE bc.book_id IN (${paramPlaceholders})
-    `)
-  ]);
-
   const authorsMap = {};
-  authRes.recordset.forEach(r => {
-    if (!authorsMap[r.book_id]) authorsMap[r.book_id] = [];
-    authorsMap[r.book_id].push(r.author_name);
-  });
-
   const categoriesMap = {};
-  catRes.recordset.forEach(r => {
-    if (!categoriesMap[r.book_id]) categoriesMap[r.book_id] = [];
-    categoriesMap[r.book_id].push(r.category_name);
-  });
+  
+  // Chia nhỏ danh sách IDs thành từng nhóm (chunk) tối đa 1000 phần tử để tránh giới hạn tham số của SQL Server
+  const chunkSize = 1000;
+  for (let i = 0; i < cleanIds.length; i += chunkSize) {
+    const chunk = cleanIds.slice(i, i + chunkSize);
+    const requestAuth = poolOrTx.request();
+    const requestCat = poolOrTx.request();
+
+    chunk.forEach((id, index) => {
+      requestAuth.input(`id_${index}`, id);
+      requestCat.input(`id_${index}`, id);
+    });
+
+    const paramPlaceholders = chunk.map((_, index) => `@id_${index}`).join(',');
+
+    const [authRes, catRes] = await Promise.all([
+      requestAuth.query(`
+        SELECT ba.book_id, a.author_name
+        FROM oltp.Book_Author ba
+        JOIN oltp.Author a ON a.author_id = ba.author_id
+        WHERE ba.book_id IN (${paramPlaceholders})
+      `),
+      requestCat.query(`
+        SELECT bc.book_id, c.category_name
+        FROM oltp.Book_Category bc
+        JOIN oltp.Category c ON c.category_id = bc.category_id
+        WHERE bc.book_id IN (${paramPlaceholders})
+      `)
+    ]);
+
+    authRes.recordset.forEach(r => {
+      if (!authorsMap[r.book_id]) authorsMap[r.book_id] = [];
+      authorsMap[r.book_id].push(r.author_name);
+    });
+
+    catRes.recordset.forEach(r => {
+      if (!categoriesMap[r.book_id]) categoriesMap[r.book_id] = [];
+      categoriesMap[r.book_id].push(r.category_name);
+    });
+  }
 
   return { authorsMap, categoriesMap };
 };
@@ -533,6 +538,18 @@ class Book {
       await transaction.rollback();
       console.error('[Book.save] Error saving book, transaction rolled back:', error.message);
       throw new Error(`Lưu thông tin sách thất bại: ${error.message}`);
+    }
+  }
+
+  /** Lấy danh sách thể loại từ DB */
+  static async getGenres() {
+    try {
+      const pool = await getPool();
+      const result = await pool.query('SELECT category_name FROM oltp.Category ORDER BY category_name');
+      return result.recordset.map(r => r.category_name).filter(Boolean);
+    } catch (error) {
+      console.error('[Book.getGenres] Error fetching genres:', error.message);
+      return [];
     }
   }
 
