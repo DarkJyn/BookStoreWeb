@@ -1,0 +1,113 @@
+<%- include('partials/head', { title: 'Đăng ký' }) %>
+<%- include('partials/header', { activePage: 'register' }) %>
+
+<style>
+  .form-input-focus:focus {
+      border-color: #4a321d;
+      box-shadow: 0 0 0 1px #4a321d;
+  }
+  .card-shadow {
+      box-shadow: 0px 4px 20px rgba(74, 69, 65, 0.06);
+  }
+  .book-texture {
+      background-image: radial-gradient(#eae1db 0.5px, transparent 0.5px);
+      background-size: 24px 24px;
+  }
+</style>
+
+<main class="flex-grow flex items-center justify-center py-12 px-margin-mobile bg-surface-container-low book-texture min-h-[calc(100vh-160px)]">
+  <div class="w-full max-w-[1000px] grid grid-cols-1 md:grid-cols-2 bg-surface-container-lowest rounded-xl overflow-hidden card-shadow">
+      <!-- Branding/Image Panel -->
+      <div class="relative hidden md:flex flex-col justify-end p-12 bg-primary overflow-hidden">
+          <img class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-multiply" data-alt="Library Image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAijQoHxQN_YEBw4e6J9jzwFExvpzSqAyoYDM8eu2u_Rlf8g2qcHaxEYBF4ucnKeqxcxf1CJpUfx1v1jfLnOLOeODFTPlcRo-deJCCVUrBTjWNojj5HtyKZbfWiud1pYbpToP5Vv_eEXC21WUEiShMajZk7WFoY1IqAJj8jlQSzjN2wg65ekfvLxWHEyqHkKTDfv3JeW0rtwxnBpAo6aFm6Sc5kBGIm_Hx7YGWmkdfUnOjBns5FERN9O75Sgq1nQKukC2BBr9_lDTk"/>
+          <div class="relative z-10 text-on-primary">
+              <h1 class="font-display-lg text-display-lg mb-4">A legacy of words awaits.</h1>
+              <p class="font-body-lg text-body-lg text-primary-fixed-dim max-w-sm">
+                  Join our curated community of bibliophiles and scholars. Gain access to rare collections, personal archives, and a sanctuary for the curious mind.
+              </p>
+          </div>
+          <!-- Decorative element -->
+          <div class="absolute top-0 right-0 p-8 opacity-20">
+              <span class="material-symbols-outlined text-[120px]" data-icon="auto_stories">auto_stories</span>
+          </div>
+      </div>
+      <!-- Form Panel -->
+      <div class="p-8 md:p-16 flex flex-col">
+          <div class="mb-10">
+              <h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Begin Your Journey</h2>
+              <p class="text-on-surface-variant">Fill in your details to create your library pass.</p>
+              <% if (typeof error !== 'undefined' && error) { %>
+                  <p class="text-error font-medium mt-2"><%= error %></p>
+              <% } %>
+          </div>
+          <form action="/register" method="POST" class="space-y-6">
+              <!-- Full Name -->
+              <div class="space-y-1">
+                  <label class="font-label-md text-label-md text-on-surface-variant" for="name">Full Name</label>
+                  <div class="relative">
+                      <input class="w-full h-12 bg-surface-bright border border-outline-variant rounded-lg px-4 font-body-md text-on-surface placeholder:text-outline focus:outline-none form-input-focus transition-all" id="name" name="name" placeholder="Arthur Dent" required type="text"/>
+                  </div>
+              </div>
+              <!-- Email -->
+              <div class="space-y-1">
+                  <label class="font-label-md text-label-md text-on-surface-variant" for="email">Email Address</label>
+                  <div class="relative">
+                      <input class="w-full h-12 bg-surface-bright border border-outline-variant rounded-lg px-4 font-body-md text-on-surface placeholder:text-outline focus:outline-none form-input-focus transition-all" id="email" name="email" placeholder="reader@openfolio.com" required type="email"/>
+                  </div>
+              </div>
+              <div class="grid grid-cols-1 gap-6">
+                  <!-- Password -->
+                  <div class="space-y-1">
+                      <label class="font-label-md text-label-md text-on-surface-variant" for="password">Password</label>
+                      <div class="relative">
+                          <input class="w-full h-12 bg-surface-bright border border-outline-variant rounded-lg px-4 font-body-md text-on-surface placeholder:text-outline focus:outline-none form-input-focus transition-all" id="password" name="password" placeholder="••••••••" required type="password"/>
+                          <button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant" type="button" id="togglePassword">
+                              <span class="material-symbols-outlined text-[20px]" data-icon="visibility_off" id="eyeIcon">visibility_off</span>
+                          </button>
+                      </div>
+                  </div>
+                  <!-- Confirm Password -->
+                  <div class="space-y-1">
+                      <label class="font-label-md text-label-md text-on-surface-variant" for="confirm_password">Confirm Password</label>
+                      <div class="relative">
+                          <input class="w-full h-12 bg-surface-bright border border-outline-variant rounded-lg px-4 font-body-md text-on-surface placeholder:text-outline focus:outline-none form-input-focus transition-all" id="confirm_password" name="confirm_password" placeholder="••••••••" required type="password"/>
+                      </div>
+                  </div>
+              </div>
+              <!-- Terms -->
+              <div class="flex items-start gap-3">
+                  <div class="flex items-center h-5">
+                      <input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" id="terms" required type="checkbox"/>
+                  </div>
+                  <label class="font-caption text-caption text-on-surface-variant leading-tight" for="terms">
+                      I agree to the <a class="text-primary font-medium hover:underline" href="#">Terms and Conditions</a> and the <a class="text-primary font-medium hover:underline" href="#">Privacy Policy</a> of The Open Folio.
+                  </label>
+              </div>
+              <!-- Submit Button -->
+              <button class="w-full h-12 bg-primary text-on-primary font-label-md text-label-md rounded-lg shadow-sm hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2" type="submit">
+                  Create Account
+                  <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+              </button>
+          </form>
+          <!-- Footer Link -->
+          <div class="mt-12 pt-6 border-t border-outline-variant text-center">
+              <p class="font-body-md text-on-surface-variant">
+                  Already have a member profile? 
+                  <a class="text-primary font-bold hover:underline ml-1" href="/login">Login here</a>
+              </p>
+          </div>
+      </div>
+  </div>
+</main>
+<script>
+    const toggleBtn = document.getElementById('togglePassword');
+    const passInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+    toggleBtn.addEventListener('click', () => {
+        const isPass = passInput.type === 'password';
+        passInput.type = isPass ? 'text' : 'password';
+        eyeIcon.textContent = isPass ? 'visibility' : 'visibility_off';
+        eyeIcon.setAttribute('data-icon', isPass ? 'visibility' : 'visibility_off');
+    });
+</script>
+<%- include('partials/footer') %>

@@ -1,6 +1,7 @@
 const Order = require('../models/Order');
 const Book = require('../models/Book');
 const Cart = require('../models/Cart');
+const User = require('../models/User');
 
 // @desc    Create a new order
 // @route   POST /api/orders
@@ -35,8 +36,16 @@ const createOrder = async (req, res) => {
       }
     }
 
-    // 2. Create the order
-    const order = new Order({
+    // 2. Lấy customer_id từ SQL dựa trên email user MongoDB
+    const mongoUser = await User.findById(req.user._id);
+    let customerId = null;
+    if (mongoUser) {
+      customerId = await mongoUser.getCustomerId();
+    }
+
+    // 3. Create the order (SQL Server)
+    const createdOrder = await Order.create({
+      customerId,
       user: req.user._id,
       items,
       shippingAddress,
@@ -45,22 +54,20 @@ const createOrder = async (req, res) => {
       discount,
       tax,
       shippingFee,
-      total
+      total,
+      status: 'Pending'
     });
 
-    const createdOrder = await order.save();
-
-    // 3. Deduct stock and increment sold count for purchased products
+    // 4. Deduct stock for purchased products
     for (const item of items) {
       await Book.findByIdAndUpdate(item.product, {
         $inc: { 
-          stock: -item.quantity,
-          soldCount: item.quantity
+          stock: -item.quantity
         }
       });
     }
 
-    // 4. Clear user's cart after successful purchase
+    // 5. Clear user's cart after successful purchase
     const cart = await Cart.findOne({ user: req.user._id });
     if (cart) {
       cart.items = [];
@@ -78,7 +85,18 @@ const createOrder = async (req, res) => {
 // @access  Private
 const getMyOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+    // Lấy customer_id từ email user MongoDB
+    const mongoUser = await User.findById(req.user._id);
+    let customerId = null;
+    if (mongoUser) {
+      customerId = await mongoUser.getCustomerId();
+    }
+
+    if (!customerId) {
+      return res.json([]);
+    }
+
+    const orders = await Order.find({ customer_id: customerId }).sort({ createdAt: -1 });
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -90,17 +108,10 @@ const getMyOrders = async (req, res) => {
 // @access  Private
 const getOrderById = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id)
-      .populate('user', 'name email')
-      .populate('items.product');
+    const order = await Order.findById(req.params.id);
 
     if (!order) {
       return res.status(404).json({ message: 'Không tìm thấy đơn hàng.' });
-    }
-
-    // Allow access only if it is the owner or an admin
-    if (order.user._id.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Bạn không có quyền xem đơn hàng này.' });
     }
 
     res.json(order);
@@ -114,9 +125,7 @@ const getOrderById = async (req, res) => {
 // @access  Private/Admin
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find({})
-      .populate('user', 'name email')
-      .sort({ createdAt: -1 });
+    const orders = await Order.find({}).sort({ createdAt: -1 });
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -134,11 +143,9 @@ const updateOrderStatus = async (req, res) => {
   }
 
   try {
-    const order = await Order.findById(req.params.id);
+    const updatedOrder = await Order.findByIdAndUpdate(req.params.id, { status });
 
-    if (order) {
-      order.status = status;
-      const updatedOrder = await order.save();
+    if (updatedOrder) {
       res.json(updatedOrder);
     } else {
       res.status(404).json({ message: 'Không tìm thấy đơn hàng.' });

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const { getPool } = require("../config/db");
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,8 +20,8 @@ const userSchema = new mongoose.Schema(
 
     username: {
       type: String,
-      trim: true,
-      default: null
+      trim: true
+      // tự động gán bằng email trong pre-save hook
     },
 
     password: {
@@ -50,8 +51,15 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Hash password trước khi lưu
+// username luôn bằng email → dùng lại index unique của email, không cần index riêng
+
+// Pre-save: tự gán username = email nếu chưa có, rồi hash password
 userSchema.pre("save", async function (next) {
+  // Tự động đặt username = email (tránh lỗi duplicate null)
+  if (!this.username) {
+    this.username = this.email;
+  }
+
   if (!this.isModified("password")) return next();
 
   const salt = await bcrypt.genSalt(10);
@@ -60,9 +68,111 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// Post-save: đồng bộ dữ liệu user sang oltp.Customer trong SQL Server
+userSchema.post("save", async function (doc) {
+  try {
+    await syncUserToSQL(doc);
+  } catch (error) {
+    // Log lỗi nhưng không throw — đảm bảo user vẫn được lưu vào MongoDB
+    console.error("[User.post-save] Sync to SQL failed:", error.message);
+  }
+});
+
+// Post findOneAndUpdate: đồng bộ khi user được cập nhật qua findByIdAndUpdate
+userSchema.post("findOneAndUpdate", async function (doc) {
+  if (doc) {
+    try {
+      await syncUserToSQL(doc);
+    } catch (error) {
+      console.error("[User.post-findOneAndUpdate] Sync to SQL failed:", error.message);
+    }
+  }
+});
+
+/**
+ * Đồng bộ dữ liệu user MongoDB → oltp.Customer SQL Server
+ * UPSERT theo email: nếu email đã tồn tại trong Customer thì UPDATE, nếu chưa thì INSERT.
+ * 
+ * Mapping:
+ *   MongoDB.name    → Customer.full_name
+ *   MongoDB.email   → Customer.email
+ *   MongoDB.phone   → Customer.phone
+ *   MongoDB.address → Customer.address
+ */
+async function syncUserToSQL(userDoc) {
+  const pool = await getPool();
+
+  const fullName = userDoc.name || '';
+  const email    = userDoc.email || '';
+  const phone    = userDoc.phone || null;
+  const address  = userDoc.address || null;
+
+  if (!email) {
+    console.warn("[syncUserToSQL] Skipping sync — no email.");
+    return;
+  }
+
+  // Kiểm tra email đã tồn tại trong Customer chưa
+  const existing = await pool.request()
+    .input('email', email)
+    .query(`SELECT customer_id FROM oltp.Customer WHERE email = @email`);
+
+  if (existing.recordset.length > 0) {
+    // UPDATE customer hiện tại
+    await pool.request()
+      .input('fullName', fullName)
+      .input('email',    email)
+      .input('phone',    phone)
+      .input('address',  address)
+      .query(`
+        UPDATE oltp.Customer 
+        SET full_name = @fullName, phone = @phone, address = @address
+        WHERE email = @email
+      `);
+    console.log(`[syncUserToSQL] Updated Customer (email: ${email})`);
+  } else {
+    // INSERT customer mới
+    await pool.request()
+      .input('fullName', fullName)
+      .input('email',    email)
+      .input('phone',    phone)
+      .input('address',  address)
+      .query(`
+        INSERT INTO oltp.Customer (full_name, email, phone, address)
+        VALUES (@fullName, @email, @phone, @address)
+      `);
+    console.log(`[syncUserToSQL] Inserted new Customer (email: ${email})`);
+  }
+}
+
 // So sánh mật khẩu khi login
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.model("User", userSchema);
+/**
+ * Lấy customer_id từ SQL Server theo email của user MongoDB
+ * Dùng khi cần liên kết order với customer
+ */
+userSchema.methods.getCustomerId = async function () {
+  try {
+    const pool = await getPool();
+    const result = await pool.request()
+      .input('email', this.email)
+      .query(`SELECT customer_id FROM oltp.Customer WHERE email = @email`);
+    
+    if (result.recordset.length > 0) {
+      return result.recordset[0].customer_id;
+    }
+    return null;
+  } catch (error) {
+    console.error("[getCustomerId] Error:", error.message);
+    return null;
+  }
+};
+
+/** Export hàm syncUserToSQL để dùng ở nơi khác nếu cần */
+const User = mongoose.model("User", userSchema);
+User.syncUserToSQL = syncUserToSQL;
+
+module.exports = User;

@@ -9,16 +9,18 @@
     </div>
     <div class="flex items-center gap-4 md:gap-6">
       <!-- Search Bar -->
-      <div class="hidden lg:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant w-64 group focus-within:border-primary transition-all">
-        <span class="material-symbols-outlined text-on-surface-variant text-body-md mr-2">search</span>
-        <input class="bg-transparent border-none focus:ring-0 text-label-md w-full placeholder:text-on-surface-variant" placeholder="Search for books..." type="text">
-      </div>
+      <form action="/products" method="GET" class="hidden lg:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant w-64 group focus-within:border-primary transition-all">
+        <button type="submit" class="flex items-center focus:outline-none">
+          <span class="material-symbols-outlined text-on-surface-variant text-body-md mr-2">search</span>
+        </button>
+        <input name="search" value="<%= searchQuery %>" class="bg-transparent border-none focus:ring-0 text-label-md w-full placeholder:text-on-surface-variant" placeholder="Search for books..." type="text">
+      </form>
       <div class="flex items-center gap-4">
         <div class="relative">
-          <a href="/cart" class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-transform active:scale-95 <%= activePage === 'cart' ? 'text-primary' : '' %>">shopping_cart</a>
+          <a href="/cart" class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-transform active:scale-95 <%= typeof activePage !== 'undefined' && activePage === 'cart' ? 'text-primary' : '' %>">shopping_cart</a>
           <span data-cart-badge class="hidden absolute -top-2 -right-2 min-w-[18px] h-[18px] bg-error text-on-error text-[10px] font-bold rounded-full flex items-center justify-center px-1 leading-none pointer-events-none"></span>
         </div>
-        <a href="/account" class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-transform active:scale-95 <%= activePage === 'account' ? 'text-primary' : '' %>">person</a>
+        <a href="<%= user ? '/account' : '/login' %>" class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-transform active:scale-95 <%= typeof activePage !== 'undefined' && (activePage === 'account' || activePage === 'login' || activePage === 'register') ? 'text-primary' : '' %>">person</a>
       </div>
     </div>
   </div>

@@ -20,7 +20,7 @@ const {
 
 // ─── SQL helpers ──────────────────────────────────────────────────────────────
 
-/** SELECT cơ bản cho 1 cuốn sách (Book + Inventory + Publisher) */
+/** SELECT cơ bản cho 1 cuốn sách (Book + Inventory + Publisher + Supplier) */
 const BOOK_SELECT = `
   SELECT
     b.book_id,
@@ -33,10 +33,18 @@ const BOOK_SELECT = `
     b.cover_type,
     b.created_at,
     COALESCE(i.stock_quantity, 0) AS stock_quantity,
-    p.publisher_name
+    p.publisher_name,
+    b.product_code,
+    b.age_range,
+    s.supplier_name,
+    b.language,
+    b.weight,
+    b.size,
+    b.pages
   FROM oltp.Book b
   LEFT JOIN oltp.Inventory i ON i.book_id = b.book_id
   LEFT JOIN oltp.Publisher p ON p.publisher_id = b.publisher_id
+  LEFT JOIN oltp.Supplier s ON s.supplier_id = b.supplier_id
 `;
 
 /** Lấy danh sách tác giả & thể loại theo danh sách book_id sử dụng Parameterized Query */
@@ -126,6 +134,15 @@ class Book {
     this.shelfLocation = row.shelfLocation || null;
     this.createdAt     = row.created_at    || row.createdAt || null;
     this.updatedAt     = row.updatedAt     || row.created_at || null;
+
+    // Additional book details
+    this.product_code  = row.product_code || null;
+    this.age_range     = row.age_range || null;
+    this.supplier_name = row.supplier_name || null;
+    this.language      = row.language || null;
+    this.weight        = row.weight != null ? Number(row.weight) : null;
+    this.size          = row.size || null;
+    this.pages         = row.pages != null ? Number(row.pages) : null;
   }
 
   _parseDescription(raw) {
@@ -545,11 +562,35 @@ class Book {
   static async getGenres() {
     try {
       const pool = await getPool();
-      const result = await pool.query('SELECT category_name FROM oltp.Category ORDER BY category_name');
+      const result = await pool.query('SELECT DISTINCT category_name FROM oltp.Category ORDER BY category_name');
       return result.recordset.map(r => r.category_name).filter(Boolean);
     } catch (error) {
       console.error('[Book.getGenres] Error fetching genres:', error.message);
       return [];
+    }
+  }
+
+  /** Lấy danh sách nhà xuất bản từ DB */
+  static async getPublishers() {
+    try {
+      const pool = await getPool();
+      const result = await pool.query('SELECT DISTINCT publisher_name FROM oltp.Publisher ORDER BY publisher_name');
+      return result.recordset.map(r => r.publisher_name).filter(Boolean);
+    } catch (error) {
+      console.error('[Book.getPublishers] Error fetching publishers:', error.message);
+      return [];
+    }
+  }
+
+  /** Lấy giá bán cao nhất từ DB */
+  static async getMaxPrice() {
+    try {
+      const pool = await getPool();
+      const result = await pool.query('SELECT MAX(selling_price) AS maxPrice FROM oltp.Book');
+      return Number(result.recordset[0].maxPrice || 1000000);
+    } catch (error) {
+      console.error('[Book.getMaxPrice] Error fetching max price:', error.message);
+      return 1000000;
     }
   }
 

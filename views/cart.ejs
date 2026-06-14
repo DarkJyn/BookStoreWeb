@@ -63,10 +63,7 @@
           <span class="text-on-surface-variant">Tạm tính</span>
           <span id="summary-subtotal" class="text-on-surface">0 đ</span>
         </div>
-        <div id="discount-row" class="flex justify-between font-body-md" style="display:none!important">
-          <span class="text-secondary font-medium">Giảm giá</span>
-          <span id="summary-discount" class="text-secondary font-medium">-0 đ</span>
-        </div>
+
         <div class="flex justify-between font-body-md">
           <span class="text-on-surface-variant">Thuế (10%)</span>
           <span id="summary-tax" class="text-on-surface">0 đ</span>
@@ -77,22 +74,7 @@
         </div>
       </div>
 
-      <!-- Discount Code -->
-      <div class="mb-6 pt-5 border-t border-outline-variant">
-        <label class="font-label-md text-on-surface-variant block mb-2">Mã giảm giá</label>
-        <div class="flex border border-outline-variant rounded-lg overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
-          <input id="discount-input"
-            class="flex-1 bg-surface-container-low px-4 py-2.5 text-body-md outline-none bg-transparent min-w-0"
-            placeholder="Nhập mã..."
-            type="text"
-            autocomplete="off">
-          <button onclick="applyDiscount()"
-            class="px-5 py-2.5 bg-secondary text-on-secondary font-label-md hover:opacity-90 active:scale-95 transition-all whitespace-nowrap flex-shrink-0 border-l border-outline-variant">
-            Áp dụng
-          </button>
-        </div>
-        <p id="discount-msg" class="text-sm mt-2 hidden"></p>
-      </div>
+
 
       <!-- Total -->
       <div class="flex justify-between items-end mb-8 pt-5 border-t border-outline-variant">
@@ -117,31 +99,13 @@
       </div>
     </div>
 
-    <!-- Trust Badge -->
-    <div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant">
-      <div class="flex items-start gap-4">
-        <span class="material-symbols-outlined text-secondary" style="font-variation-settings:'FILL' 1">verified</span>
-        <div>
-          <h4 class="font-label-md text-primary">Cam kết chất lượng</h4>
-          <p class="font-caption text-on-surface-variant mt-1">Mỗi cuốn sách được kiểm tra kỹ lưỡng. Đổi trả dễ dàng trong 30 ngày.</p>
-        </div>
-      </div>
-    </div>
   </div>
 
 </div>
 </main>
 
 <script>
-// ============ DISCOUNT CODES ============
-const DISCOUNT_CODES = {
-  'BOOK10':       0.10,
-  'LITERARY20':   0.20,
-  'OPENFOLIO15':  0.15,
-};
 
-let activeDiscount   = 0;   // fraction, e.g. 0.10
-let appliedCodeLabel = '';
 
 // ============ FORMAT ============
 function fmtVND(amount) {
@@ -239,22 +203,12 @@ function escHtml(str) {
 
 // ============ SUMMARY ============
 function updateSummary(subtotal) {
-  const discountAmt  = subtotal * activeDiscount;
-  const afterDiscount = subtotal - discountAmt;
-  const tax           = afterDiscount * 0.10;
-  const total         = afterDiscount + tax;
+  const tax   = subtotal * 0.10;
+  const total = subtotal + tax;
 
   document.getElementById('summary-subtotal').textContent = fmtVND(subtotal);
   document.getElementById('summary-tax').textContent      = fmtVND(tax);
   document.getElementById('summary-total').textContent    = fmtVND(total);
-
-  const discountRow = document.getElementById('discount-row');
-  if (discountAmt > 0) {
-    document.getElementById('summary-discount').textContent = '-' + fmtVND(discountAmt);
-    discountRow.style.removeProperty('display');
-  } else {
-    discountRow.style.setProperty('display', 'none', 'important');
-  }
 }
 
 // ============ EVENT HANDLERS ============
@@ -270,55 +224,11 @@ function handleRemove(id) {
 }
 
 function handleClearCart() {
-  if (!confirm('Bạn có chắc muốn xóa toàn bộ giỏ hàng?')) return;
   clearCart();
-  activeDiscount = 0;
-  appliedCodeLabel = '';
-  document.getElementById('discount-input').value = '';
-  const msg = document.getElementById('discount-msg');
-  msg.textContent = '';
-  msg.classList.add('hidden');
   renderCart();
 }
 
-// ============ DISCOUNT ============
-function applyDiscount() {
-  const input = document.getElementById('discount-input');
-  const code  = input.value.trim().toUpperCase();
-  const msg   = document.getElementById('discount-msg');
-
-  msg.classList.remove('hidden');
-
-  if (code === '') {
-    msg.textContent = 'Vui lòng nhập mã giảm giá.';
-    msg.className   = 'text-sm mt-2 text-error';
-    return;
-  }
-
-  if (DISCOUNT_CODES[code]) {
-    activeDiscount   = DISCOUNT_CODES[code];
-    appliedCodeLabel = code;
-    const pct = Math.round(activeDiscount * 100);
-    msg.textContent = `✓ Mã "${code}" hợp lệ — Giảm ${pct}%!`;
-    msg.className   = 'text-sm mt-2 font-label-md text-secondary';
-    updateSummary(getCartTotal());
-    if (typeof showToast === 'function') showToast(`Áp dụng mã giảm ${pct}% thành công!`);
-  } else {
-    activeDiscount   = 0;
-    appliedCodeLabel = '';
-    msg.textContent = `✗ Mã "${code}" không hợp lệ hoặc đã hết hạn.`;
-    msg.className   = 'text-sm mt-2 text-error';
-    updateSummary(getCartTotal());
-  }
-}
-
-// Enter key on discount input
 document.addEventListener('DOMContentLoaded', function () {
-  var inp = document.getElementById('discount-input');
-  if (inp) inp.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') applyDiscount();
-  });
-
   // Close modal on backdrop click
   document.getElementById('clear-modal-backdrop').addEventListener('click', function(e) {
     if (e.target === this) closeClearModal();
@@ -357,12 +267,6 @@ function confirmClearCart() {
   closeClearModal();
   setTimeout(() => {
     clearCart();
-    activeDiscount   = 0;
-    appliedCodeLabel = '';
-    document.getElementById('discount-input').value = '';
-    const msg = document.getElementById('discount-msg');
-    msg.textContent = '';
-    msg.classList.add('hidden');
     renderCart();
     if (typeof showToast === 'function') showToast('Đã xóa toàn bộ giỏ hàng.', 'info');
   }, 260);

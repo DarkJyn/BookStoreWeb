@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 const { connectDB } = require('./config/db.js');
-const connectMongoDB = require("./config/mongoDB");
+const connectMongoDB = require("./config/mongo.js");
 // Connect to Database
 connectDB();
 connectMongoDB();

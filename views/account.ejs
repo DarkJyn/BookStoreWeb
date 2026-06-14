@@ -30,10 +30,10 @@
 
     <div class="pt-8 mt-8 border-t border-outline-variant flex flex-col space-y-1">
       <!-- Sign Out -->
-      <button onclick="signOut()" class="flex items-center gap-3 px-4 py-3 text-error hover:bg-error-container rounded-lg transition-all w-full text-left">
+      <a href="/logout" class="flex items-center gap-3 px-4 py-3 text-error hover:bg-error-container rounded-lg transition-all w-full text-left">
         <span class="material-symbols-outlined text-[20px]">logout</span>
         <span class="font-label-md text-label-md">Đăng xuất</span>
-      </button>
+      </a>
     </div>
   </aside>
 
@@ -48,8 +48,8 @@
         <div class="relative flex-shrink-0 flex flex-col items-center gap-3">
           <img id="profile-avatar-img" alt="Avatar" 
             class="w-32 h-32 rounded-full object-cover border-4 border-surface-container-low shadow-sm" 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaLV0aBa-Bf7F8zVP6B9HGlbOh_Qu88CvQFXWGGvoNNWKxtwup3LssFnZI6Jv0vZ22yOezGvkE5qvVB2r-zaBrHlGFH-6C1-IGCh9BWRR9EYi0e2vL_GudQItsCKW-FX4r9hVjrZNhHL5FKgEh7lvbmmIuA93dISRxACbzKDLcDnrQqhGAUEI5nHCj24IgjSQ8xlzcLGTvZNELntuTY50OeLfqaJJWNl694Nh5D5kTBUg5k8TEcoyObO88d-OWgLnXqVeSnJlHpms"
-            onerror="this.src='https://ui-avatars.com/api/?name=User&background=random'">
+            src="https://ui-avatars.com/api/?name=<%= encodeURIComponent(userDoc.name || 'User') %>&background=6750A4&color=fff&size=128"
+            onerror="this.src='https://ui-avatars.com/api/?name=User&background=6750A4&color=fff'">
         </div>
 
         <!-- Form Info -->
@@ -88,21 +88,9 @@
               <p id="err-prof-email" class="text-error text-sm hidden"></p>
             </div>
 
-            <div class="space-y-1.5 md:col-span-2">
-              <label class="font-label-md text-label-md text-on-surface-variant">Thể loại yêu thích</label>
-              <select id="prof-genre" class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all disabled:opacity-60 disabled:bg-surface-container" disabled>
-                <option value="">-- Chọn thể loại --</option>
-                <option value="Tiểu thuyết">Tiểu thuyết</option>
-                <option value="Lịch sử">Lịch sử</option>
-                <option value="Nghệ thuật">Nghệ thuật</option>
-                <option value="Khoa học">Khoa học</option>
-                <option value="Phi hư cấu">Phi hư cấu</option>
-              </select>
-            </div>
-
             <div class="md:col-span-2 space-y-1.5">
-              <label class="font-label-md text-label-md text-on-surface-variant">Tiểu sử ngắn</label>
-              <textarea id="prof-bio" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all resize-none disabled:opacity-60 disabled:bg-surface-container" rows="3" disabled></textarea>
+              <label class="font-label-md text-label-md text-on-surface-variant">Địa chỉ</label>
+              <input id="prof-address" class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg px-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all disabled:opacity-60 disabled:bg-surface-container" type="text" disabled placeholder="Nhập địa chỉ của bạn">
             </div>
             
             <div id="prof-actions" class="md:col-span-2 flex justify-end gap-3 mt-2 hidden">
@@ -263,20 +251,19 @@ function switchTab(tabId) {
 }
 
 // ============ PROFILE LOGIC ============
+// Dữ liệu thật từ server (MongoDB)
 const defaultProfile = {
-  avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaLV0aBa-Bf7F8zVP6B9HGlbOh_Qu88CvQFXWGGvoNNWKxtwup3LssFnZI6Jv0vZ22yOezGvkE5qvVB2r-zaBrHlGFH-6C1-IGCh9BWRR9EYi0e2vL_GudQItsCKW-FX4r9hVjrZNhHL5FKgEh7lvbmmIuA93dISRxACbzKDLcDnrQqhGAUEI5nHCj24IgjSQ8xlzcLGTvZNELntuTY50OeLfqaJJWNl694Nh5D5kTBUg5k8TEcoyObO88d-OWgLnXqVeSnJlHpms',
-  name: 'Julian Thorne',
-  phone: '0912345678',
-  email: 'j.thorne@classicmail.com',
-  genre: 'Tiểu thuyết',
-  bio: 'Người đam mê sưu tầm các ấn bản đầu tiên thế kỷ 19 và yêu thích những buổi chiều Chủ nhật yên tĩnh bên tách trà nóng.'
+  avatar: 'https://ui-avatars.com/api/?name=<%= encodeURIComponent(userDoc.name || "User") %>&background=6750A4&color=fff&size=128',
+  name: '<%= (userDoc.name || "").replace(/'/g, "\\'") %>',
+  phone: '<%= userDoc.phone || "" %>',
+  email: '<%= userDoc.email || "" %>',
+  address: '<%= (userDoc.address || "").replace(/'/g, "\\'") %>'
 };
 
 let isEditingProfile = false;
 
 function loadProfile() {
-  const saved = localStorage.getItem('lh_user_profile');
-  const profile = saved ? JSON.parse(saved) : defaultProfile;
+  const profile = defaultProfile;
   
   document.getElementById('prof-avatar').value = profile.avatar || '';
   document.getElementById('profile-avatar-img').src = profile.avatar || defaultProfile.avatar;
@@ -284,8 +271,7 @@ function loadProfile() {
   document.getElementById('prof-name').value = profile.name || '';
   document.getElementById('prof-phone').value = profile.phone || '';
   document.getElementById('prof-email').value = profile.email || '';
-  document.getElementById('prof-genre').value = profile.genre || '';
-  document.getElementById('prof-bio').value = profile.bio || '';
+  document.getElementById('prof-address').value = profile.address || '';
 }
 
 function toggleEditProfile() {
@@ -308,7 +294,7 @@ function cancelEditProfile() {
   document.getElementById('prof-actions').classList.add('hidden');
 }
 
-function saveProfile() {
+async function saveProfile() {
   // Validate
   let valid = true;
   const name = document.getElementById('prof-name');
@@ -330,31 +316,53 @@ function saveProfile() {
 
   if(!valid) return;
 
-  // Save
-  const profile = {
-    avatar: document.getElementById('prof-avatar').value.trim(),
-    name: name.value.trim(),
-    phone: phone.value.trim(),
-    email: email.value.trim(),
-    genre: document.getElementById('prof-genre').value,
-    bio: document.getElementById('prof-bio').value.trim()
-  };
+  // Gửi lên server cập nhật MongoDB
+  const saveBtn = document.querySelector('[onclick="saveProfile()"]');
+  const originalText = saveBtn.textContent;
+  saveBtn.textContent = 'Đang lưu...';
+  saveBtn.disabled = true;
 
-  localStorage.setItem('lh_user_profile', JSON.stringify(profile));
-  
-  if(typeof showToast === 'function') showToast("Đã lưu thông tin cá nhân!");
-  
-  // Close edit mode
-  cancelEditProfile(); 
+  try {
+    const res = await fetch('/account/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name.value.trim(),
+        phone: phone.value.trim(),
+        email: email.value.trim(),
+        address: document.getElementById('prof-address').value.trim()
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      // Cập nhật avatar theo tên mới
+      const newName = name.value.trim();
+      const newAvatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(newName) + '&background=6750A4&color=fff&size=128';
+      document.getElementById('profile-avatar-img').src = newAvatar;
+      defaultProfile.name = newName;
+      defaultProfile.phone = phone.value.trim();
+      defaultProfile.address = document.getElementById('prof-address').value.trim();
+
+      if(typeof showToast === 'function') showToast('✅ ' + data.message);
+      cancelEditProfile();
+    } else {
+      if(typeof showToast === 'function') showToast('❌ ' + data.message);
+    }
+  } catch(err) {
+    if(typeof showToast === 'function') showToast('❌ Không thể kết nối máy chủ.');
+  } finally {
+    saveBtn.textContent = originalText;
+    saveBtn.disabled = false;
+  }
 }
 
 // ============ ORDERS LOGIC ============
-let globalOrders = [];
+let globalOrders = <%- JSON.stringify(orders || []) %>;
 
 function loadOrders() {
-  const saved = localStorage.getItem('lh_orders');
-  globalOrders = saved ? JSON.parse(saved) : [];
-  // Sort by date desc
+  // Sắp xếp theo ngày mới nhất
   globalOrders.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const emptyEl = document.getElementById('orders-empty');
@@ -374,16 +382,32 @@ function loadOrders() {
   subtitleEl.textContent = `Bạn đã đặt ${globalOrders.length} đơn hàng.`;
 
   tbodyEl.innerHTML = globalOrders.map((order, index) => {
-    // Simulate status based on time (if > 5 mins, Delivered, else Processing)
     const orderDate = new Date(order.createdAt);
-    const minsPassed = (new Date() - orderDate) / 60000;
     
-    let statusBadge = '';
-    if(minsPassed > 5) {
-      statusBadge = `<span class="flex items-center gap-1.5 text-secondary"><span class="w-2 h-2 rounded-full bg-secondary"></span>Đã giao</span>`;
-    } else {
-      statusBadge = `<span class="flex items-center gap-1.5 text-tertiary"><span class="w-2 h-2 rounded-full bg-tertiary"></span>Đang xử lý</span>`;
+    const status = order.status || 'Pending';
+    let statusText = 'Đang xử lý';
+    let dotClass = 'bg-tertiary';
+    let textClass = 'text-tertiary';
+
+    if (status === 'Delivered' || status === 'Completed') {
+      statusText = 'Đã giao';
+      dotClass = 'bg-secondary';
+      textClass = 'text-secondary';
+    } else if (status === 'Cancelled') {
+      statusText = 'Đã hủy';
+      dotClass = 'bg-error';
+      textClass = 'text-error';
+    } else if (status === 'Processing') {
+      statusText = 'Đã xác nhận';
+      dotClass = 'bg-secondary';
+      textClass = 'text-secondary';
+    } else if (status === 'Shipped') {
+      statusText = 'Đang giao';
+      dotClass = 'bg-secondary';
+      textClass = 'text-secondary';
     }
+
+    const statusBadge = `<span class="flex items-center gap-1.5 ${textClass}"><span class="w-2 h-2 rounded-full ${dotClass}"></span>${statusText}</span>`;
 
     return `
       <tr class="hover:bg-surface-container-lowest/50 transition-colors">
@@ -415,7 +439,14 @@ function openOrderModal(index) {
   document.getElementById('mdl-email').textContent = order.customer.email;
   document.getElementById('mdl-address').textContent = order.customer.address + (order.customer.note ? ` (Ghi chú: ${order.customer.note})` : '');
   
-  const paymentLabels = { cod: 'Thanh toán khi nhận hàng', bank: 'Chuyển khoản ngân hàng', wallet: 'Ví điện tử' };
+  const paymentLabels = { 
+    cod: 'Thanh toán khi nhận hàng', 
+    COD: 'Thanh toán khi nhận hàng',
+    bank: 'Chuyển khoản ngân hàng', 
+    BANKING: 'Chuyển khoản ngân hàng',
+    wallet: 'Ví điện tử',
+    MOMO: 'Ví điện tử'
+  };
   document.getElementById('mdl-payment').textContent = paymentLabels[order.paymentMethod] || order.paymentMethod;
 
   // Fill Items

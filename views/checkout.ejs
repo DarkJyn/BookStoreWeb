@@ -25,7 +25,8 @@
           <input id="inp-name" name="name" type="text"
             class="h-12 px-4 border border-outline-variant bg-surface-container-lowest rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant"
             placeholder="Nguyễn Văn A"
-            autocomplete="name">
+            autocomplete="name"
+            value="<%= userDoc.name || '' %>">
           <p id="err-name" class="text-error text-sm hidden"></p>
         </div>
 
@@ -37,7 +38,8 @@
           <input id="inp-phone" name="phone" type="tel"
             class="h-12 px-4 border border-outline-variant bg-surface-container-lowest rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant"
             placeholder="0912 345 678"
-            autocomplete="tel">
+            autocomplete="tel"
+            value="<%= userDoc.phone || '' %>">
           <p id="err-phone" class="text-error text-sm hidden"></p>
         </div>
 
@@ -49,7 +51,8 @@
           <input id="inp-email" name="email" type="email"
             class="h-12 px-4 border border-outline-variant bg-surface-container-lowest rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant"
             placeholder="example@email.com"
-            autocomplete="email">
+            autocomplete="email"
+            value="<%= userDoc.email || '' %>">
           <p id="err-email" class="text-error text-sm hidden"></p>
         </div>
 
@@ -61,7 +64,7 @@
           <textarea id="inp-address" name="address" rows="3"
             class="p-4 border border-outline-variant bg-surface-container-lowest rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline-variant resize-none"
             placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố"
-            autocomplete="street-address"></textarea>
+            autocomplete="street-address"><%= userDoc.address || '' %></textarea>
           <p id="err-address" class="text-error text-sm hidden"></p>
         </div>
 
@@ -402,8 +405,8 @@ function validateForm() {
   } else { setFieldOk(email, errEmail); }
 
   // Address
-  if (!address.value.trim() || address.value.trim().length < 10) {
-    setFieldErr(address, errAddress, 'Vui lòng nhập địa chỉ giao hàng đầy đủ.');
+  if (!address.value.trim()) {
+    setFieldErr(address, errAddress, 'Vui lòng nhập địa chỉ giao hàng.');
     valid = false; if (!firstErrEl) firstErrEl = address;
   } else { setFieldOk(address, errAddress); }
 
@@ -416,7 +419,7 @@ function validateForm() {
 }
 
 // ============ SUBMIT ORDER ============
-function submitOrder() {
+async function submitOrder() {
   if (!validateForm()) return;
 
   const cart       = getCart();
@@ -424,51 +427,64 @@ function submitOrder() {
   const tax        = subtotal * TAX_RATE;
   const total      = subtotal + SHIPPING_FEE + tax;
   const payment    = document.querySelector('input[name="payment"]:checked').value;
-  const orderId    = 'ORD-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
 
-  const order = {
-    orderId,
-    createdAt: new Date().toISOString(),
-    customer: {
-      name:    document.getElementById('inp-name').value.trim(),
-      phone:   document.getElementById('inp-phone').value.trim(),
-      email:   document.getElementById('inp-email').value.trim(),
-      address: document.getElementById('inp-address').value.trim(),
-      note:    document.getElementById('inp-note').value.trim(),
-    },
-    paymentMethod: payment,
-    items: cart,
-    subtotal,
-    shipping: SHIPPING_FEE,
-    tax,
-    total,
+  const customer = {
+    name:    document.getElementById('inp-name').value.trim(),
+    phone:   document.getElementById('inp-phone').value.trim(),
+    email:   document.getElementById('inp-email').value.trim(),
+    address: document.getElementById('inp-address').value.trim(),
+    note:    document.getElementById('inp-note').value.trim(),
   };
 
-  // Save order history
-  const orders = JSON.parse(localStorage.getItem('lh_orders') || '[]');
-  orders.push(order);
-  localStorage.setItem('lh_orders', JSON.stringify(orders));
+  // Disable nút trong khi gửi
+  const btns = [document.getElementById('submit-btn'), document.getElementById('submit-btn-mobile')];
+  btns.forEach(b => { if (b) { b.disabled = true; b.textContent = 'Đang xử lý...'; } });
 
-  // Populate modal
-  const paymentLabels = {
-    cod:    'Thanh toán khi nhận hàng',
-    bank:   'Chuyển khoản ngân hàng',
-    wallet: 'Ví điện tử',
-  };
-  document.getElementById('modal-order-id').textContent  = orderId;
-  document.getElementById('modal-name').textContent      = order.customer.name;
-  document.getElementById('modal-phone').textContent     = order.customer.phone;
-  document.getElementById('modal-payment').textContent   = paymentLabels[payment] || payment;
-  document.getElementById('modal-total').textContent     = fmtVND(total);
+  try {
+    const res = await fetch('/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ customer, items: cart, subtotal, shipping: SHIPPING_FEE, tax, total, paymentMethod: payment })
+    });
 
-  // Open modal
-  const backdrop = document.getElementById('success-modal-backdrop');
-  const card     = document.getElementById('success-modal-card');
-  backdrop.classList.remove('hidden');
-  requestAnimationFrame(() => {
-    backdrop.classList.add('modal-open');
-    card.classList.add('modal-open');
-  });
+    const data = await res.json();
+
+    if (!data.success) {
+      if (typeof showToast === 'function') showToast('❌ ' + data.message);
+      btns.forEach(b => { if (b) { b.disabled = false; b.textContent = 'Xác nhận đặt hàng'; } });
+      return;
+    }
+
+    const orderId = data.orderId;
+
+    // Lưu thêm vào localStorage cho tab lịch sử đơn hàng
+    const order = { orderId, createdAt: new Date().toISOString(), customer, paymentMethod: payment,
+      items: cart, subtotal, shipping: SHIPPING_FEE, tax, total };
+    const orders = JSON.parse(localStorage.getItem('lh_orders') || '[]');
+    orders.push(order);
+    localStorage.setItem('lh_orders', JSON.stringify(orders));
+
+    // Populate modal
+    const paymentLabels = { cod: 'Thanh toán khi nhận hàng', bank: 'Chuyển khoản ngân hàng', wallet: 'Ví điện tử' };
+    document.getElementById('modal-order-id').textContent  = orderId;
+    document.getElementById('modal-name').textContent      = customer.name;
+    document.getElementById('modal-phone').textContent     = customer.phone;
+    document.getElementById('modal-payment').textContent   = paymentLabels[payment] || payment;
+    document.getElementById('modal-total').textContent     = fmtVND(total);
+
+    // Mở modal thành công
+    const backdrop = document.getElementById('success-modal-backdrop');
+    const card     = document.getElementById('success-modal-card');
+    backdrop.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      backdrop.classList.add('modal-open');
+      card.classList.add('modal-open');
+    });
+
+  } catch (err) {
+    if (typeof showToast === 'function') showToast('❌ Không thể kết nối máy chủ.');
+    btns.forEach(b => { if (b) { b.disabled = false; b.textContent = 'Xác nhận đặt hàng'; } });
+  }
 }
 
 // ============ POST ORDER ACTION ============
@@ -487,12 +503,13 @@ function onOrderDone() {
 document.addEventListener('DOMContentLoaded', () => {
   renderOrderSummary();
 
-  // Update bank transfer content hint when name changes
+  // Khởi tạo gợi ý nội dung chuyển khoản với tên đã auto-fill
   const nameEl = document.getElementById('inp-name');
-  if (nameEl) {
+  const hint   = document.getElementById('bank-transfer-content');
+  if (hint && nameEl) {
+    hint.textContent = 'ORD-[Mã đơn hàng] - ' + (nameEl.value.trim() || '[Họ tên]');
     nameEl.addEventListener('input', () => {
-      const hint = document.getElementById('bank-transfer-content');
-      if (hint) hint.textContent = 'ORD-[Mã đơn hàng] - ' + (nameEl.value.trim() || '[Họ tên]');
+      hint.textContent = 'ORD-[Mã đơn hàng] - ' + (nameEl.value.trim() || '[Họ tên]');
     });
   }
 });

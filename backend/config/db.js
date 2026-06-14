@@ -100,6 +100,8 @@ const mapFieldName = (field, modelClass) => {
       case 'category_name': return 'c.category_name';
       case 'stock':
       case 'stock_quantity': return 'i.stock_quantity';
+      case 'publisher':
+      case 'publisher_name': return 'p.publisher_name';
       default:            return `b.${field}`;
     }
   }
@@ -386,7 +388,6 @@ class QueryChain {
     // ── Post-process Order ────────────────────────────────────────────────────
     if (modelName === 'Order' && result.recordset.length > 0) {
       const Order   = require('../models/Order');
-      const User    = require('../models/User');
       const Book    = require('../models/Book');
       const orders  = [];
 
@@ -399,7 +400,10 @@ class QueryChain {
           const ur = await pool.request()
             .input('cid', row.customer_id)
             .query('SELECT * FROM oltp.Customer WHERE customer_id = @cid');
-          if (ur.recordset.length > 0) user = new User(ur.recordset[0]);
+          if (ur.recordset.length > 0) {
+            const c = ur.recordset[0];
+            user = { _id: intToHexId(c.customer_id), id: intToHexId(c.customer_id), name: c.full_name, email: c.email, phone: c.phone };
+          }
         }
 
         // Load items
