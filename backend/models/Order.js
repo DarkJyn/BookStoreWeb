@@ -410,6 +410,31 @@ class Order {
     return this;
   }
 
+  /**
+   * Lấy thống kê số đơn hàng và tổng chi tiêu của tất cả khách hàng từ SQL Server.
+   * Kết quả map theo email của khách hàng.
+   * @returns {Promise<Array>} - [{ email, orderCount, totalSpending }]
+   */
+  static async getCustomerStats() {
+    try {
+      const pool = await getPool();
+      const result = await pool.request().query(`
+        SELECT 
+          c.email,
+          COUNT(o.order_id) AS orderCount,
+          COALESCE(SUM(CASE WHEN o.order_status != 'Cancelled' THEN o.total_amount ELSE 0 END), 0) AS totalSpending
+        FROM oltp.Customer c
+        LEFT JOIN oltp.Sales_Order o ON c.customer_id = o.customer_id
+        WHERE c.email IS NOT NULL
+        GROUP BY c.email
+      `);
+      return result.recordset;
+    } catch (error) {
+      console.error('[Order.getCustomerStats] Error:', error.message);
+      return [];
+    }
+  }
+
   toString() { return this._id; }
 }
 

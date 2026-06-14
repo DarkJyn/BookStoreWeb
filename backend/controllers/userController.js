@@ -22,26 +22,15 @@ const getUsers = async (req, res) => {
       .select("-password")
       .sort({ createdAt: -1 });
 
-    const orderStats = await Order.aggregate([
-      {
-        $group: {
-          _id: "$user",
-          orderCount: { $sum: 1 },
-          totalSpending: {
-            $sum: {
-              $cond: [{ $ne: ["$status", "Cancelled"] }, "$total", 0]
-            }
-          }
-        }
-      }
-    ]);
+    const orderStats = await Order.getCustomerStats();
 
     const statsMap = {};
     let totalRevenue = 0;
 
     orderStats.forEach((stat) => {
-      if (stat._id) {
-        statsMap[stat._id.toString()] = {
+      if (stat.email) {
+        const emailKey = stat.email.toLowerCase().trim();
+        statsMap[emailKey] = {
           orderCount: stat.orderCount,
           totalSpending: stat.totalSpending
         };
@@ -51,7 +40,8 @@ const getUsers = async (req, res) => {
     });
 
     const customersWithStats = customers.map((c) => {
-      const stats = statsMap[c._id.toString()] || {
+      const emailKey = c.email.toLowerCase().trim();
+      const stats = statsMap[emailKey] || {
         orderCount: 0,
         totalSpending: 0
       };

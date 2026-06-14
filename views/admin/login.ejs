@@ -14,7 +14,12 @@
 </div>
 <!-- Form Section -->
 <form action="/admin/login" method="POST" class="w-full space-y-6">
-<!-- Username/Email Field -->
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="bg-error-container text-on-error-container p-3 rounded-lg text-body-md text-center font-medium border border-error/20">
+      <%= error %>
+    </div>
+  <% } %>
+  <!-- Username/Email Field -->
 <div class="space-y-2">
 <label class="font-label-md text-label-md text-on-surface-variant block px-1" for="identity">Email or Username</label>
 <div class="relative">
