@@ -27,6 +27,22 @@ const Book = require('./backend/models/Book');
 const Order = require('./backend/models/Order');
 const User = require('./backend/models/User');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const multer = require('multer');
+
+const BACKEND_API_URL = 'http://localhost:5050';
+
+const getBackendHeaders = (admin) => {
+  const token = jwt.sign(
+    { id: admin._id },
+    process.env.JWT_SECRET || 'your_super_secret_jwt_key_12345',
+    { expiresIn: '10m' }
+  );
+  return {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  };
+};
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -34,6 +50,29 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// ─── Multer: upload ảnh bìa sách ──────────────────────────────────────────────
+const coverStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, 'public', 'uploads', 'covers');
+    if (!require('fs').existsSync(dir)) require('fs').mkdirSync(dir, { recursive: true });
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
+    cb(null, `cover_${Date.now()}${ext}`);
+  }
+});
+const coverUpload = multer({
+  storage: coverStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter: (req, file, cb) => {
+    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (allowed.includes(file.mimetype)) cb(null, true);
+    else cb(new Error('Chỉ cho phép ảnh JPEG, PNG, WebP hoặc GIF.'));
+  }
+});
+
 
 app.use(session({
   secret: 'admin_secret_key',
@@ -222,6 +261,19 @@ const requireAdmin = (req, res, next) => {
   res.redirect('/admin/login');
 };
 
+app.post('/admin/upload-cover', requireAdmin, (req, res) => {
+  coverUpload.single('coverImage')(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({ success: false, message: err.message });
+    }
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'Không có tệp tin nào được tải lên.' });
+    }
+    const fileUrl = `/uploads/covers/${req.file.filename}`;
+    res.json({ success: true, url: fileUrl });
+  });
+});
+
 app.get('/admin', requireAdmin, (req, res) => {
   res.redirect('/admin/dashboard');
 });
@@ -243,6 +295,12 @@ app.post('/admin/login', async (req, res) => {
     });
 
     if (admin) {
+      if (admin.isBlocked) {
+        return res.render('admin/login', {
+          title: 'Đăng nhập Quản trị',
+          error: 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên hệ thống.'
+        });
+      }
       const isMatch = await admin.comparePassword(password);
       if (isMatch) {
         req.session.admin = {
@@ -313,8 +371,15 @@ app.get('/admin/dashboard', requireAdmin, async (req, res) => {
 app.get('/admin/books', requireAdmin, async (req, res) => {
   try {
     const { q = '', genre = '', status = '', page = 1 } = req.query;
-    let query = {};
 
+    // Tạo adminToken để client-side gọi trực tiếp backend API
+    const token = jwt.sign(
+      { id: req.session.admin._id },
+      process.env.JWT_SECRET || 'your_super_secret_jwt_key_12345',
+      { expiresIn: '1h' }
+    );
+
+    let query = {};
     if (q.trim()) {
       const keyword = q.trim();
       query.$or = [
@@ -323,32 +388,20 @@ app.get('/admin/books', requireAdmin, async (req, res) => {
         { publisher: { $regex: keyword, $options: 'i' } }
       ];
     }
-
-    if (genre) {
-      query.genre = genre;
-    }
-
+    if (genre) query.genre = genre;
     if (status) {
-      if (status === 'Out of stock') {
-        query.stock = 0;
-      } else if (status === 'Low stock') {
-        query.stock = { $gt: 0, $lte: 5 };
-      } else if (status === 'In stock') {
-        query.stock = { $gt: 5 };
-      }
+      if (status === 'Out of stock')  query.stock = 0;
+      else if (status === 'Low stock') query.stock = { $gt: 0, $lte: 5 };
+      else if (status === 'In stock')  query.stock = { $gt: 5 };
     }
 
     const limit = 50;
-    const totalBooks = await Book.countDocuments(query);
-    const totalPages = Math.ceil(totalBooks / limit) || 1;
+    const totalBooks  = await Book.countDocuments(query);
+    const totalPages  = Math.ceil(totalBooks / limit) || 1;
     const currentPage = Math.max(1, Math.min(parseInt(page) || 1, totalPages));
     const skip = (currentPage - 1) * limit;
 
-    const books = await Book.find(query)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit);
-
+    const books  = await Book.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit);
     const genres = await Book.getGenres();
     const statuses = ['In stock', 'Low stock', 'Out of stock'];
 
@@ -362,7 +415,10 @@ app.get('/admin/books', requireAdmin, async (req, res) => {
       totalPages,
       filters: { q, genre, status },
       genres,
-      statuses
+      statuses,
+      adminToken: token,
+      success: req.query.success || null,
+      error: req.query.error || null
     });
   } catch (error) {
     console.error('Error loading admin books:', error.message);
@@ -371,11 +427,17 @@ app.get('/admin/books', requireAdmin, async (req, res) => {
 });
 
 app.get('/admin/book-form', requireAdmin, (req, res) => {
+  const token = jwt.sign(
+    { id: req.session.admin._id },
+    process.env.JWT_SECRET || 'your_super_secret_jwt_key_12345',
+    { expiresIn: '1h' }
+  );
   res.render('admin/book-form', {
-    title: 'Thêm sách',
+    title: 'Thêm sách mới',
     activePage: 'books',
     admin: req.session.admin,
     book: null,
+    adminToken: token,
     errors: []
   });
 });
@@ -383,13 +445,19 @@ app.get('/admin/book-form', requireAdmin, (req, res) => {
 app.get('/admin/books/:id/edit', requireAdmin, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
-    if (!book) return res.status(404).send('Không tìm thấy sách.');
+    if (!book) return res.redirect('/admin/books?error=' + encodeURIComponent('Không tìm thấy sách.'));
 
+    const token = jwt.sign(
+      { id: req.session.admin._id },
+      process.env.JWT_SECRET || 'your_super_secret_jwt_key_12345',
+      { expiresIn: '1h' }
+    );
     res.render('admin/book-form', {
       title: 'Sửa sách',
       activePage: 'books',
       admin: req.session.admin,
       book,
+      adminToken: token,
       errors: []
     });
   } catch (error) {
@@ -398,56 +466,7 @@ app.get('/admin/books/:id/edit', requireAdmin, async (req, res) => {
   }
 });
 
-app.post('/admin/books', requireAdmin, async (req, res) => {
-  const errors = [];
-  if (!req.body.title?.trim()) errors.push('Tên sách là bắt buộc');
-  if (!req.body.author?.trim()) errors.push('Tác giả là bắt buộc');
 
-  if (errors.length) {
-    return res.status(400).render('admin/book-form', {
-      title: 'Thêm sách',
-      activePage: 'books',
-      admin: req.session.admin,
-      book: req.body,
-      errors
-    });
-  }
-
-  try {
-    const payload = buildBookPayload(req.body);
-    const book = new Book(payload);
-    await book.save();
-    res.redirect('/admin/books');
-  } catch (error) {
-    console.error('Error adding book:', error.message);
-    res.status(500).send('Lỗi máy chủ.');
-  }
-});
-
-app.post('/admin/books/:id', requireAdmin, async (req, res) => {
-  try {
-    const book = await Book.findById(req.params.id);
-    if (!book) return res.status(404).send('Không tìm thấy sách.');
-
-    const payload = buildBookPayload(req.body, book);
-    Object.assign(book, payload);
-    await book.save();
-    res.redirect('/admin/books');
-  } catch (error) {
-    console.error('Error updating book:', error.message);
-    res.status(500).send('Lỗi máy chủ.');
-  }
-});
-
-app.post('/admin/books/:id/delete', requireAdmin, async (req, res) => {
-  try {
-    await Book.findByIdAndDelete(req.params.id);
-    res.redirect('/admin/books');
-  } catch (error) {
-    console.error('Error deleting book:', error.message);
-    res.status(500).send('Lỗi máy chủ.');
-  }
-});
 
 app.get('/admin/promotions', requireAdmin, (req, res) => {
   res.render('admin/promotions', { title: 'Quản lý khuyến mãi', activePage: 'promotions', admin: req.session.admin });
@@ -490,16 +509,66 @@ app.post('/admin/orders/:id/cancel', requireAdmin, async (req, res) => {
 
 app.get('/admin/customers', requireAdmin, async (req, res) => {
   try {
-    const customers = await User.find({ role: 'customer' }).sort({ createdAt: -1 });
+    const { q = '', status = 'all' } = req.query;
+    
+    // Generate adminToken for the client-side to communicate directly with backend
+    const token = jwt.sign(
+      { id: req.session.admin._id },
+      process.env.JWT_SECRET || 'your_super_secret_jwt_key_12345',
+      { expiresIn: '1h' }
+    );
+
+    const response = await fetch(`${BACKEND_API_URL}/api/users?q=${encodeURIComponent(q)}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!response.ok) {
+      const errData = await response.json();
+      throw new Error(errData.message || 'Lỗi từ phía backend API.');
+    }
+    
+    let { users, stats } = await response.json();
+
+    // Apply status filter client-side
+    if (status === 'active') {
+      users = users.filter(u => !u.isBlocked);
+    } else if (status === 'inactive') {
+      users = users.filter(u => u.isBlocked);
+    }
+
     res.render('admin/customers', {
       title: 'Quản lý khách hàng',
       activePage: 'customers',
       admin: req.session.admin,
-      customers
+      customers: users,
+      totalCustomersCount: stats.totalCustomersCount,
+      blockedCustomersCount: stats.blockedCustomersCount,
+      totalRevenue: stats.totalRevenue,
+      searchQuery: q,
+      statusFilter: status,
+      adminToken: token,
+      error: req.query.error || null,
+      success: req.query.success || null
     });
   } catch (error) {
     console.error('Error loading customers:', error.message);
-    res.status(500).send('Lỗi máy chủ.');
+    res.render('admin/customers', {
+      title: 'Quản lý khách hàng',
+      activePage: 'customers',
+      admin: req.session.admin,
+      customers: [],
+      totalCustomersCount: 0,
+      blockedCustomersCount: 0,
+      totalRevenue: 0,
+      searchQuery: req.query.q || '',
+      statusFilter: req.query.status || 'all',
+      adminToken: '',
+      error: 'Lỗi tải danh sách khách hàng: ' + error.message,
+      success: null
+    });
   }
 });
 

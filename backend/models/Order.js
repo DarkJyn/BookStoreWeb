@@ -163,29 +163,35 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-// Validate quantity > 0 và bookId hợp lệ bên SQL Server
+// [CREATE] Middleware chạy trước khi Validate đơn hàng (pre-validate hook)
+// Thực hiện cơ chế Order Snapshotting (Lưu thông tin tại thời điểm mua)
 orderSchema.pre("validate", async function (next) {
   try {
+    // 1. Kiểm tra đơn hàng phải chứa ít nhất 1 sản phẩm
     if (!this.items || this.items.length === 0) {
       return next(new Error("Đơn hàng phải có ít nhất một sản phẩm"));
     }
 
     for (const item of this.items) {
+      // 2. Kiểm tra mã sách có trống hay không
       if (!item.product) {
         return next(new Error("Thiếu bookId trong đơn hàng"));
       }
 
+      // 3. Kiểm tra số lượng đặt mua phải lớn hơn 0
       if (!item.quantity || Number(item.quantity) <= 0) {
         return next(new Error("Số lượng sản phẩm phải lớn hơn 0"));
       }
 
+      // 4. Kiểm tra sự tồn tại của sách dưới CSDL SQL Server thông qua custom model Book
       const book = await Book.findById(item.product);
 
       if (!book) {
         return next(new Error(`bookId không hợp lệ: ${item.product}`));
       }
 
-      // Lưu snapshot thông tin sách tại thời điểm đặt hàng
+      // 5. [Bảo toàn hóa đơn]: Sao chụp (Snapshot) thông tin sách tại thời điểm đặt hàng.
+      // Tránh việc dữ liệu hóa đơn bị sai lệch khi giá sách hoặc thông tin sách thay đổi/bị xóa sau này.
       item.title = item.title || book.title;
       item.image = item.image || book.coverImage || book.image_url || "";
       item.price = Number(item.price || book.price || book.selling_price || 0);
@@ -197,22 +203,24 @@ orderSchema.pre("validate", async function (next) {
   }
 });
 
-// Populate product từ SQL Server khi cần trả về frontend
+// [READ] Phương thức Giả Lập Populate để ghép chi tiết sách từ SQL Server vào đơn hàng
 orderSchema.methods.populateProducts = async function () {
   const populatedItems = [];
 
   for (const item of this.items) {
+    // Tìm thông tin sách chi tiết nhất từ SQL Server
     const book = await Book.findById(item.product);
 
     populatedItems.push({
-      product: book,
-      title: item.title,
-      image: item.image,
-      price: item.price,
+      product: book,      // Đối tượng sách (nếu sách bị xóa dưới SQL Server, trường này có thể trả về null)
+      title: item.title,  // Tiêu đề sách chụp lúc đặt hàng (vẫn bảo toàn được tên sách)
+      image: item.image,  // Ảnh chụp lúc đặt hàng
+      price: item.price,  // Giá mua thực tế của hóa đơn
       quantity: item.quantity
     });
   }
 
+  // Trả về cấu trúc hóa đơn đầy đủ thông tin sản phẩm
   return {
     _id: this._id,
     id: this._id,

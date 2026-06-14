@@ -43,6 +43,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["customer", "admin"],
       default: "customer"
+    },
+
+    isBlocked: {
+      type: Boolean,
+      default: false
     }
   },
   {
@@ -50,17 +55,27 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Hash password trước khi lưu
+// ─── HOOKS & METHODS ─────────────────────────────────────────────────────────
+
+// [CREATE/UPDATE] Middleware chạy trước khi lưu User vào MongoDB (pre-save hook)
 userSchema.pre("save", async function (next) {
+  // Nếu người dùng không nhập username, mặc định lấy email làm username
+  if (!this.username) {
+    this.username = this.email;
+  }
+  
+  // Chỉ thực hiện hash lại mật khẩu khi trường password có sự thay đổi
   if (!this.isModified("password")) return next();
 
+  // Tạo salt độ khó là 10 để băm mật khẩu bảo mật hơn
   const salt = await bcrypt.genSalt(10);
+  // Băm mật khẩu bằng thuật toán bcrypt kết hợp với salt
   this.password = await bcrypt.hash(this.password, salt);
 
   next();
 });
 
-// So sánh mật khẩu khi login
+// [READ] Phương thức so sánh mật khẩu đầu vào với mật khẩu đã băm trong DB khi Đăng nhập
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };
