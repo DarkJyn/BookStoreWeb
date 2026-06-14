@@ -8,15 +8,16 @@
 <!-- Top Header -->
 <header class="admin-page-header">
 <div class="flex items-center gap-4">
-<h2 class="font-headline-md text-headline-md text-primary">Patron Directory</h2>
+<h2 class="font-headline-md text-headline-md text-primary">Quản lý người dùng</h2>
 <div class="h-6 w-[1px] bg-outline-variant"></div>
-<span class="font-label-md text-label-md text-on-surface-variant">1,284 active patrons</span>
+<span class="font-label-md text-label-md text-on-surface-variant"><%= totalCustomersCount - blockedCustomersCount %> người dùng đang hoạt động</span>
 </div>
 <div class="flex items-center gap-6">
-<div class="relative">
+<form action="/admin/customers" method="GET" class="relative">
 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full w-64 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="Search by name, email, or ID..." type="text">
-</div>
+<input name="q" value="<%= searchQuery || '' %>" class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full w-64 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="Tìm theo tên, email, số điện thoại..." type="text">
+<input type="hidden" name="status" value="<%= statusFilter || 'all' %>">
+</form>
 <div class="flex items-center gap-2">
 <button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors">
 <span class="material-symbols-outlined">notifications</span>
@@ -30,47 +31,54 @@
 <!-- Dashboard Content -->
 <div class="flex-1 overflow-y-auto custom-scrollbar bg-background">
 <div class="admin-page-content space-y-8">
+
+<% if (locals.error) { %>
+<div class="bg-error-container text-on-error-container p-4 rounded-xl border border-error/20 font-body-md">
+  <%= error %>
+</div>
+<% } %>
+<% if (locals.success) { %>
+<div class="bg-secondary-container text-on-secondary-container p-4 rounded-xl border border-secondary/20 font-body-md">
+  <%= success %>
+</div>
+<% } %>
 <!-- Analytics Overview Cards (Bento Style) -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] hover:shadow-[0px_8px_30px_rgba(74,69,65,0.12)] transition-shadow">
 <div class="flex justify-between items-start mb-4">
 <div class="p-2 bg-secondary-container rounded-lg text-secondary">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person_add</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
 </div>
-<span class="text-secondary font-label-md text-label-md">+12%</span>
 </div>
-<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">New Patrons</p>
-<p class="font-headline-md text-headline-md text-on-surface mt-1">428</p>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Tổng người dùng</p>
+<p class="font-headline-md text-headline-md text-on-surface mt-1"><%= totalCustomersCount %></p>
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] hover:shadow-[0px_8px_30px_rgba(74,69,65,0.12)] transition-shadow">
 <div class="flex justify-between items-start mb-4">
 <div class="p-2 bg-primary-fixed rounded-lg text-primary">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
 </div>
-<span class="text-secondary font-label-md text-label-md">+8%</span>
 </div>
-<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Revenue</p>
-<p class="font-headline-md text-headline-md text-on-surface mt-1">$42,850</p>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Tổng chi tiêu</p>
+<p class="font-headline-md text-headline-md text-on-surface mt-1"><%= formatPrice(totalRevenue) %></p>
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] hover:shadow-[0px_8px_30px_rgba(74,69,65,0.12)] transition-shadow">
 <div class="flex justify-between items-start mb-4">
 <div class="p-2 bg-tertiary-fixed rounded-lg text-tertiary">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">how_to_reg</span>
 </div>
-<span class="text-secondary font-label-md text-label-md">+5%</span>
 </div>
-<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Avg. Orders</p>
-<p class="font-headline-md text-headline-md text-on-surface mt-1">12.4</p>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Đang hoạt động</p>
+<p class="font-headline-md text-headline-md text-on-surface mt-1"><%= totalCustomersCount - blockedCustomersCount %></p>
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(74,69,65,0.06)] hover:shadow-[0px_8px_30px_rgba(74,69,65,0.12)] transition-shadow">
 <div class="flex justify-between items-start mb-4">
 <div class="p-2 bg-error-container rounded-lg text-error">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">block</span>
 </div>
-<span class="text-error font-label-md text-label-md">+2%</span>
 </div>
-<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Blocked Accounts</p>
-<p class="font-headline-md text-headline-md text-on-surface mt-1">14</p>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Tài khoản bị khóa</p>
+<p class="font-headline-md text-headline-md text-on-surface mt-1"><%= blockedCustomersCount %></p>
 </div>
 </div>
 <!-- Main Customer Table Section -->
@@ -78,257 +86,204 @@
 <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-white">
 <div class="flex items-center gap-4">
 <div class="flex border border-outline-variant rounded-lg overflow-hidden">
-<button class="px-4 py-2 bg-surface-variant text-on-surface font-label-md text-label-md">All Patrons</button>
-<button class="px-4 py-2 hover:bg-surface-container-low transition-colors text-on-surface-variant font-label-md text-label-md border-l border-outline-variant">Active</button>
-<button class="px-4 py-2 hover:bg-surface-container-low transition-colors text-on-surface-variant font-label-md text-label-md border-l border-outline-variant">Inactive</button>
+<a href="/admin/customers?status=all&q=<%= encodeURIComponent(searchQuery || '') %>" class="px-4 py-2 font-label-md text-label-md <%= !statusFilter || statusFilter === 'all' ? 'bg-surface-variant text-on-surface' : 'hover:bg-surface-container-low text-on-surface-variant' %>">Tất cả</a>
+<a href="/admin/customers?status=active&q=<%= encodeURIComponent(searchQuery || '') %>" class="px-4 py-2 font-label-md text-label-md border-l border-outline-variant <%= statusFilter === 'active' ? 'bg-surface-variant text-on-surface' : 'hover:bg-surface-container-low text-on-surface-variant' %>">Đang hoạt động</a>
+<a href="/admin/customers?status=inactive&q=<%= encodeURIComponent(searchQuery || '') %>" class="px-4 py-2 font-label-md text-label-md border-l border-outline-variant <%= statusFilter === 'inactive' ? 'bg-surface-variant text-on-surface' : 'hover:bg-surface-container-low text-on-surface-variant' %>">Đã khóa</a>
 </div>
-<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-all">
-<span class="material-symbols-outlined text-sm">filter_list</span> Filter
-                                </button>
+<a href="/admin/customers" class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-sm">filter_alt_off</span> Xóa lọc
+</a>
 </div>
-<button class="flex items-center gap-2 text-primary font-label-md text-label-md hover:underline decoration-2 underline-offset-4">
+<div class="flex items-center gap-3">
+<button onclick="exportUsersCSV()" class="flex items-center gap-2 text-primary font-label-md text-label-md hover:underline decoration-2 underline-offset-4">
 <span class="material-symbols-outlined">download</span> Export CSV
-                            </button>
+</button>
+<button onclick="openAddUserModal()" class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 transition-all shadow-sm">
+<span class="material-symbols-outlined">person_add</span> Thêm người dùng
+</button>
+</div>
 </div>
 <div class="overflow-x-auto">
 <table class="w-full text-left border-collapse">
 <thead class="bg-surface-container-low">
 <tr>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Patron ID</th>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Full Name</th>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Contact Info</th>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-right">Spending</th>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-center">Orders</th>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-center">Status</th>
-<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-center">Actions</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Mã người dùng</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Họ và tên</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Liên hệ</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-right">Chi tiêu</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-center">Đơn hàng</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-center">Trạng thái</th>
+<th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-center">Thao tác</th>
 </tr>
 </thead>
 <tbody class="divide-y divide-outline-variant">
-<!-- Row 1 -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="px-6 py-5 font-label-md text-label-md text-on-surface-variant">#FO-9234</td>
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-secondary-fixed text-secondary flex items-center justify-center font-bold text-xs">EH</div>
-<span class="font-body-md text-on-surface font-medium">Eleanor Hemmingway</span>
-</div>
-</td>
-<td class="px-6 py-5">
-<p class="font-body-md text-on-surface">eleanor.h@gmail.com</p>
-<p class="font-caption text-caption text-on-surface-variant">+84 902 123 456</p>
-</td>
-<td class="px-6 py-5 text-right font-medium text-on-surface">$1,420.50</td>
-<td class="px-6 py-5 text-center font-body-md text-on-surface">42</td>
-<td class="px-6 py-5 text-center">
-<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary-container text-on-secondary-container">Active</span>
-</td>
-<td class="px-6 py-5 text-center">
-<div class="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-primary hover:bg-primary-fixed rounded-lg transition-colors" title="View Details">
-<span class="material-symbols-outlined">visibility</span>
-</button>
-<button class="p-2 text-error hover:bg-error-container rounded-lg transition-colors" title="Block Account">
-<span class="material-symbols-outlined">lock</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="px-6 py-5 font-label-md text-label-md text-on-surface-variant">#FO-8812</td>
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-tertiary flex items-center justify-center font-bold text-xs">JS</div>
-<span class="font-body-md text-on-surface font-medium">Julian Steinbeck</span>
-</div>
-</td>
-<td class="px-6 py-5">
-<p class="font-body-md text-on-surface">j.steinbeck@library.org</p>
-<p class="font-caption text-caption text-on-surface-variant">+84 913 777 888</p>
-</td>
-<td class="px-6 py-5 text-right font-medium text-on-surface">$890.00</td>
-<td class="px-6 py-5 text-center font-body-md text-on-surface">15</td>
-<td class="px-6 py-5 text-center">
-<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary-container text-on-secondary-container">Active</span>
-</td>
-<td class="px-6 py-5 text-center">
-<div class="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-primary hover:bg-primary-fixed rounded-lg transition-colors"><span class="material-symbols-outlined">visibility</span></button>
-<button class="p-2 text-error hover:bg-error-container rounded-lg transition-colors"><span class="material-symbols-outlined">lock</span></button>
-</div>
-</td>
-</tr>
-<!-- Row 3 (Blocked) -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="px-6 py-5 font-label-md text-label-md text-on-surface-variant">#FO-7721</td>
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-xs">DA</div>
-<span class="font-body-md text-on-surface-variant font-medium">Dorian Anderson</span>
-</div>
-</td>
-<td class="px-6 py-5">
-<p class="font-body-md text-on-surface-variant">dorian.a@archive.com</p>
-<p class="font-caption text-caption text-on-surface-variant">+84 988 111 222</p>
-</td>
-<td class="px-6 py-5 text-right font-medium text-on-surface-variant">$215.40</td>
-<td class="px-6 py-5 text-center font-body-md text-on-surface-variant">3</td>
-<td class="px-6 py-5 text-center">
-<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-error-container text-on-error-container">Blocked</span>
-</td>
-<td class="px-6 py-5 text-center">
-<div class="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-primary hover:bg-primary-fixed rounded-lg transition-colors"><span class="material-symbols-outlined">visibility</span></button>
-<button class="p-2 text-secondary hover:bg-secondary-container rounded-lg transition-colors" title="Unlock Account"><span class="material-symbols-outlined">lock_open</span></button>
-</div>
-</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-surface-container-lowest transition-colors group border-b-0">
-<td class="px-6 py-5 font-label-md text-label-md text-on-surface-variant">#FO-6650</td>
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-xs">MA</div>
-<span class="font-body-md text-on-surface font-medium">Margaret Atwood</span>
-</div>
-</td>
-<td class="px-6 py-5">
-<p class="font-body-md text-on-surface">margaret@handmaid.net</p>
-<p class="font-caption text-caption text-on-surface-variant">+84 933 444 555</p>
-</td>
-<td class="px-6 py-5 text-right font-medium text-on-surface">$3,105.00</td>
-<td class="px-6 py-5 text-center font-body-md text-on-surface">88</td>
-<td class="px-6 py-5 text-center">
-<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary-container text-on-secondary-container">Active</span>
-</td>
-<td class="px-6 py-5 text-center">
-<div class="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-primary hover:bg-primary-fixed rounded-lg transition-colors"><span class="material-symbols-outlined">visibility</span></button>
-<button class="p-2 text-error hover:bg-error-container rounded-lg transition-colors"><span class="material-symbols-outlined">lock</span></button>
-</div>
-</td>
-</tr>
+<% if (customers && customers.length > 0) { %>
+  <% customers.forEach((customer, index) => { %>
+    <%
+      const statusClass  = customer.isBlocked
+        ? 'bg-error-container text-on-error-container'
+        : 'bg-secondary-container text-on-secondary-container';
+      const statusLabel  = customer.isBlocked ? 'Đã khóa' : 'Đang hoạt động';
+      const blockBtnClass = customer.isBlocked
+        ? 'text-secondary hover:bg-secondary-container'
+        : 'text-error hover:bg-error-container';
+      const blockTitle   = customer.isBlocked ? 'Mở khóa' : 'Khóa tài khoản';
+      const blockIcon    = customer.isBlocked ? 'lock_open' : 'lock';
+    %>
+    <tr class="hover:bg-surface-container-lowest transition-colors group">
+      <td class="px-6 py-5 font-label-md text-label-md text-on-surface-variant">#<%= customer._id.toString().slice(-6).toUpperCase() %></td>
+      <td class="px-6 py-5">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-secondary-fixed text-secondary flex items-center justify-center font-bold text-xs">
+            <%= customer.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() %>
+          </div>
+          <span class="font-body-md text-on-surface font-medium"><%= customer.name %></span>
+        </div>
+      </td>
+      <td class="px-6 py-5">
+        <p class="font-body-md text-on-surface"><%= customer.email %></p>
+        <p class="font-caption text-caption text-on-surface-variant"><%= customer.phone || 'N/A' %></p>
+      </td>
+      <td class="px-6 py-5 text-right font-medium text-on-surface"><%= formatPrice(customer.totalSpending) %></td>
+      <td class="px-6 py-5 text-center font-body-md text-on-surface"><%= customer.orderCount %></td>
+      <td class="px-6 py-5 text-center">
+        <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider <%= statusClass %>">
+          <%= statusLabel %>
+        </span>
+      </td>
+      <td class="px-6 py-5 text-center">
+        <div class="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button onclick="viewCustomerDetails('<%= customer._id %>')" class="p-2 text-primary hover:bg-primary-fixed rounded-lg transition-colors" title="Xem chi tiết">
+            <span class="material-symbols-outlined">visibility</span>
+          </button>
+          <button onclick="openEditUserModal('<%= customer._id %>')" class="p-2 text-secondary hover:bg-secondary-container rounded-lg transition-colors" title="Sửa thông tin">
+            <span class="material-symbols-outlined">edit</span>
+          </button>
+          <button onclick="toggleBlockUser('<%= customer._id %>', <%= customer.isBlocked %>)" class="p-2 <%= blockBtnClass %> rounded-lg transition-colors" title="<%= blockTitle %>">
+            <span class="material-symbols-outlined"><%= blockIcon %></span>
+          </button>
+          <button onclick="deleteUser('<%= customer._id %>')" class="p-2 text-error hover:bg-error-container rounded-lg transition-colors" title="Xóa tài khoản">
+            <span class="material-symbols-outlined">delete</span>
+          </button>
+        </div>
+      </td>
+    </tr>
+  <% }) %>
+<% } else { %>
+  <tr>
+    <td colspan="7" class="px-6 py-10 text-center text-on-surface-variant font-body-md">Không tìm thấy khách hàng nào.</td>
+  </tr>
+<% } %>
 </tbody>
 </table>
 </div>
 <!-- Pagination -->
 <div class="p-6 border-t border-outline-variant flex items-center justify-between bg-white">
-<span class="font-caption text-caption text-on-surface-variant">Showing 1 to 10 of 1,284 patrons</span>
-<div class="flex items-center gap-2">
-<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container-low">
-<span class="material-symbols-outlined">chevron_left</span>
-</button>
-<button class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary rounded-lg font-label-md text-label-md">1</button>
-<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container-low font-label-md text-label-md">2</button>
-<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container-low font-label-md text-label-md">3</button>
-<span class="px-2 text-on-surface-variant">...</span>
-<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container-low font-label-md text-label-md">129</button>
-<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container-low">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
+<span class="font-caption text-caption text-on-surface-variant">Hiển thị <%= customers ? customers.length : 0 %> người dùng</span>
+<div class="flex items-center gap-2 text-on-surface-variant font-caption text-caption">
+  <% if (searchQuery) { %><span>Từ khóa: "<%= searchQuery %>"</span><% } %>
+  <% if (statusFilter && statusFilter !== 'all') { %><span>Trạng thái: <%= statusFilter === 'active' ? 'Đang hoạt động' : 'Đã khóa' %></span><% } %>
 </div>
 </div>
 </div>
-<!-- Quick View Overlay (Visual Mockup of "Details") -->
-<div class="bg-surface-container-highest/30 rounded-2xl p-1 border border-outline-variant/30">
+<!-- Quick View Overlay (Dynamic Details) -->
+<div id="customer-details-section" class="hidden bg-surface-container-highest/30 rounded-2xl p-1 border border-outline-variant/30 mt-8">
 <div class="bg-white rounded-xl border border-outline-variant shadow-lg grid grid-cols-1 md:grid-cols-3 overflow-hidden">
 <!-- Detail Left Panel -->
 <div class="p-8 border-r border-outline-variant bg-surface-container-lowest">
 <div class="flex flex-col items-center text-center space-y-4">
 <div class="w-32 h-32 rounded-full border-4 border-secondary-container p-1">
-<div class="w-full h-full rounded-full bg-secondary-fixed flex items-center justify-center text-secondary font-display-lg text-4xl">EH</div>
+<div id="detail-avatar" class="w-full h-full rounded-full bg-secondary-fixed flex items-center justify-center text-secondary font-display-lg text-4xl">EH</div>
 </div>
 <div>
-<h3 class="font-headline-md text-headline-md text-on-surface">Eleanor Hemmingway</h3>
-<p class="font-body-md text-on-surface-variant">Loyal Reader since Jan 2022</p>
+<h3 id="detail-name" class="font-headline-md text-headline-md text-on-surface"></h3>
+<p id="detail-joined" class="font-body-md text-on-surface-variant">Người dùng</p>
 </div>
 <div class="w-full space-y-4 pt-6 text-left border-t border-outline-variant">
 <div>
 <p class="font-label-md text-caption text-on-surface-variant uppercase tracking-widest">Email Address</p>
-<p class="font-body-md text-on-surface">eleanor.h@gmail.com</p>
+<p id="detail-email" class="font-body-md text-on-surface"></p>
 </div>
 <div>
 <p class="font-label-md text-caption text-on-surface-variant uppercase tracking-widest">Phone Number</p>
-<p class="font-body-md text-on-surface">+84 902 123 456</p>
+<p id="detail-phone" class="font-body-md text-on-surface"></p>
 </div>
 <div>
 <p class="font-label-md text-caption text-on-surface-variant uppercase tracking-widest">Shipping Address</p>
-<p class="font-body-md text-on-surface">123 Bookstore Street, District 1, Ho Chi Minh City, Vietnam</p>
+<p id="detail-address" class="font-body-md text-on-surface"></p>
 </div>
 </div>
 <div class="w-full flex gap-3 pt-4">
-<button class="flex-1 py-3 bg-primary text-on-primary rounded-xl font-label-md text-label-md transition-transform active:scale-95">Send Email</button>
-<button class="p-3 border border-error text-error rounded-xl hover:bg-error-container transition-colors"><span class="material-symbols-outlined">block</span></button>
+<a id="detail-email-btn" href="" class="flex-1 py-3 bg-primary text-on-primary rounded-xl font-label-md text-label-md transition-transform active:scale-95 text-center flex items-center justify-center">Gửi email</a>
+<button id="detail-block-btn" onclick="" class="p-3 border border-error text-error rounded-xl hover:bg-error-container transition-colors"><span class="material-symbols-outlined">block</span></button>
 </div>
 </div>
 </div>
 <!-- Detail History Panel -->
 <div class="col-span-2 p-8 bg-background">
 <div class="flex justify-between items-center mb-8">
-<h4 class="font-headline-md text-headline-md text-primary">Purchase History</h4>
+<h4 class="font-headline-md text-headline-md text-primary">Lịch sử mua hàng</h4>
 <div class="flex gap-2">
-<span class="px-4 py-1.5 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold">VIP Tier</span>
-<span class="px-4 py-1.5 bg-tertiary-fixed text-on-tertiary-fixed rounded-full text-xs font-bold">128 Points</span>
+<span id="detail-spending-badge" class="px-4 py-1.5 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold"></span>
+<span id="detail-orders-badge" class="px-4 py-1.5 bg-tertiary-fixed text-on-tertiary-fixed rounded-full text-xs font-bold"></span>
 </div>
 </div>
-<div class="space-y-4">
-<!-- Order Item 1 -->
-<div class="flex items-center justify-between p-5 bg-white rounded-xl border border-outline-variant hover:shadow-md transition-shadow">
-<div class="flex items-center gap-4">
-<div class="w-12 h-16 rounded-sm bg-surface-variant overflow-hidden shadow-sm">
-<img alt="Book Cover" class="w-full h-full object-cover" data-alt="A vintage, slightly worn book cover with elegant serif typography and gold leaf detailing. The book is titled 'The Silent Patient' and lies on a dark oak table next to a cup of steaming black coffee. The lighting is moody and dramatic, with warm shadows creating a sophisticated, intellectual atmosphere consistent with a modern high-end bookstore brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUjk_YeXRgAWiT34WW2lRlUBijJ6mFzxeiWF3qxqNt_y8O8GNNDLSR8H-MxuYzMpuYLc3gawqfDR--0m7A9sQ-7wcFDpBYHcOCNCP-fwHXip_Vgob8dw6WwBoIdwDgrXchApnKr2hDF8sa-hwE0FacaLYcgMcE7muMbiDxXGF321_xWEng3bNc7SXXMKmzFV-B-SRm07MVzUC9NfpRqBFFXXxrPOBemkbuSBp3LbPIqWR7rKR3dpcOUoffzDe1HAxgUKqSdMkTyCU">
-</div>
-<div>
-<p class="font-body-md text-on-surface font-bold">Order #ORD-88219</p>
-<p class="font-caption text-caption text-on-surface-variant">The Silent Patient &amp; 2 others</p>
-</div>
-</div>
-<div class="text-right">
-<p class="font-body-md text-on-surface font-bold">$84.20</p>
-<p class="font-caption text-caption text-secondary">Delivered · May 12, 2024</p>
-</div>
-</div>
-<!-- Order Item 2 -->
-<div class="flex items-center justify-between p-5 bg-white rounded-xl border border-outline-variant hover:shadow-md transition-shadow">
-<div class="flex items-center gap-4">
-<div class="w-12 h-16 rounded-sm bg-surface-variant overflow-hidden shadow-sm">
-<img alt="Book Cover" class="w-full h-full object-cover" data-alt="A collection of contemporary minimalist book covers featuring clean layouts and pastel tones. The scene is bright and airy with high-key lighting, emphasizing a clean white-mode aesthetic. A single monstera leaf shadow falls across the book spines, adding a touch of natural elegance to the curated intellectual display." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDofeI3FF9v1rSUu7c-iU_lGi0CzIDUcttKayxMATW-cbkOO6Cf-yq_Ea1-tP2KWf-WIMswkZFSqHuOXRmoIr1QcgrLbRwIOk2FUPafkPM2K-jKPaJUukp7KfM4_sQYfznEsbhnq_k5KZU83GPx4xNjL-0akIanQWOp3HFB6XFX5yGauoYfCfwc27k6tSO5-EX05sGQ46-yyggF7IXVIZ8B7nqOhIBLougBoKRwLFHnLwI9psauR4lIT2lR90etTBrskwjG1gioNkU">
-</div>
-<div>
-<p class="font-body-md text-on-surface font-bold">Order #ORD-87114</p>
-<p class="font-caption text-caption text-on-surface-variant">Modern Architecture: Vol 1</p>
-</div>
-</div>
-<div class="text-right">
-<p class="font-body-md text-on-surface font-bold">$112.00</p>
-<p class="font-caption text-caption text-secondary">Delivered · April 28, 2024</p>
-</div>
-</div>
-<!-- Order Item 3 -->
-<div class="flex items-center justify-between p-5 bg-white rounded-xl border border-outline-variant hover:shadow-md transition-shadow">
-<div class="flex items-center gap-4">
-<div class="w-12 h-16 rounded-sm bg-surface-variant overflow-hidden shadow-sm">
-<img alt="Book Cover" class="w-full h-full object-cover" data-alt="An open antique book with yellowed pages and delicate handwriting in the margins, resting on a textured cream linen surface. The atmosphere is warm and nostalgic, lit by a soft morning glow that highlights the tactile quality of the paper. This image evokes a sense of deep curiosity and historical discovery within a modern minimalist context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhgMS5v9fBQvHbEn4PB1UgyB_TfktlCPUisP5B_9oC0YIgYf32Bh5WKxwraf7lD-4XuB0AJGd95uEROw7XUgeeQKh64EAs-eNRTExu9lxI7wGvMYj3nnBx7An5kE8PoIq780zQ0fx366DYgwkUAxlnksteNukMUvfkbO1O62kzac_OxD9lWKJVRBFRZJgWSmeUZl3-s9iokN206V1nj7-qRUddfivjZA2WQ_xOwB5JwrZr7SQM8r1quLBQH42GR2WJhAJpfCYni94">
-</div>
-<div>
-<p class="font-body-md text-on-surface font-bold">Order #ORD-86002</p>
-<p class="font-caption text-caption text-on-surface-variant">Classic Poetry Collection</p>
-</div>
-</div>
-<div class="text-right">
-<p class="font-body-md text-on-surface font-bold">$45.50</p>
-<p class="font-caption text-caption text-secondary">Delivered · March 15, 2024</p>
-</div>
-</div>
-</div>
-<div class="mt-8 text-center">
-<button class="text-primary font-label-md text-label-md hover:underline decoration-2 underline-offset-4">View Full History</button>
+<div id="detail-orders-list" class="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+<!-- Order Items will be dynamically loaded here -->
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
+<!-- Add/Edit User Modal -->
+<div id="user-modal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl border border-outline-variant shadow-2xl w-full max-w-lg overflow-hidden transform transition-all duration-300 scale-95 opacity-0" id="user-modal-content">
+    <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+      <h3 id="modal-title" class="font-headline-md text-headline-md text-primary">Thêm Người Dùng</h3>
+      <button onclick="closeUserModal()" class="p-2 hover:bg-surface-variant rounded-full text-on-surface-variant transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <form id="user-form" action="/admin/customers" method="POST" class="p-6 space-y-4">
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface-variant mb-1" for="user-name">Họ và Tên <span class="text-error">*</span></label>
+        <input type="text" id="user-name" name="name" required class="w-full px-4 py-2.5 rounded-lg border border-outline focus:ring-2 focus:ring-primary focus:border-primary bg-background text-on-surface text-sm transition-all" placeholder="Ví dụ: Nguyễn Văn A">
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block font-label-md text-label-md text-on-surface-variant mb-1" for="user-email">Email <span class="text-error">*</span></label>
+          <input type="email" id="user-email" name="email" required class="w-full px-4 py-2.5 rounded-lg border border-outline focus:ring-2 focus:ring-primary focus:border-primary bg-background text-on-surface text-sm transition-all" placeholder="email@example.com">
+        </div>
+        <div>
+          <label class="block font-label-md text-label-md text-on-surface-variant mb-1" for="user-phone">Số điện thoại</label>
+          <input type="text" id="user-phone" name="phone" class="w-full px-4 py-2.5 rounded-lg border border-outline focus:ring-2 focus:ring-primary focus:border-primary bg-background text-on-surface text-sm transition-all" placeholder="Ví dụ: 090xxxxxxx">
+        </div>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface-variant mb-1" for="user-password">Mật khẩu <span id="pwd-required-star" class="text-error">*</span></label>
+        <input type="password" id="user-password" name="password" required class="w-full px-4 py-2.5 rounded-lg border border-outline focus:ring-2 focus:ring-primary focus:border-primary bg-background text-on-surface text-sm transition-all" placeholder="Tối thiểu 6 ký tự">
+        <p id="pwd-help" class="text-[11px] text-on-surface-variant mt-1 hidden">Để trống nếu không muốn thay đổi mật khẩu.</p>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface-variant mb-1" for="user-address">Địa chỉ giao hàng</label>
+        <textarea id="user-address" name="address" rows="2" class="w-full px-4 py-2.5 rounded-lg border border-outline focus:ring-2 focus:ring-primary focus:border-primary bg-background text-on-surface text-sm transition-all" placeholder="Địa chỉ chi tiết để giao hàng..."></textarea>
+      </div>
+      <div id="role-field-container" class="block">
+        <label class="block font-label-md text-label-md text-on-surface-variant mb-1" for="user-role">Vai trò</label>
+        <select id="user-role" name="role" class="w-full px-4 py-2.5 rounded-lg border border-outline focus:ring-2 focus:ring-primary focus:border-primary bg-background text-on-surface text-sm transition-all">
+          <option value="customer" selected>Khách hàng (Customer)</option>
+          <option value="admin">Quản trị viên (Admin)</option>
+        </select>
+      </div>
+      <div class="pt-4 border-t border-outline-variant flex justify-end gap-3 bg-surface-container-low -mx-6 -mb-6 p-4">
+        <button type="button" onclick="closeUserModal()" class="px-5 py-2.5 border border-outline text-on-surface hover:bg-surface-variant rounded-lg font-label-md transition-colors">Hủy</button>
+        <button type="submit" class="px-5 py-2.5 bg-primary text-on-primary hover:opacity-90 rounded-lg font-label-md shadow-sm transition-opacity">Lưu</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- Footer Component -->
 <footer class="w-full py-4 px-8 border-t border-outline-variant bg-surface-container-highest flex items-center justify-between">
 <p class="font-caption text-caption text-on-surface-variant">© 2024 The Open Folio. All rights reserved.</p>
@@ -340,4 +295,297 @@
 </footer>
 </main>
 </div>
+
+<script>
+  const ADMIN_TOKEN = '<%= typeof adminToken !== "undefined" ? adminToken : "" %>';
+  const customers = <%- JSON.stringify(customers) %>;
+
+  function formatPrice(val) {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
+  }
+
+  function openAddUserModal() {
+    const modal = document.getElementById('user-modal');
+    const content = document.getElementById('user-modal-content');
+    const form = document.getElementById('user-form');
+    const pwdRequiredStar = document.getElementById('pwd-required-star');
+    const pwdHelp = document.getElementById('pwd-help');
+    
+    document.getElementById('modal-title').textContent = 'Thêm Người Dùng';
+    form.dataset.mode = 'add';
+    form.dataset.id = '';
+    form.reset();
+    
+    document.getElementById('user-password').required = true;
+    pwdRequiredStar.style.display = 'inline';
+    pwdHelp.style.display = 'none';
+    
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      content.classList.remove('scale-95', 'opacity-0');
+    }, 50);
+  }
+
+  function openEditUserModal(id) {
+    const customer = customers.find(c => c._id === id);
+    if (!customer) return;
+    
+    const modal = document.getElementById('user-modal');
+    const content = document.getElementById('user-modal-content');
+    const form = document.getElementById('user-form');
+    const pwdRequiredStar = document.getElementById('pwd-required-star');
+    const pwdHelp = document.getElementById('pwd-help');
+    
+    document.getElementById('modal-title').textContent = 'Cập Nhật Người Dùng';
+    form.dataset.mode = 'edit';
+    form.dataset.id = id;
+    
+    document.getElementById('user-name').value = customer.name;
+    document.getElementById('user-email').value = customer.email;
+    document.getElementById('user-phone').value = customer.phone || '';
+    document.getElementById('user-address').value = customer.address || '';
+    document.getElementById('user-role').value = customer.role || 'customer';
+    
+    document.getElementById('user-password').required = false;
+    document.getElementById('user-password').value = '';
+    pwdRequiredStar.style.display = 'none';
+    pwdHelp.style.display = 'block';
+    
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      content.classList.remove('scale-95', 'opacity-0');
+    }, 50);
+  }
+
+  function closeUserModal() {
+    const modal = document.getElementById('user-modal');
+    const content = document.getElementById('user-modal-content');
+    
+    content.classList.add('scale-95', 'opacity-0');
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 300);
+  }
+
+  // Intercept the form submission and send direct AJAX request to the backend REST API
+  document.getElementById('user-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    const isEdit = this.dataset.mode === 'edit';
+    const userId = this.dataset.id;
+    const url = isEdit
+      ? `http://localhost:5050/api/users/${userId}`
+      : 'http://localhost:5050/api/users';
+    const method = isEdit ? 'PUT' : 'POST';
+
+    if (isEdit && (!data.password || !data.password.trim())) {
+      delete data.password;
+    }
+
+    if (!ADMIN_TOKEN) {
+      alert('Thiếu adminToken. Hãy truyền adminToken khi render view hoặc dùng session route nội bộ.');
+      return;
+    }
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + ADMIN_TOKEN
+        },
+        body: JSON.stringify(data)
+      });
+      const resData = await response.json();
+      if (response.ok) {
+        window.location.href = '/admin/customers?success=' + encodeURIComponent(isEdit ? 'Cập nhật người dùng thành công.' : 'Thêm người dùng thành công.');
+      } else {
+        alert(resData.message || 'Thao tác thất bại.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Lỗi kết nối đến máy chủ backend.');
+    }
+  });
+
+  async function viewCustomerDetails(id) {
+    const detailsSection = document.getElementById('customer-details-section');
+    try {
+      const userRes = await fetch(`http://localhost:5050/api/users/${id}`, {
+        headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN }
+      });
+      const userData = await userRes.json();
+      if (!userRes.ok) {
+        alert(userData.message || 'Lỗi khi tải chi tiết khách hàng.');
+        return;
+      }
+      const { user } = userData;
+
+      const ordersRes = await fetch(`http://localhost:5050/api/users/${id}/orders`, {
+        headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN }
+      });
+      const { orders } = await ordersRes.json();
+      
+      const totalSpending = orders
+        .filter(order => order.status !== 'Cancelled')
+        .reduce((sum, order) => sum + (order.total || 0), 0);
+      
+      const orderCount = orders.length;
+      
+      // Update left panel
+      document.getElementById('detail-name').textContent = user.name;
+      document.getElementById('detail-joined').textContent = `Vai trò: ${user.role === 'admin' ? 'Quản trị viên' : 'Khách hàng'}`;
+      document.getElementById('detail-email').textContent = user.email;
+      document.getElementById('detail-email-btn').href = `mailto:${user.email}`;
+      document.getElementById('detail-phone').textContent = user.phone || 'N/A';
+      document.getElementById('detail-address').textContent = user.address || 'Chưa cung cấp địa chỉ.';
+      
+      // Update avatar letter
+      const initials = user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+      document.getElementById('detail-avatar').textContent = initials;
+      
+      // Update block button onclick & style
+      const blockBtn = document.getElementById('detail-block-btn');
+      blockBtn.setAttribute('onclick', `toggleBlockUser('${user._id}', ${user.isBlocked})`);
+      if (user.isBlocked) {
+        blockBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">lock_open</span>';
+        blockBtn.title = 'Mở khóa tài khoản';
+        blockBtn.className = 'p-3 border border-secondary text-secondary rounded-xl hover:bg-secondary-container transition-colors';
+      } else {
+        blockBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">block</span>';
+        blockBtn.title = 'Khóa tài khoản';
+        blockBtn.className = 'p-3 border border-error text-error rounded-xl hover:bg-error-container transition-colors';
+      }
+      
+      // Update badges
+      document.getElementById('detail-spending-badge').textContent = `Tổng chi tiêu: ${formatPrice(totalSpending)}`;
+      document.getElementById('detail-orders-badge').textContent = `${orderCount} Đơn hàng`;
+      
+      // Update orders list
+      const ordersList = document.getElementById('detail-orders-list');
+      ordersList.innerHTML = '';
+      
+      if (orders && orders.length > 0) {
+        orders.forEach(order => {
+          const orderDate = new Date(order.createdAt).toLocaleDateString('vi-VN', {
+            year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+          });
+          
+          let itemsText = order.items.map(item => item.title).join(', ');
+          if (itemsText.length > 60) {
+            itemsText = itemsText.slice(0, 57) + '...';
+          }
+          
+          const orderCard = document.createElement('div');
+          orderCard.className = 'flex items-center justify-between p-5 bg-white rounded-xl border border-outline-variant hover:shadow-md transition-shadow';
+          orderCard.innerHTML = `
+            <div class="flex items-center gap-4">
+              <div>
+                <p class="font-body-md text-on-surface font-bold">Mã đơn: #${order._id.toString().slice(-8).toUpperCase()}</p>
+                <p class="font-caption text-caption text-on-surface-variant">${itemsText}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="font-body-md text-on-surface font-bold">${formatPrice(order.total)}</p>
+              <p class="font-caption text-caption text-secondary">${order.status} · ${orderDate}</p>
+            </div>
+          `;
+          ordersList.appendChild(orderCard);
+        });
+      } else {
+        ordersList.innerHTML = '<p class="text-on-surface-variant font-body-md text-center py-6">Khách hàng chưa có đơn hàng nào.</p>';
+      }
+      
+      // Show section & scroll
+      detailsSection.classList.remove('hidden');
+      detailsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } catch (e) {
+      console.error(e);
+      alert('Đã xảy ra lỗi khi tải chi tiết khách hàng.');
+    }
+  }
+
+  async function toggleBlockUser(id, currentBlockedStatus) {
+    const action = currentBlockedStatus ? 'mở khóa' : 'khóa';
+    if (!confirm(`Bạn có chắc chắn muốn ${action} tài khoản này không?`)) return;
+    
+    try {
+      const response = await fetch(`http://localhost:5050/api/users/${id}/toggle-block`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + ADMIN_TOKEN
+        }
+      });
+      const data = await response.json();
+      if (response.ok && data.success) {
+        window.location.reload();
+      } else {
+        alert(data.message || 'Lỗi khi thực hiện thao tác.');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Lỗi kết nối.');
+    }
+  }
+
+  async function deleteUser(id) {
+    if (!confirm('Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản này? Thao tác này không thể hoàn tác.')) return;
+    
+    try {
+      const response = await fetch(`http://localhost:5050/api/users/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + ADMIN_TOKEN
+        }
+      });
+      const data = await response.json();
+      if (response.ok && data.success) {
+        window.location.href = '/admin/customers?success=' + encodeURIComponent('Xóa người dùng thành công.');
+      } else {
+        alert(data.message || 'Lỗi khi thực hiện thao tác.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Lỗi kết nối.');
+    }
+  }
+
+  function exportUsersCSV() {
+    if (!customers || customers.length === 0) {
+      alert('Không có dữ liệu để xuất.');
+      return;
+    }
+
+    const headers = ['ID', 'Name', 'Email', 'Phone', 'Role', 'Status', 'Orders', 'Total Spending'];
+    const rows = customers.map(c => [
+      c._id,
+      c.name || '',
+      c.email || '',
+      c.phone || '',
+      c.role || '',
+      c.isBlocked ? 'Blocked' : 'Active',
+      c.orderCount || 0,
+      c.totalSpending || 0
+    ]);
+
+    const csv = [headers, ...rows]
+      .map(row => row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'users.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+</script>
 </body></html>

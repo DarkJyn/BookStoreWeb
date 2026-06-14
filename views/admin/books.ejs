@@ -8,111 +8,132 @@
 <main class="admin-main">
   <header class="admin-page-header">
     <div>
-      <h1 class="font-headline-md text-headline-md text-primary">Quan ly sach</h1>
-      <p class="text-caption text-on-surface-variant">Dang hien thi <%= books.length %> / <%= totalBooks %> dau sach</p>
+      <h1 class="font-headline-md text-headline-md text-primary">Quản lý sách</h1>
+      <p class="text-caption text-on-surface-variant">Đang hiển thị <%= books.length %> / <%= totalBooks %> đầu sách</p>
     </div>
     <a href="/admin/book-form" class="h-10 px-5 rounded-full bg-primary text-on-primary font-label-md text-label-md flex items-center gap-2">
       <span class="material-symbols-outlined text-[20px]">add</span>
-      Them sach
+      Thêm sách
     </a>
   </header>
 
   <div class="admin-page-content space-y-6">
+
+    <% if (locals.success) { %>
+    <div id="flash-msg" class="bg-secondary-container text-on-secondary-container p-4 rounded-xl border border-secondary/20 font-body-md flex items-center gap-3">
+      <span class="material-symbols-outlined text-secondary">check_circle</span>
+      <%= success %>
+    </div>
+    <% } %>
+    <% if (locals.error) { %>
+    <div id="flash-msg" class="bg-error-container text-on-error-container p-4 rounded-xl border border-error/20 font-body-md flex items-center gap-3">
+      <span class="material-symbols-outlined text-error">error</span>
+      <%= error %>
+    </div>
+    <% } %>
+
+    <!-- Filter form -->
     <form class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant grid grid-cols-1 lg:grid-cols-[1fr_220px_220px_auto] gap-4 items-end" method="get" action="/admin/books">
       <label class="flex flex-col gap-2">
-        <span class="font-label-md text-label-md text-on-surface-variant">Tim kiem</span>
-        <input name="q" value="<%= filters.q || '' %>" class="h-11 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Ten sach, tac gia, ID, NXB">
+        <span class="font-label-md text-label-md text-on-surface-variant">Tìm kiếm</span>
+        <input name="q" value="<%= filters.q || '' %>" class="h-11 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Tên sách, tác giả, NXB...">
       </label>
-
       <label class="flex flex-col gap-2">
-        <span class="font-label-md text-label-md text-on-surface-variant">The loai</span>
+        <span class="font-label-md text-label-md text-on-surface-variant">Thể loại</span>
         <select name="genre" class="h-11 rounded-lg border border-outline-variant bg-surface-container-lowest px-3 focus:border-primary focus:ring-1 focus:ring-primary">
-          <option value="">Tat ca</option>
+          <option value="">Tất cả</option>
           <% genres.forEach((item) => { %>
             <option value="<%= item %>" <%= filters.genre === item ? 'selected' : '' %>><%= item %></option>
           <% }) %>
         </select>
       </label>
-
       <label class="flex flex-col gap-2">
-        <span class="font-label-md text-label-md text-on-surface-variant">Trang thai</span>
+        <span class="font-label-md text-label-md text-on-surface-variant">Tình trạng kho</span>
         <select name="status" class="h-11 rounded-lg border border-outline-variant bg-surface-container-lowest px-3 focus:border-primary focus:ring-1 focus:ring-primary">
-          <option value="">Tat ca</option>
+          <option value="">Tất cả</option>
           <% statuses.forEach((item) => { %>
             <option value="<%= item %>" <%= filters.status === item ? 'selected' : '' %>><%= item %></option>
           <% }) %>
         </select>
       </label>
-
       <div class="flex gap-2">
-        <button class="h-11 px-5 rounded-lg bg-primary text-on-primary font-label-md text-label-md" type="submit">Loc</button>
-        <a href="/admin/books" class="h-11 px-4 rounded-lg border border-outline-variant text-primary font-label-md text-label-md flex items-center">Xoa loc</a>
+        <button class="h-11 px-5 rounded-lg bg-primary text-on-primary font-label-md text-label-md" type="submit">Lọc</button>
+        <a href="/admin/books" class="h-11 px-4 rounded-lg border border-outline-variant text-primary font-label-md text-label-md flex items-center">Xóa lọc</a>
       </div>
     </form>
 
+    <!-- Table -->
     <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-surface-container border-b border-outline-variant">
-              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase">Sach</th>
+              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase">Sách</th>
               <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase">ID</th>
-              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase">Tac gia</th>
-              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase">The loai</th>
-              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase text-right">Gia</th>
-              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase text-center">Ton</th>
-              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase">Trang thai</th>
-              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase text-right">Thao tac</th>
+              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase">Tác giả</th>
+              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase">Thể loại</th>
+              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase text-right">Giá bán</th>
+              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase text-center">Tồn kho</th>
+              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase">Trạng thái</th>
+              <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase text-right">Thao tác</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-outline-variant">
             <% if (books.length === 0) { %>
               <tr>
-                <td colspan="8" class="px-6 py-12 text-center text-on-surface-variant">Khong tim thay sach phu hop.</td>
+                <td colspan="8" class="px-6 py-12 text-center text-on-surface-variant">Không tìm thấy sách phù hợp.</td>
               </tr>
             <% } %>
-
             <% books.forEach((book) => { %>
-              <% const isOut = book.stockStatus === 'Out of stock' || Number(book.stock || 0) === 0; %>
-              <% const stock = Number(book.stock ?? 0); %>
+              <%
+                const stock = Number(book.stock ?? 0);
+                const isOut = stock === 0;
+                const isLow = !isOut && stock <= 5;
+                const stockDotClass  = isOut ? 'bg-outline' : isLow ? 'bg-error' : 'bg-secondary';
+                const stockTextClass = isOut ? 'text-on-surface-variant' : isLow ? 'text-error' : 'text-secondary';
+                const stockLabel     = isOut ? 'Hết hàng' : isLow ? 'Sắp hết' : 'Còn hàng';
+                const stockNumClass  = stock <= 5 ? 'text-error font-medium' : 'text-on-surface';
+              %>
               <tr class="hover:bg-surface-container-low transition-colors group">
                 <td class="px-6 py-4">
-                  <div class="flex items-center space-x-4 min-w-[280px]">
+                  <div class="flex items-center space-x-4 min-w-[260px]">
                     <div class="w-12 h-16 rounded overflow-hidden shadow-sm flex-shrink-0 bg-surface-variant">
                       <img alt="<%= book.imageAlt || book.title %>" class="w-full h-full object-cover" src="<%= book.coverImage %>">
                     </div>
                     <div>
-                      <div class="font-headline-md text-body-md text-on-surface group-hover:text-primary transition-colors"><%= book.title %></div>
-                      <div class="text-caption text-on-surface-variant"><%= book.publisher || 'Chua co NXB' %><%= book.year ? `, ${book.year}` : '' %></div>
+                      <div class="font-body-md text-on-surface group-hover:text-primary transition-colors"><%= book.title %></div>
+                      <div class="text-caption text-on-surface-variant"><%= book.publisher || 'Chưa có NXB' %><%= book.year ? `, ${book.year}` : '' %></div>
                     </div>
                   </div>
                 </td>
-                <td class="px-6 py-4 font-body-md text-on-surface-variant"><%= book.id %></td>
+                <td class="px-6 py-4 font-body-md text-on-surface-variant text-xs"><%= book.id %></td>
                 <td class="px-6 py-4 font-body-md text-on-surface"><%= book.author %></td>
                 <td class="px-6 py-4">
-                  <span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-caption font-label-md"><%= book.genre || 'Khac' %></span>
+                  <span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-caption font-label-md"><%= book.genre || 'Khác' %></span>
                 </td>
                 <td class="px-6 py-4 font-body-md text-on-surface text-right"><%= formatPrice(book.price) %></td>
-                <td class="px-6 py-4 font-body-md <%= stock <= 5 ? 'text-error font-medium' : 'text-on-surface' %> text-center"><%= stock %></td>
+                <td class="px-6 py-4 font-body-md <%= stockNumClass %> text-center"><%= stock %></td>
                 <td class="px-6 py-4">
                   <div class="flex items-center space-x-2">
-                    <span class="w-2 h-2 rounded-full <%= isOut ? 'bg-outline' : stock <= 5 ? 'bg-error' : 'bg-secondary' %>"></span>
-                    <span class="text-caption font-label-md <%= isOut ? 'text-on-surface-variant' : stock <= 5 ? 'text-error' : 'text-secondary' %>"><%= stock <= 5 && !isOut ? 'Low stock' : (book.stockStatus || 'In stock') %></span>
+                    <span class="w-2 h-2 rounded-full <%= stockDotClass %>"></span>
+                    <span class="text-caption font-label-md <%= stockTextClass %>"><%= stockLabel %></span>
                   </div>
                 </td>
                 <td class="px-6 py-4 text-right">
                   <div class="flex items-center justify-end space-x-2">
-                    <a href="/products/<%= book.id %>" class="p-2 hover:bg-surface-variant rounded-full text-on-surface-variant transition-colors" title="Xem" target="_blank">
+                    <a href="/products/<%= book.id %>" class="p-2 hover:bg-surface-variant rounded-full text-on-surface-variant transition-colors" title="Xem trang sản phẩm" target="_blank">
                       <span class="material-symbols-outlined text-[20px]">visibility</span>
                     </a>
-                    <a href="/admin/books/<%= book.id %>/edit" class="p-2 hover:bg-surface-variant rounded-full text-on-surface-variant transition-colors" title="Sua">
+                    <a href="/admin/books/<%= book.id %>/edit" class="p-2 hover:bg-surface-variant rounded-full text-on-surface-variant transition-colors" title="Sửa thông tin">
                       <span class="material-symbols-outlined text-[20px]">edit</span>
                     </a>
-                    <form method="post" action="/admin/books/<%= book.id %>/delete" onsubmit="return confirm('Xoa sach nay?')" class="inline">
-                      <button class="p-2 hover:bg-error-container hover:text-error rounded-full text-on-surface-variant transition-colors" title="Xoa" type="submit">
-                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                      </button>
-                    </form>
+                    <!-- Xóa gọi thẳng backend API DELETE -->
+                    <button
+                      onclick="deleteBook('<%= book.id %>', this)"
+                      class="p-2 hover:bg-error-container hover:text-error rounded-full text-on-surface-variant transition-colors"
+                      title="Xóa sách">
+                      <span class="material-symbols-outlined text-[20px]">delete</span>
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -120,9 +141,95 @@
           </tbody>
         </table>
       </div>
+      <!-- Pagination -->
+      <% if (totalPages > 1) { %>
+        <nav class="flex justify-center items-center gap-2 py-4 border-t border-outline-variant bg-surface-container-low">
+          <%
+            const qParam      = filters.q      ? '&q='     + encodeURIComponent(filters.q)      : '';
+            const genreParam  = filters.genre   ? '&genre=' + encodeURIComponent(filters.genre)  : '';
+            const statusParam = filters.status  ? '&status='+ encodeURIComponent(filters.status) : '';
+            const queryParams = qParam + genreParam + statusParam;
+          %>
+          <% if (currentPage > 1) { %>
+            <a href="/admin/books?page=<%= currentPage - 1 %><%= queryParams %>" class="px-3 py-1.5 rounded border border-outline-variant hover:bg-surface-container-high transition-colors text-sm flex items-center gap-1">
+              <span class="material-symbols-outlined text-[18px]">chevron_left</span>Trang trước
+            </a>
+          <% } else { %>
+            <button disabled class="px-3 py-1.5 rounded border border-outline-variant opacity-50 cursor-not-allowed text-sm flex items-center gap-1">
+              <span class="material-symbols-outlined text-[18px]">chevron_left</span>Trang trước
+            </button>
+          <% } %>
+          <span class="text-sm font-label-md text-on-surface-variant mx-2">Trang <%= currentPage %> / <%= totalPages %></span>
+          <% if (currentPage < totalPages) { %>
+            <a href="/admin/books?page=<%= currentPage + 1 %><%= queryParams %>" class="px-3 py-1.5 rounded border border-outline-variant hover:bg-surface-container-high transition-colors text-sm flex items-center gap-1">
+              Trang sau<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+            </a>
+          <% } else { %>
+            <button disabled class="px-3 py-1.5 rounded border border-outline-variant opacity-50 cursor-not-allowed text-sm flex items-center gap-1">
+              Trang sau<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+            </button>
+          <% } %>
+        </nav>
+      <% } %>
     </div>
   </div>
 </main>
 </div>
+
+<script>
+  const ADMIN_TOKEN = '<%= typeof adminToken !== "undefined" ? adminToken : "" %>';
+
+  async function deleteBook(bookId, btn) {
+    if (!confirm('Xác nhận xóa sách này? Thao tác không thể hoàn tác.')) return;
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">progress_activity</span>';
+
+    try {
+      const res = await fetch(`http://localhost:5050/api/products/${bookId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN }
+      });
+      const data = await res.json();
+      if (res.ok) {
+        // Xóa hàng khỏi bảng mà không cần reload toàn trang
+        const row = btn.closest('tr');
+        row.style.transition = 'opacity 0.3s';
+        row.style.opacity = '0';
+        setTimeout(() => row.remove(), 300);
+        showFlash('success', data.message || 'Xóa sách thành công.');
+      } else {
+        alert(data.message || 'Xóa sách thất bại.');
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">delete</span>';
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Lỗi kết nối đến máy chủ backend.');
+      btn.disabled = false;
+      btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">delete</span>';
+    }
+  }
+
+  function showFlash(type, message) {
+    const existing = document.getElementById('flash-msg');
+    if (existing) existing.remove();
+
+    const div = document.createElement('div');
+    div.id = 'flash-msg';
+    const isSuccess = type === 'success';
+    div.className = `${isSuccess ? 'bg-secondary-container text-on-secondary-container border-secondary/20' : 'bg-error-container text-on-error-container border-error/20'} p-4 rounded-xl border font-body-md flex items-center gap-3`;
+    div.innerHTML = `<span class="material-symbols-outlined ${isSuccess ? 'text-secondary' : 'text-error'}">${isSuccess ? 'check_circle' : 'error'}</span>${message}`;
+
+    const content = document.querySelector('.admin-page-content');
+    content.insertBefore(div, content.firstChild);
+
+    setTimeout(() => { div.style.transition = 'opacity 0.5s'; div.style.opacity = '0'; setTimeout(() => div.remove(), 500); }, 4000);
+  }
+
+  // Tự ẩn flash message sau 4 giây
+  const flash = document.getElementById('flash-msg');
+  if (flash) setTimeout(() => { flash.style.transition = 'opacity 0.5s'; flash.style.opacity = '0'; setTimeout(() => flash.remove(), 500); }, 4000);
+</script>
 </body>
 </html>

@@ -29,14 +29,17 @@ const cartSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Validate quantity > 0 và bookId hợp lệ trước khi lưu
+// [CREATE/UPDATE] Middleware chạy trước khi lưu giỏ hàng vào MongoDB (pre-save hook)
+// Ràng buộc tính nhất quán chéo CSDL (MongoDB & SQL Server)
 cartSchema.pre("save", async function (next) {
   try {
     for (const item of this.items) {
+      // 1. Kiểm tra số lượng hợp lệ trong giỏ hàng
       if (!item.quantity || item.quantity <= 0) {
         return next(new Error("Số lượng sản phẩm phải lớn hơn 0"));
       }
 
+      // 2. Kiểm tra xem mã sách (bookId) có tồn tại thực sự dưới SQL Server hay không
       const book = await Book.findById(item.product);
 
       if (!book) {
@@ -50,19 +53,21 @@ cartSchema.pre("save", async function (next) {
   }
 });
 
-// Giả lập populate giống code cũ
+// [READ] Phương thức Giả Lập Populate để lấy dữ liệu Sách từ SQL Server ghép vào cấu trúc Cart MongoDB
 cartSchema.methods.populateProducts = async function () {
   const populatedItems = [];
 
   for (const item of this.items) {
+    // Truy vấn thông tin sách tương ứng từ SQL Server bằng Hex ID
     const book = await Book.findById(item.product);
 
     populatedItems.push({
-      product: book,
+      product: book, // Đối tượng sách dạng Class Book (SQL Server)
       quantity: item.quantity
     });
   }
 
+  // Trả về cấu trúc giỏ hàng đã được gộp thông tin sản phẩm đầy đủ để gửi lên Client
   return {
     _id: this._id,
     id: this._id,
@@ -74,8 +79,9 @@ cartSchema.methods.populateProducts = async function () {
   };
 };
 
-// Validate cartId tồn tại
+// [READ] Hàm tĩnh dùng để tìm giỏ hàng theo ID và trả về lỗi nếu không tồn tại
 cartSchema.statics.findCartByIdOrFail = async function (cartId) {
+  // Kiểm tra tính hợp lệ của ObjectId MongoDB
   if (!mongoose.Types.ObjectId.isValid(cartId)) {
     throw new Error("cartId không hợp lệ");
   }

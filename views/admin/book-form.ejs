@@ -5,98 +5,144 @@
 <%- include('partials/sidebar', { activePage: 'books' }) %>
 
 <% const isEdit = Boolean(book && book.id); %>
-<% const action = isEdit ? `/admin/books/${book.id}` : '/admin/books'; %>
 <% const descriptionText = Array.isArray(book?.description) ? book.description.join('\n') : (book?.description || ''); %>
 
 <main class="admin-main">
-  <form method="post" action="<%= action %>">
+  <form id="book-form" method="post">
     <header class="admin-page-header">
       <nav class="flex items-center text-on-surface-variant font-label-md text-label-md">
-        <a href="/admin/books" class="hover:text-primary">Catalog</a>
+        <a href="/admin/books" class="hover:text-primary">Quản lý sách</a>
         <span class="material-symbols-outlined text-[16px] mx-2">chevron_right</span>
-        <span class="text-primary"><%= isEdit ? 'Sua sach' : 'Them sach' %></span>
+        <span class="text-primary"><%= isEdit ? 'Sửa sách' : 'Thêm sách mới' %></span>
       </nav>
       <div class="flex items-center space-x-4">
-        <a href="/admin/books" class="h-10 px-4 rounded-full text-primary border border-outline font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center">Huy</a>
-        <button class="h-10 px-6 rounded-full bg-primary text-on-primary font-label-md text-label-md custom-shadow hover:opacity-90 transition-all active:scale-95 duration-150" type="submit">Luu thong tin</button>
+        <a href="/admin/books" class="h-10 px-4 rounded-full text-primary border border-outline font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center">Hủy</a>
+        <button id="submit-btn" class="h-10 px-6 rounded-full bg-primary text-on-primary font-label-md text-label-md custom-shadow hover:opacity-90 transition-all active:scale-95 duration-150" type="submit">Lưu thông tin</button>
       </div>
     </header>
 
     <div class="admin-page-content max-w-[1000px] space-y-gutter-desktop">
-      <% if (errors && errors.length) { %>
-        <div class="bg-error-container border border-error/20 p-4 rounded-xl text-on-error-container">
-          <% errors.forEach((error) => { %>
-            <p><%= error %></p>
-          <% }) %>
-        </div>
-      <% } %>
+      <!-- Error display -->
+      <div id="form-errors" class="hidden bg-error-container border border-error/20 p-4 rounded-xl text-on-error-container flex flex-col gap-1"></div>
 
       <div class="flex flex-col md:flex-row gap-gutter-desktop">
+        <!-- Left: cover + status -->
         <div class="w-full md:w-1/3 space-y-gutter-desktop">
           <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant custom-shadow">
-            <h3 class="font-headline-md text-headline-md text-primary mb-4">Anh bia</h3>
+            <h3 class="font-headline-md text-headline-md text-primary mb-4">Ảnh bìa</h3>
             <div class="aspect-[3/4] rounded-lg bg-surface-container-low border border-outline-variant overflow-hidden">
-              <img class="w-full h-full object-cover" src="<%= book?.coverImage || 'https://placehold.co/300x400?text=Book+Cover' %>" alt="<%= book?.imageAlt || 'Book cover' %>">
+              <img id="cover-preview" class="w-full h-full object-cover"
+                src="<%= book?.coverImage || 'https://placehold.co/300x400?text=Book+Cover' %>"
+                alt="<%= book?.imageAlt || 'Book cover' %>">
             </div>
+            <div class="flex border-b border-outline-variant mb-4 mt-2">
+              <button type="button" id="tab-url-btn" onclick="switchCoverTab('url')" class="flex-1 py-2 text-center text-sm font-label-md border-b-2 border-primary text-primary transition-all">Đường dẫn URL</button>
+              <button type="button" id="tab-file-btn" onclick="switchCoverTab('file')" class="flex-1 py-2 text-center text-sm font-label-md border-b-2 border-transparent text-on-surface-variant hover:text-on-surface transition-all">Tải ảnh lên</button>
+            </div>
+
+            <!-- Tab URL -->
+            <div id="cover-url-section" class="block">
+              <label class="block">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2 block">URL ảnh bìa</span>
+                <input id="coverImage-url-input"
+                  value="<%= (book?.coverImage && !book.coverImage.startsWith('/uploads/')) ? book.coverImage : '' %>"
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  placeholder="https://..." type="url"
+                  oninput="updateCoverValue(this.value)">
+              </label>
+            </div>
+
+            <!-- Tab File -->
+            <div id="cover-file-section" class="hidden">
+              <label class="block">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2 block font-medium">Chọn ảnh từ máy</span>
+                <div class="flex items-center gap-2">
+                  <input type="file" id="local-cover-input" accept="image/*" class="hidden">
+                  <button type="button" onclick="document.getElementById('local-cover-input').click()" class="h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-primary hover:bg-surface-variant transition-colors flex items-center gap-2 text-sm font-label-md">
+                    <span class="material-symbols-outlined text-[20px]">upload</span> Chọn tệp
+                  </button>
+                  <span id="upload-status" class="text-caption text-on-surface-variant">
+                    <%= (book?.coverImage && book.coverImage.startsWith('/uploads/')) ? 'Đã có ảnh tải lên' : 'Chưa chọn file' %>
+                  </span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Hidden input for submitting -->
+            <input type="hidden" name="coverImage" id="coverImage-input" value="<%= book?.coverImage || '' %>">
+
             <label class="block mt-4">
-              <span class="font-label-md text-label-md text-on-surface-variant mb-2 block">URL anh bia</span>
-              <input name="coverImage" value="<%= book?.coverImage || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="https://..." type="url">
-            </label>
-            <label class="block mt-4">
-              <span class="font-label-md text-label-md text-on-surface-variant mb-2 block">Mo ta anh</span>
-              <input name="imageAlt" value="<%= book?.imageAlt || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Book cover" type="text">
+              <span class="font-label-md text-label-md text-on-surface-variant mb-2 block">Mô tả ảnh</span>
+              <input name="imageAlt" value="<%= book?.imageAlt || '' %>"
+                class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                placeholder="Mô tả ảnh bìa" type="text">
             </label>
           </div>
 
           <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant custom-shadow">
-            <h3 class="font-headline-md text-headline-md text-primary mb-4">Trang thai</h3>
+            <h3 class="font-headline-md text-headline-md text-primary mb-4">Trạng thái</h3>
             <div class="space-y-4">
               <label class="flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Trang thai kho</span>
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Trạng thái kho</span>
                 <select name="stockStatus" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary">
-                  <% ['In stock', 'Out of stock', 'Archived'].forEach((status) => { %>
-                    <option value="<%= status %>" <%= (book?.stockStatus || 'In stock') === status ? 'selected' : '' %>><%= status %></option>
+                  <% [['In stock','Còn hàng'], ['Out of stock','Hết hàng'], ['Archived','Lưu trữ']].forEach(([val, label]) => { %>
+                    <option value="<%= val %>" <%= (book?.stockStatus || 'In stock') === val ? 'selected' : '' %>><%= label %></option>
                   <% }) %>
                 </select>
               </label>
               <label class="flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Vi tri ke</span>
-                <input name="shelfLocation" value="<%= book?.shelfLocation || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="A-12-04" type="text">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Vị trí kệ</span>
+                <input name="shelfLocation" value="<%= book?.shelfLocation || '' %>"
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  placeholder="Ví dụ: A-12-04" type="text">
               </label>
             </div>
           </div>
         </div>
 
+        <!-- Right: info + price + description -->
         <div class="w-full md:w-2/3 space-y-gutter-desktop">
           <section class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant custom-shadow">
             <div class="flex items-center space-x-3 mb-6">
-              <span class="material-symbols-outlined text-primary">info</span>
-              <h3 class="font-headline-md text-headline-md text-primary">Thong tin co ban</h3>
+              <span class="material-symbols-outlined text-primary">menu_book</span>
+              <h3 class="font-headline-md text-headline-md text-primary">Thông tin cơ bản</h3>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <label class="md:col-span-2 flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Ten sach *</span>
-                <input name="title" value="<%= book?.title || '' %>" required class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Ten sach" type="text">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Tên sách <span class="text-error">*</span></span>
+                <input name="title" value="<%= book?.title || '' %>" required
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  placeholder="Nhập tên sách" type="text">
               </label>
               <label class="flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Tac gia *</span>
-                <input name="author" value="<%= book?.author || '' %>" required class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Tac gia" type="text">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Tác giả <span class="text-error">*</span></span>
+                <input name="author" value="<%= book?.author || '' %>" required
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  placeholder="Tên tác giả (phân cách bởi dấu phẩy)" type="text">
               </label>
               <label class="flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">The loai</span>
-                <input name="genre" value="<%= book?.genre || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Tieu thuyet" type="text">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Thể loại</span>
+                <input name="genre" value="<%= book?.genre || '' %>"
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  placeholder="Ví dụ: Tiểu thuyết" type="text">
               </label>
               <label class="flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Nha xuat ban</span>
-                <input name="publisher" value="<%= book?.publisher || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="NXB" type="text">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Nhà xuất bản</span>
+                <input name="publisher" value="<%= book?.publisher || '' %>"
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  placeholder="Tên NXB" type="text">
               </label>
               <label class="flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Nam xuat ban</span>
-                <input name="year" value="<%= book?.year || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="2026" type="number" min="0">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Năm xuất bản</span>
+                <input name="year" value="<%= book?.year || '' %>"
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  placeholder="2024" type="number" min="1900" max="2100">
               </label>
-              <label class="md:col-span-2 flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Dinh dang</span>
-                <input name="format" value="<%= book?.format || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Paperback, 320 pages" type="text">
+              <label class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Định dạng / Bìa</span>
+                <input name="format" value="<%= book?.format || '' %>"
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  placeholder="Ví dụ: Bìa mềm, 320 trang" type="text">
               </label>
             </div>
           </section>
@@ -104,28 +150,38 @@
           <section class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant custom-shadow">
             <div class="flex items-center space-x-3 mb-6">
               <span class="material-symbols-outlined text-primary">payments</span>
-              <h3 class="font-headline-md text-headline-md text-primary">Gia va kho</h3>
+              <h3 class="font-headline-md text-headline-md text-primary">Giá & Kho hàng</h3>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
               <label class="flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Gia nhap</span>
-                <input name="importPrice" value="<%= book?.importPrice || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" type="number" min="0">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Giá nhập (VNĐ)</span>
+                <input name="importPrice" value="<%= book?.importPrice || '' %>"
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  type="number" min="0" placeholder="0">
               </label>
               <label class="flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Gia ban *</span>
-                <input name="price" value="<%= book?.price || '' %>" required class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" type="number" min="0">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Giá bán (VNĐ) <span class="text-error">*</span></span>
+                <input name="price" value="<%= book?.price || '' %>" required
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  type="number" min="0" placeholder="0">
               </label>
               <label class="flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Gia goc</span>
-                <input name="originalPrice" value="<%= book?.originalPrice || '' %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" type="number" min="0">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Giá gốc (VNĐ)</span>
+                <input name="originalPrice" value="<%= book?.originalPrice || '' %>"
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  type="number" min="0" placeholder="0">
               </label>
               <label class="flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">So luong ton</span>
-                <input name="stock" value="<%= book?.stock || 0 %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" type="number" min="0">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Số lượng tồn kho</span>
+                <input name="stock" value="<%= book?.stock || 0 %>"
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  type="number" min="0">
               </label>
               <label class="flex flex-col">
-                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Danh gia</span>
-                <input name="rating" value="<%= book?.rating || 4 %>" class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary" type="number" min="0" max="5" step="0.1">
+                <span class="font-label-md text-label-md text-on-surface-variant mb-2">Đánh giá (0–5)</span>
+                <input name="rating" value="<%= book?.rating || 4 %>"
+                  class="w-full h-12 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 focus:border-primary focus:ring-1 focus:ring-primary"
+                  type="number" min="0" max="5" step="0.1">
               </label>
             </div>
           </section>
@@ -133,11 +189,13 @@
           <section class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant custom-shadow">
             <div class="flex items-center space-x-3 mb-6">
               <span class="material-symbols-outlined text-primary">description</span>
-              <h3 class="font-headline-md text-headline-md text-primary">Mo ta sach</h3>
+              <h3 class="font-headline-md text-headline-md text-primary">Mô tả sách</h3>
             </div>
             <label class="flex flex-col">
-              <span class="font-label-md text-label-md text-on-surface-variant mb-2">Tom tat noi dung</span>
-              <textarea name="description" class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary p-4" placeholder="Nhap mo ta..." rows="6"><%= descriptionText %></textarea>
+              <span class="font-label-md text-label-md text-on-surface-variant mb-2">Tóm tắt nội dung</span>
+              <textarea name="description"
+                class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary p-4"
+                placeholder="Nhập mô tả, mỗi đoạn một dòng..." rows="6"><%= descriptionText %></textarea>
             </label>
           </section>
         </div>
@@ -145,5 +203,144 @@
     </div>
   </form>
 </main>
+
+<script>
+  const ADMIN_TOKEN = '<%= typeof adminToken !== "undefined" ? adminToken : "" %>';
+  const IS_EDIT     = <%= isEdit ? 'true' : 'false' %>;
+  const BOOK_ID     = '<%= book?.id || "" %>';
+
+  document.getElementById('book-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    if (!ADMIN_TOKEN) {
+      alert('Thiếu adminToken. Vui lòng đăng nhập lại.');
+      return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Đang lưu...';
+
+    // Thu thập dữ liệu từ form
+    const fd = new FormData(this);
+    const body = {};
+    fd.forEach((value, key) => { body[key] = value; });
+
+    // Xử lý description: chuyển multiline string → array
+    if (body.description) {
+      body.description = body.description.split('\n').map(s => s.trim()).filter(Boolean);
+    }
+    // Ép kiểu số
+    ['price', 'originalPrice', 'importPrice', 'stock', 'rating', 'year'].forEach(k => {
+      if (body[k] !== undefined && body[k] !== '') body[k] = Number(body[k]);
+      else if (body[k] === '') delete body[k];
+    });
+
+    const url    = IS_EDIT ? `http://localhost:5050/api/products/${BOOK_ID}` : 'http://localhost:5050/api/products';
+    const method = IS_EDIT ? 'PUT' : 'POST';
+
+    try {
+      const res  = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + ADMIN_TOKEN
+        },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        const msg = IS_EDIT ? 'Cập nhật sách thành công.' : 'Thêm sách thành công.';
+        window.location.href = '/admin/books?success=' + encodeURIComponent(msg);
+      } else {
+        showErrors([data.message || 'Thao tác thất bại.']);
+        btn.disabled = false;
+        btn.textContent = 'Lưu thông tin';
+      }
+    } catch (err) {
+      console.error(err);
+      showErrors(['Lỗi kết nối đến máy chủ backend. Vui lòng thử lại.']);
+      btn.disabled = false;
+      btn.textContent = 'Lưu thông tin';
+    }
+  });
+
+  function showErrors(messages) {
+    const box = document.getElementById('form-errors');
+    box.innerHTML = messages.map(m =>
+      `<p class="flex items-start gap-2"><span class="material-symbols-outlined text-[18px] mt-0.5">error</span>${m}</p>`
+    ).join('');
+    box.classList.remove('hidden');
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Xử lý upload ảnh bìa từ máy local
+  document.getElementById('local-cover-input').addEventListener('change', async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const statusSpan = document.getElementById('upload-status');
+    statusSpan.textContent = 'Đang tải lên...';
+    statusSpan.className = 'text-caption text-primary';
+
+    const fd = new FormData();
+    fd.append('coverImage', file);
+
+    try {
+      const res = await fetch('/admin/upload-cover', {
+        method: 'POST',
+        body: fd
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        statusSpan.textContent = 'Tải lên thành công';
+        statusSpan.className = 'text-caption text-secondary font-medium';
+        // Cập nhật giá trị gửi đi
+        updateCoverValue(data.url);
+      } else {
+        statusSpan.textContent = 'Tải lên thất bại';
+        statusSpan.className = 'text-caption text-error font-medium';
+        alert(data.message || 'Lỗi khi tải ảnh lên.');
+      }
+    } catch (err) {
+      console.error(err);
+      statusSpan.textContent = 'Lỗi kết nối';
+      statusSpan.className = 'text-caption text-error font-medium';
+      alert('Không thể kết nối đến server để tải ảnh.');
+    }
+  });
+
+  function switchCoverTab(tab) {
+    const tabUrlBtn = document.getElementById('tab-url-btn');
+    const tabFileBtn = document.getElementById('tab-file-btn');
+    const urlSection = document.getElementById('cover-url-section');
+    const fileSection = document.getElementById('cover-file-section');
+
+    if (tab === 'url') {
+      tabUrlBtn.className = 'flex-1 py-2 text-center text-sm font-label-md border-b-2 border-primary text-primary transition-all';
+      tabFileBtn.className = 'flex-1 py-2 text-center text-sm font-label-md border-b-2 border-transparent text-on-surface-variant hover:text-on-surface transition-all';
+      urlSection.classList.remove('hidden');
+      fileSection.classList.add('hidden');
+    } else {
+      tabUrlBtn.className = 'flex-1 py-2 text-center text-sm font-label-md border-b-2 border-transparent text-on-surface-variant hover:text-on-surface transition-all';
+      tabFileBtn.className = 'flex-1 py-2 text-center text-sm font-label-md border-b-2 border-primary text-primary transition-all';
+      urlSection.classList.add('hidden');
+      fileSection.classList.remove('hidden');
+    }
+  }
+
+  function updateCoverValue(val) {
+    document.getElementById('coverImage-input').value = val;
+    document.getElementById('cover-preview').src = val || 'https://placehold.co/300x400?text=Book+Cover';
+  }
+
+  // Khởi tạo tab mặc định dựa trên dữ liệu hiện tại
+  const currentCover = document.getElementById('coverImage-input').value;
+  if (currentCover && currentCover.startsWith('/uploads/')) {
+    switchCoverTab('file');
+  }
+</script>
 </body>
 </html>

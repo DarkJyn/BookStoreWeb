@@ -28,6 +28,7 @@ app.use('/api/auth', require('./routes/authRoutes.js'));
 app.use('/api/products', require('./routes/bookRoutes.js'));
 app.use('/api/orders', require('./routes/orderRoutes.js'));
 app.use('/api/cart', require('./routes/cartRoutes.js'));
+app.use('/api/users', require('./routes/userRoutes.js'));
 
 // Error handler middleware (optional fallback)
 app.use((err, req, res, next) => {

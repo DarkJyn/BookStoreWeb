@@ -157,20 +157,28 @@ class Book {
     return [];
   }
 
-  // ─── Static Finders ──────────────────────────────────────────────────────────
+  // ─── Static Finders (Các hàm tìm kiếm dữ liệu - Read) ──────────────────────────
 
-  /** find() trả về QueryChain (hỗ trợ .skip .limit .sort) */
+  /**
+   * [READ] Giả lập Mongoose find() 
+   * Trả về đối tượng QueryChain để hỗ trợ lọc, phân trang bằng cách nối đuôi phương thức (.skip, .limit, .sort)
+   */
   static find(query) {
     return new QueryChain(Book, query);
   }
 
-  /** Tìm 1 cuốn sách theo hex ID */
+  /**
+   * [READ] Tìm một cuốn sách duy nhất theo Hex ID
+   * @param {string} id - Hex ID từ MongoDB hoặc Client gửi lên (ví dụ: '00000001')
+   */
   static async findById(id) {
     try {
       const pool  = await getPool();
+      // Chuyển Hex ID (chuỗi) sang số nguyên int để truy vấn trong SQL Server
       const dbId  = hexIdToInt(id);
       if (!dbId) return null;
 
+      // Truy vấn thông tin sách kết hợp thông tin kho và nhà xuất bản (Left Join)
       const result = await pool.request()
         .input('id', dbId)
         .query(`${BOOK_SELECT} WHERE b.book_id = @id`);
@@ -178,10 +186,12 @@ class Book {
       if (result.recordset.length === 0) return null;
       const row = result.recordset[0];
 
+      // Lấy danh sách các tác giả và thể loại tương ứng từ bảng quan hệ Book_Author và Book_Category
       const { authorsMap, categoriesMap } = await fetchAuthorsAndCategories(pool, [dbId]);
       row.author = (authorsMap[dbId] || []).join(', ');
       row.genre  = (categoriesMap[dbId] || [])[0] || 'Khác';
 
+      // Trả về thực thể Book mới được khởi tạo từ dòng dữ liệu SQL
       return new Book(row, false);
     } catch (error) {
       console.error(`[Book.findById] Error fetching book by ID (${id}):`, error.message);
@@ -189,11 +199,14 @@ class Book {
     }
   }
 
-  /** Tìm sách theo tiêu đề */
+  /**
+   * [READ] Tìm kiếm sách theo từ khóa tiêu đề (LIKE %keyword%)
+   */
   static async searchByTitle(keyword) {
     try {
       const pool = await getPool();
 
+      // Sử dụng Parameterized Query với từ khóa LIKE để chống SQL Injection
       const result = await pool.request()
         .input('keyword', `%${keyword}%`)
         .query(`
@@ -203,6 +216,7 @@ class Book {
         `);
 
       const bookIds = result.recordset.map(r => r.book_id);
+      // Gom nhóm và truy vấn tác giả + thể loại cho toàn bộ danh sách kết quả trả về
       const { authorsMap, categoriesMap } = await fetchAuthorsAndCategories(pool, bookIds);
 
       return result.recordset.map(row => {
@@ -249,9 +263,12 @@ class Book {
     }
   }
 
-  // ─── Mutations ───────────────────────────────────────────────────────────────
+  // ─── Mutations (Các hàm thay đổi dữ liệu - Delete/Update/Create) ─────────────────
 
-  /** Xóa sách theo hex ID sử dụng Transaction */
+  /**
+   * [DELETE] Xóa sách theo hex ID sử dụng Database Transaction để đảm bảo tính nguyên tử
+   * Xóa tất cả các liên kết khóa ngoại (Author, Category, Inventory) trước khi xóa dòng chính
+   */
   static async findByIdAndDelete(id) {
     const pool = await getPool();
     const dbId = hexIdToInt(id);
@@ -259,30 +276,38 @@ class Book {
 
     const transaction = new sql.Transaction(pool);
     try {
+      // Bắt đầu một Transaction mới
       await transaction.begin();
       const req = transaction.request().input('id', dbId);
 
-      // Xóa liên kết trước để tránh lỗi khóa ngoại
+      // Bước 1: Xóa các bản ghi liên quan ở các bảng phụ (để tránh lỗi vi phạm ràng buộc khóa ngoại - Foreign Key Constraint)
       await req.query('DELETE FROM oltp.Book_Author   WHERE book_id = @id');
       await req.query('DELETE FROM oltp.Book_Category WHERE book_id = @id');
       await req.query('DELETE FROM oltp.Inventory     WHERE book_id = @id');
+      
+      // Bước 2: Xóa dòng sách chính tại bảng Book
       await req.query('DELETE FROM oltp.Book          WHERE book_id = @id');
 
+      // Xác nhận thành công và ghi nhận các thay đổi vào CSDL
       await transaction.commit();
     } catch (error) {
+      // Quay lui (Rollback) toàn bộ nếu xảy ra lỗi ở bất kỳ bước nào
       await transaction.rollback();
       console.error(`[Book.findByIdAndDelete] Error deleting book ID (${id}):`, error.message);
       throw new Error(`Xóa sách theo ID thất bại: ${error.message}`);
     }
   }
 
-  /** Xóa 1 bản ghi theo query sử dụng Transaction */
+  /**
+   * [DELETE] Xóa một bản ghi theo query (Giả lập Mongoose deleteOne)
+   */
   static async deleteOne(query) {
     const pool  = await getPool();
     const req   = pool.request();
+    // Phân tích điều kiện lọc của Mongo sang câu lệnh SQL WHERE
     const where = parseMongoQuery(query, req, Book);
 
-    // Lấy book_id trước để xóa liên kết
+    // Tìm kiếm các book_id phù hợp với điều kiện lọc trước khi tiến hành xóa
     const found = await req.query(
       `SELECT DISTINCT b.book_id FROM oltp.Book b WHERE ${where}`
     );
@@ -294,6 +319,7 @@ class Book {
     try {
       await transaction.begin();
 
+      // Duyệt qua toàn bộ danh sách sách thỏa mãn để thực hiện xóa liên kết chéo
       for (const r of found.recordset) {
         const dbId = r.book_id;
         const txReq = transaction.request().input('id', dbId);
@@ -314,7 +340,10 @@ class Book {
     }
   }
 
-  /** Cập nhật 1 trường / $inc sử dụng Transaction */
+  /**
+   * [UPDATE] Cập nhật 1 hoặc nhiều trường dữ liệu của sách, hoặc tăng/giảm số lượng tồn kho ($inc)
+   * Sử dụng Database Transaction để đồng bộ hóa cập nhật trên cả oltp.Book và oltp.Inventory
+   */
   static async findByIdAndUpdate(id, updateDoc) {
     const pool = await getPool();
     const dbId = hexIdToInt(id);
@@ -324,24 +353,25 @@ class Book {
     try {
       await transaction.begin();
 
-      // Trường hợp tăng / giảm số lượng tồn kho (đặt hàng)
+      // Trường hợp cập nhật tăng / giảm số lượng tồn kho (thường gọi khi khách hàng đặt hàng thành công)
       if (updateDoc.$inc) {
         for (const [field, val] of Object.entries(updateDoc.$inc)) {
           if (field === 'stock') {
             await transaction.request()
-              .input('id', dbId).input('v', val)
-              .query('UPDATE oltp.Inventory SET stock_quantity = stock_quantity + @v WHERE book_id = @id');
+               .input('id', dbId).input('v', val)
+               .query('UPDATE oltp.Inventory SET stock_quantity = stock_quantity + @v WHERE book_id = @id');
           }
         }
         await transaction.commit();
         return this.findById(id);
       }
 
-      // Kiểm tra dữ liệu đầu vào cơ bản nếu có cập nhật
+      // Kiểm tra dữ liệu đầu vào cơ bản nếu có cập nhật tiêu đề sách
       if ('title' in updateDoc && !updateDoc.title?.trim()) {
         throw new Error('Tên sách không được để trống.');
       }
 
+      // Định nghĩa bản đồ ánh xạ giữa cột CSDL SQL Server và các alias thuộc tính từ Client
       const bookFields = { 
         title: 'title', 
         selling_price: 'price', 
@@ -356,14 +386,17 @@ class Book {
       const reqBook = transaction.request().input('id', dbId);
       let hasBookUpdates = false;
 
+      // Duyệt qua bản đồ ánh xạ để chuẩn bị câu lệnh SQL UPDATE động cho bảng Book
       for (const [col, alias] of Object.entries(bookFields)) {
         if (alias in updateDoc || col in updateDoc) {
           let val = updateDoc[alias] ?? updateDoc[col];
+          // Kiểm tra tính hợp lệ của giá bán & giá gốc
           if (col === 'selling_price' || col === 'old_price') {
             if (val !== null && (isNaN(Number(val)) || Number(val) < 0)) {
               throw new Error('Giá tiền phải là số lớn hơn hoặc bằng 0.');
             }
           }
+          // Chuẩn hóa mô tả từ dạng mảng (Array) sang chuỗi xuống dòng (String với \n)
           if (col === 'description') {
             val = Array.isArray(val) ? val.join('\n') : String(val || '');
           }
@@ -373,10 +406,12 @@ class Book {
         }
       }
 
+      // Thực thi cập nhật bảng oltp.Book nếu có thay đổi trường tương ứng
       if (hasBookUpdates) {
         await reqBook.query(`UPDATE oltp.Book SET ${bookSets.join(', ')} WHERE book_id = @id`);
       }
 
+      // Cập nhật số lượng tồn kho trong bảng oltp.Inventory nếu có truyền trường stock
       if ('stock' in updateDoc) {
         const stockVal = Number(updateDoc.stock);
         if (isNaN(stockVal) || stockVal < 0) {
@@ -397,11 +432,14 @@ class Book {
     }
   }
 
-  // ─── Instance Save ────────────────────────────────────────────────────────────
+  // ─── Instance Save (Phương thức lưu/cập nhật thực thể - Create/Update) ──────────
 
-  /** Lưu hoặc cập nhật sách hiện tại (được bọc trong Transaction) */
+  /**
+   * [CREATE / UPDATE] Lưu hoặc cập nhật sách hiện tại (được bọc trong Database Transaction)
+   * Đồng bộ hóa dữ liệu trên 5 bảng liên quan: Publisher, Book, Inventory, Book_Author, Book_Category
+   */
   async save() {
-    // 1. Kiểm tra dữ liệu đầu vào trước khi insert/update
+    // 1. Kiểm tra tính hợp lệ của dữ liệu đầu vào trước khi insert/update
     if (!this.title?.trim()) {
       throw new Error('Tên sách là bắt buộc và không được để trống.');
     }
@@ -419,19 +457,22 @@ class Book {
     const transaction = new sql.Transaction(pool);
 
     try {
+      // Bắt đầu một Transaction để đảm bảo nếu một bảng lỗi thì toàn bộ thay đổi sẽ bị thu hồi
       await transaction.begin();
       const descStr = this._parseDescription(this.description).join('\n');
 
-      // 1. Resolve publisher
+      // Bước 1: Xử lý thông tin Nhà Xuất Bản (Publisher)
       let publisherId = null;
       if (this.publisher) {
         const pubTrimmed = this.publisher.trim();
+        // Kiểm tra xem tên nhà xuất bản đã tồn tại trong DB chưa
         const r = await transaction.request()
           .input('name', pubTrimmed)
           .query('SELECT publisher_id FROM oltp.Publisher WHERE publisher_name = @name');
         if (r.recordset.length > 0) {
           publisherId = r.recordset[0].publisher_id;
         } else {
+          // Nếu chưa có, tiến hành chèn mới và lấy ID trả về
           const ins = await transaction.request()
             .input('name', pubTrimmed)
             .query('INSERT INTO oltp.Publisher (publisher_name) OUTPUT INSERTED.publisher_id VALUES (@name)');
@@ -439,8 +480,9 @@ class Book {
         }
       }
 
-      // 2. Insert hoặc Update Book
+      // Bước 2: Insert hoặc Update thông tin sách chính vào bảng oltp.Book
       if (!this.isNew && this._id) {
+        // [UPDATE] Nếu là sách đã tồn tại (isNew = false)
         const dbId = hexIdToInt(this._id);
         await transaction.request()
           .input('id',          dbId)
@@ -465,6 +507,7 @@ class Book {
             WHERE book_id = @id
           `);
       } else {
+        // [CREATE] Nếu là sách mới hoàn toàn
         const ins = await transaction.request()
           .input('title',    this.title)
           .input('price',    this.price)
@@ -481,70 +524,83 @@ class Book {
             VALUES (@title, @price, @oldPrice, @image, @year, @format, @desc, @pubId, GETDATE())
           `);
         const newId = ins.recordset[0].book_id;
+        // Chuyển ID số nguyên SQL Server thành Hex ID để thống nhất định danh kiểu MongoDB
         this._id = intToHexId(newId);
         this.id  = this._id;
       }
 
       const dbId = hexIdToInt(this._id);
 
-      // 3. Upsert Inventory
+      // Bước 3: Đồng bộ số lượng tồn kho vào bảng oltp.Inventory
       const invChk = await transaction.request()
         .input('id', dbId)
         .query('SELECT 1 FROM oltp.Inventory WHERE book_id = @id');
       if (invChk.recordset.length > 0) {
+        // Cập nhật tồn kho nếu đã tồn tại dòng bản ghi
         await transaction.request()
           .input('id',    dbId)
           .input('stock', this.stock || 0)
           .query('UPDATE oltp.Inventory SET stock_quantity = @stock, last_updated = GETDATE() WHERE book_id = @id');
       } else {
+        // Chèn mới bản ghi tồn kho
         await transaction.request()
           .input('id',    dbId)
           .input('stock', this.stock || 0)
           .query('INSERT INTO oltp.Inventory (book_id, stock_quantity, last_updated) VALUES (@id, @stock, GETDATE())');
       }
 
-      // 4. Authors (Xóa liên kết cũ và liên kết các tác giả mới)
+      // Bước 4: Đồng bộ liên kết tác giả (Authors)
+      // Xóa liên kết tác giả cũ của cuốn sách này để tránh trùng lặp
       await transaction.request().input('id', dbId).query('DELETE FROM oltp.Book_Author WHERE book_id = @id');
+      // Tách chuỗi danh sách tác giả cách nhau bởi dấu phẩy hoặc chấm phẩy
       const authorNames = (this.author || '').split(/[,;]/).map(s => s.trim()).filter(Boolean);
       for (const name of authorNames) {
         let authorId;
+        // Kiểm tra xem tác giả đã tồn tại trong CSDL chưa
         const ar = await transaction.request()
           .input('name', name)
           .query('SELECT author_id FROM oltp.Author WHERE author_name = @name');
         if (ar.recordset.length > 0) {
           authorId = ar.recordset[0].author_id;
         } else {
+          // Tạo mới tác giả nếu chưa có
           const ai = await transaction.request()
             .input('name', name)
             .query('INSERT INTO oltp.Author (author_name) OUTPUT INSERTED.author_id VALUES (@name)');
           authorId = ai.recordset[0].author_id;
         }
+        // Thêm liên kết quan hệ nhiều-nhiều vào bảng trung gian oltp.Book_Author
         await transaction.request()
           .input('bid', dbId).input('aid', authorId)
           .query('INSERT INTO oltp.Book_Author (book_id, author_id) VALUES (@bid, @aid)');
       }
 
-      // 5. Categories (Xóa liên kết thể loại cũ và liên kết lại mới)
+      // Bước 5: Đồng bộ liên kết thể loại (Categories)
+      // Xóa liên kết thể loại cũ
       await transaction.request().input('id', dbId).query('DELETE FROM oltp.Book_Category WHERE book_id = @id');
       const genres = Array.isArray(this.genre) ? this.genre : [this.genre];
       for (const name of genres.map(s => s.trim()).filter(Boolean)) {
         let categoryId;
+        // Kiểm tra xem thể loại đã tồn tại chưa
         const cr = await transaction.request()
           .input('name', name)
           .query('SELECT category_id FROM oltp.Category WHERE category_name = @name');
         if (cr.recordset.length > 0) {
           categoryId = cr.recordset[0].category_id;
         } else {
+          // Tạo mới thể loại
           const ci = await transaction.request()
             .input('name', name)
             .query('INSERT INTO oltp.Category (category_name) OUTPUT INSERTED.category_id VALUES (@name)');
           categoryId = ci.recordset[0].category_id;
         }
+        // Thêm liên kết quan hệ nhiều-nhiều vào bảng trung gian oltp.Book_Category
         await transaction.request()
           .input('bid', dbId).input('cid', categoryId)
           .query('INSERT INTO oltp.Book_Category (book_id, category_id) VALUES (@bid, @cid)');
       }
 
+      // Xác nhận hoàn thành và áp dụng mọi thay đổi vào CSDL SQL Server
       await transaction.commit();
 
       this.isNew     = false;
@@ -552,6 +608,7 @@ class Book {
       this.updatedAt = new Date();
       return this;
     } catch (error) {
+      // Hủy bỏ toàn bộ các thay đổi nếu có bất kỳ lỗi nào xảy ra trong quá trình ghi
       await transaction.rollback();
       console.error('[Book.save] Error saving book, transaction rolled back:', error.message);
       throw new Error(`Lưu thông tin sách thất bại: ${error.message}`);
