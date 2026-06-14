@@ -173,15 +173,8 @@ class Order {
       console.error('[Order.create] Error creating order:', error.message);
       throw new Error(`Tạo đơn hàng thất bại: ${error.message}`);
     }
-    }
-
-    next();
-  } catch (error) {
-    next(error);
->>>>>>> origin/dong
   }
 
-<<<<<<< HEAD
   // ─── Static: findById ───────────────────────────────────────────────────────
 
   static async findById(id) {

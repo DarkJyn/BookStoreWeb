@@ -158,15 +158,9 @@ app.get('/products', async (req, res) => {
     const limit = 12;
     const searchQuery = req.query.search ? req.query.search.trim() : '';
     const authorQuery = req.query.author ? req.query.author.trim() : '';
-<<<<<<< HEAD
-    
     // Set max price limit to 9,000,000 as requested
     const maxPriceLimit = 9000000;
     const maxPrice = req.query.maxPrice ? parseInt(req.query.maxPrice, 10) : maxPriceLimit;
-    
-=======
-    const maxPrice = parseInt(req.query.maxPrice, 10) || 1000000;
->>>>>>> origin/dong
     const sortBy = req.query.sort || 'default';
     const genreQuery = req.query.genre;
     let selectedGenres = [];
@@ -175,16 +169,12 @@ app.get('/products', async (req, res) => {
       selectedGenres = Array.isArray(genreQuery) ? genreQuery : [genreQuery];
     }
 
-<<<<<<< HEAD
     // Publisher filter query
     const publisherQuery = req.query.publisher;
     let selectedPublishers = [];
     if (publisherQuery) {
       selectedPublishers = Array.isArray(publisherQuery) ? publisherQuery : [publisherQuery];
     }
-
-=======
->>>>>>> origin/dong
     let query = {};
     if (searchQuery) {
       query.title = { $regex: searchQuery, $options: 'i' };
@@ -198,12 +188,9 @@ app.get('/products', async (req, res) => {
     if (selectedGenres.length > 0) {
       query.genre = { $in: selectedGenres };
     }
-<<<<<<< HEAD
     if (selectedPublishers.length > 0) {
       query.publisher = { $in: selectedPublishers };
     }
-=======
->>>>>>> origin/dong
 
     let sortOptions = {};
     switch (sortBy) {
@@ -227,15 +214,11 @@ app.get('/products', async (req, res) => {
         break;
     }
 
-<<<<<<< HEAD
     const [totalBooks, availableGenres, availablePublishers] = await Promise.all([
       Book.countDocuments(query),
       Book.getGenres(),
       Book.getPublishers()
     ]);
-=======
-    const totalBooks = await Book.countDocuments(query);
->>>>>>> origin/dong
     const totalPages = Math.ceil(totalBooks / limit) || 1;
     const safePage = Math.max(1, Math.min(page, totalPages));
     const startIndex = (safePage - 1) * limit;
@@ -257,23 +240,17 @@ app.get('/products', async (req, res) => {
       searchQuery,
       authorQuery,
       maxPrice,
-<<<<<<< HEAD
       maxPriceLimit,
       selectedGenres,
       selectedPublishers,
       sortBy,
       availableGenres,
       availablePublishers
-=======
-      selectedGenres,
-      sortBy
->>>>>>> origin/dong
     });
   } catch (error) {
     console.error('Error fetching products:', error.message);
     res.status(500).send('Lỗi máy chủ.');
   }
-<<<<<<< HEAD
 });
 
 app.get('/products/:id', async (req, res) => {
@@ -568,37 +545,6 @@ app.get('/account', requireUser, async (req, res) => {
       orders: [] 
     });
   }
-});
-
-app.get('/products/:id', async (req, res) => {
-  try {
-    const book = await Book.findById(req.params.id);
-    if (!book) return res.status(404).send('Không tìm thấy sách.');
-
-    const relatedBooks = await Book.find({ _id: { $ne: book._id } }).limit(4);
-
-    res.render('product-detail', {
-      title: book.title,
-      activePage: 'browse',
-      book,
-      relatedBooks
-    });
-  } catch (error) {
-    console.error('Error fetching product detail:', error.message);
-    res.status(500).send('Lỗi máy chủ.');
-  }
-});
-
-  res.render('cart', { title: 'Giỏ hàng', activePage: 'cart' });
-});
-
-app.get('/checkout', (req, res) => {
-  res.render('checkout', { title: 'Thanh toán', activePage: 'cart' });
-});
-
-app.get('/account', (req, res) => {
-  res.render('account', { title: 'Tài khoản', activePage: 'account' });
->>>>>>> origin/dong
 });
 
 const requireAdmin = (req, res, next) => {
