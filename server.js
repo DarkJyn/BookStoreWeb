@@ -26,6 +26,7 @@ connectMongoDB()
 const Book = require('./backend/models/Book');
 const Order = require('./backend/models/Order');
 const User = require('./backend/models/User');
+const Cart = require('./backend/models/Cart');
 const bcrypt = require('bcryptjs');
 
 app.set('view engine', 'ejs');
@@ -320,6 +321,60 @@ app.post('/account/update', requireUser, async (req, res) => {
 app.get('/logout', (req, res) => {
   req.session.destroy(() => res.redirect('/'));
 });
+
+// ============ CART API SYNC ============
+
+// Lấy giỏ hàng từ MongoDB
+app.get('/api/cart', requireUser, async (req, res) => {
+  try {
+    let cart = await Cart.findOne({ user: req.session.user.id });
+    if (!cart) {
+      cart = new Cart({ user: req.session.user.id, items: [] });
+      await cart.save();
+    }
+    const populated = await cart.populateProducts();
+    const cartData = populated.items
+      .filter(item => item.product !== null) // Lọc sách bị xóa
+      .map(item => ({
+        id: item.product._id || item.product.id,
+        title: item.product.title,
+        price: item.product.selling_price || item.product.price,
+        coverImage: item.product.image_url || item.product.coverImage,
+        author: item.product.author_name || item.product.author || '',
+        quantity: item.quantity
+      }));
+    res.json({ success: true, cart: cartData });
+  } catch (error) {
+    console.error('Get cart error:', error.message);
+    res.status(500).json({ success: false, message: 'Lỗi tải giỏ hàng.' });
+  }
+});
+
+// Cập nhật giỏ hàng lên MongoDB
+app.post('/api/cart/update', requireUser, async (req, res) => {
+  try {
+    const { cart: clientCart } = req.body;
+    let cart = await Cart.findOne({ user: req.session.user.id });
+    if (!cart) {
+      cart = new Cart({ user: req.session.user.id, items: [] });
+    }
+    
+    // Lọc các sản phẩm hợp lệ
+    cart.items = (clientCart || [])
+      .filter(item => item && item.id && item.quantity > 0)
+      .map(item => ({
+        product: item.id,
+        quantity: item.quantity
+      }));
+      
+    await cart.save();
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Update cart error:', error.message);
+    res.status(500).json({ success: false, message: 'Lỗi đồng bộ giỏ hàng.' });
+  }
+});
+
 
 app.get('/cart', requireUser, (req, res) => {
   res.render('cart', { title: 'Giỏ hàng', activePage: 'cart' });
